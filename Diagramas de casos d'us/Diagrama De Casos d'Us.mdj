@@ -7300,6 +7300,101 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAF4avg+ViNvNVA="
 							}
+						},
+						{
+							"_type": "UMLUseCaseSubjectView",
+							"_id": "AAAAAAF45F7mTy1hF4c=",
+							"_parent": {
+								"$ref": "AAAAAAF4avcUBSKvskE="
+							},
+							"model": {
+								"$ref": "AAAAAAF45F7mTy1fzGs="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAF45F7mTy1iyZo=",
+									"_parent": {
+										"$ref": "AAAAAAF45F7mTy1hF4c="
+									},
+									"model": {
+										"$ref": "AAAAAAF45F7mTy1fzGs="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF45F7mTy1j29o=",
+											"_parent": {
+												"$ref": "AAAAAAF45F7mTy1iyZo="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF45F7mTy1kZfU=",
+											"_parent": {
+												"$ref": "AAAAAAF45F7mTy1iyZo="
+											},
+											"font": "Arial;13;1",
+											"left": 397,
+											"top": 103,
+											"width": 454,
+											"height": 13,
+											"text": "Registre"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF45F7mTy1lBPc=",
+											"_parent": {
+												"$ref": "AAAAAAF45F7mTy1iyZo="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"width": 117.00634765625,
+											"height": 13,
+											"text": "(from DU - Registre)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAF45F7mTy1msvo=",
+											"_parent": {
+												"$ref": "AAAAAAF45F7mTy1iyZo="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 392,
+									"top": 96,
+									"width": 464,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAF45F7mTy1j29o="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAF45F7mTy1kZfU="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAF45F7mTy1lBPc="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAF45F7mTy1msvo="
+									}
+								}
+							],
+							"font": "Arial;13;0",
+							"left": 392,
+							"top": 96,
+							"width": 464,
+							"height": 312,
+							"nameCompartment": {
+								"$ref": "AAAAAAF45F7mTy1iyZo="
+							}
 						}
 					]
 				},
@@ -7371,6 +7466,14 @@
 							}
 						}
 					]
+				},
+				{
+					"_type": "UMLUseCaseSubject",
+					"_id": "AAAAAAF45F7mTy1fzGs=",
+					"_parent": {
+						"$ref": "AAAAAAF4avcUBCKurRg="
+					},
+					"name": "Registre"
 				}
 			]
 		}

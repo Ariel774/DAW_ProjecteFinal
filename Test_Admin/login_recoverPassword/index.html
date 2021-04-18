@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login RP Persona</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="button" id="login" class="toggle-btn">Log In</button>
+                <button type="button" id="register" class="toggle-btn">Register</button>
+            </div>
+            <div>
+                <h2 style="text-align: center; font-family: 'Bungee', cursive;">R.P. Personal</h2>
+            </div>
+            <form id="form-login" class="inputs-form">
+                <input type="text" class="input-field" placeholder="Nom usuari" required>
+                <input type="password" class="input-field" placeholder="Contrasenya" required>
+                <input type="checkbox" class="check-box"><span>Recordar la Contrasenya</span>
+                <button type="submit" class="submit-btn">Log in</button>
+            </form>
+            <form id="form-register" class="inputs-form">
+                <input type="text" class="input-field" placeholder="Nom usuari" required>
+                <input type="mail" class="input-field" placeholder="Correu" required>
+                <input type="password" class="input-field" placeholder="Contrasenya" required>
+                <input type="password" class="input-field" placeholder="Confirmar Contrasenya" required>
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+    <script defer src="login-form.js"></script>
+</body>
+</html>
