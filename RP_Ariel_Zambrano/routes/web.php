@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObjetivoController;
 
@@ -18,9 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [ObjetivoController::class, 'index'])->name('dashboard.home'); // Invocar al elemento
-
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes(['verify'=> true]); // Para verificar el email
+
+Route::group(['middleware' => ['auth', 'verified']], function() {
+    Route::get('/dashboard/home', [ObjetivoController::class, 'index'])->name('dashboard.home'); // Vamos al home si estamos verificados
+});
+

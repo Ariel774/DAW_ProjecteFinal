@@ -13,7 +13,7 @@
         <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
     </head>
     <body>
-        <nav class="navbar navbar-light bg-light p-3">
+        <nav class="navbar" id="navbar-horizontal">
             <div class="d-flex col-12 col-md-3 col-lg-2 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between">
                 <a class="navbar-brand" href="#" style="font-family: 'Rubik Mono One', sans-serif; color:rgb(255, 255, 255);">
                     RP Personal
@@ -36,7 +36,14 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
                       <li><a class="dropdown-item" href="#">Configuració</a></li>
-                      <li><a class="dropdown-item" href="#">Sign out</a></li>
+                      <a class="dropdown-item" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                       {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </ul>
                 </div>
             </div>
