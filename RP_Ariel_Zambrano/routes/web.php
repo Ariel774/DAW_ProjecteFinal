@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AmbitoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObjetivoController;
@@ -23,7 +24,14 @@ Auth::routes();
 
 Auth::routes(['verify'=> true]); // Para verificar el email
 
-Route::group(['middleware' => ['auth', 'verified']], function() {
-    Route::get('/dashboard/home', [ObjetivoController::class, 'index'])->name('dashboard.home'); // Vamos al home si estamos verificados
+Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['auth', 'verified']], function() {
+    
+    Route::get('/ambitos/create', [AmbitoController::class, 'create'])->name('ambitos.create'); // Creamos los ambitos
+    Route::get('/home', [AmbitoController::class, 'index'])->name('home');
+    Route::post('/ambitos', [AmbitoController::class, 'store'])->name('ambitos.store');
+    //Route::get('/dashboard/{ambito}/edit', [AmbitoController::class, 'edit'])->name('edit');
+    Route::put('/dashboard/{ambito}', [AmbitoController::class, 'update'])->name('update');
+
+    //Route::get('/dashboard/home', [ObjetivoController::class, 'index'])->name('dashboard.home'); // Vamos al home si estamos verificados
 });
 

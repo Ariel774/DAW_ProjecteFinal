@@ -1,0 +1,6 @@
+# Boostrap Modal
+https://getbootstrap.com/docs/4.0/components/modal/
+
+# NO permitir que se cierre el cuadro de dialogo de boostrap
+
+https://www.tutorialrepublic.com/faq/how-to-prevent-bootstrap-modal-from-closing-when-clicking-outside.php

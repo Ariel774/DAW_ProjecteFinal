@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Ambito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Console\Input\Input;
 
 class AmbitoController extends Controller
 {
+    public function __construct()
+    {
+        // proteger nuestros enlaces para que no se puedan conectar a menos que estén logeados, EXCEPTO show
+        $this->middleware('auth'); 
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,8 @@ class AmbitoController extends Controller
      */
     public function index()
     {
-        //
+        $ambitos = Auth::user()->ambitos; // Guardamos el array de recetas obtenido, Recetas es el hasMany del modelo
+        return view('dashboard.home')->with('ambitos', $ambitos);
     }
 
     /**
@@ -24,7 +33,7 @@ class AmbitoController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.ambitos.create');
     }
 
     /**
@@ -34,8 +43,35 @@ class AmbitoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        // Consultem les rows que hi ha actualment en la nostra base de dades.
+        $curRowsDB = auth()->user()->ambitos()->where('user_id', '=', auth()->user()->id)->count();
+        $nRows = $request['nRows']; // Número de campos a guardar
+        if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
+            for ($i = $curRowsDB; $i <= $nRows; $i++) {
+                request()->validate([ // Validaciones
+                    'ambito_'.$i => 'required|min:6',
+                    'descripcion_'.$i => 'required',
+                ]);
+                auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
+                    'nombre'=> $request['ambito_'.$i],
+                    'descripcion'=> $request['descripcion_'.$i]
+                ]);
+            }
+        } else { // Si no existen los creamos todos
+            for ($i = 0; $i <= $nRows; $i++) {
+                request()->validate([ // Validaciones
+                    'ambito_'.$i => 'required|min:6',
+                    'descripcion_'.$i => 'required',
+                ]);
+                auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
+                    'nombre'=> $request['ambito_'.$i],
+                    'descripcion'=> $request['descripcion_'.$i]
+                ]);
+            }
+        }
+
+        return view('dashboard.ambitos.create');
     }
 
     /**

@@ -41,8 +41,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
     /** Relacion 1:n  de Usuario a Ambitos */
-    public function recetas() 
+    public function ambitos() 
     {
-        return $this->hasMany(Ambito::class);
+        return $this->hasMany(Ambito::class, 'user_id');
     }
 }

@@ -7,10 +7,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- CSS only -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/dashboardStyle.css') }}" rel="stylesheet" type="text/css">
+        @yield('styles')
         <!-- JavaScript dependencies de Booststrap -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        
         <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
     </head>
     <body>
         <nav class="navbar" id="navbar-horizontal">
@@ -31,7 +32,7 @@
                 </div>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                      Bon dia, Ariel Zambrano
+                      Bon dia, {{ Auth::user()->name }}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
@@ -56,7 +57,7 @@
                     <div class="position-sticky pt-md-5">
                         <ul class="nav flex-column">
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-primary">
+                                <a href="{{ route('dashboard.home') }}" class="btn btn-block btn-primary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                                             <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
@@ -137,6 +138,7 @@
                 <!-- FIN NAV -->
                 <!-- Contingut del nostre administrador -->
                 <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                    
                     @yield('content')
                     
                     <!-- Inici Footer -->
@@ -160,5 +162,7 @@
             </div>
         </div>
         <!-- End Sidebar -->
+        @yield('scripts')
+
     </body>
 </html>

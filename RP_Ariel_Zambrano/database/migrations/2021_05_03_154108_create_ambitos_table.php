@@ -15,7 +15,8 @@ class CreateAmbitosTable extends Migration
     {
         Schema::create('ambitos', function (Blueprint $table) {
             $table->id();
-            $table->string('nom')->comment("Nom del àmbit");
+            $table->string('nombre')->comment("Nombre del àmbito");
+            $table->text('descripcion')->comment("descripción del ambito");
             $table->foreignId('user_id')->constrained(); // Llave foranea
             $table->timestamps();
         });
