@@ -96,7 +96,7 @@
     <button>Àmbits</button>
 </div>
 </div>
-<p>prueba</p>
+<p>prueba2</p>
 @endsection
 
 @section('scripts')
