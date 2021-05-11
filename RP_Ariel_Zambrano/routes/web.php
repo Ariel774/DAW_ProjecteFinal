@@ -30,7 +30,8 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::get('/home', [AmbitoController::class, 'index'])->name('home');
     Route::post('/ambitos', [AmbitoController::class, 'store'])->name('ambitos.store');
     //Route::get('/dashboard/{ambito}/edit', [AmbitoController::class, 'edit'])->name('edit');
-    Route::put('/dashboard/{ambito}', [AmbitoController::class, 'update'])->name('update');
+    //Route::put('/dashboard/{ambito}', [AmbitoController::class, 'update'])->name('update');
+    Route::delete('/ambitos/{ambito}', [AmbitoController::class, 'destroy'])->name('ambitos.destroy');
 
     //Route::get('/dashboard/home', [ObjetivoController::class, 'index'])->name('dashboard.home'); // Vamos al home si estamos verificados
 });

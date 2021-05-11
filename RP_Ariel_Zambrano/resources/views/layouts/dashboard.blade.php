@@ -10,10 +10,10 @@
         @yield('styles')
         <!-- JavaScript dependencies de Booststrap -->
         <script src="{{ asset('js/app.js') }}" defer></script>
-        
         <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     </head>
     <body>
+        <div id="app">
         <nav class="navbar" id="navbar-horizontal">
             <div class="d-flex col-12 col-md-3 col-lg-2 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between">
                 <a class="navbar-brand" href="#" style="font-family: 'Rubik Mono One', sans-serif; color:rgb(255, 255, 255);">
@@ -162,7 +162,7 @@
             </div>
         </div>
         <!-- End Sidebar -->
-        @yield('scripts')
-
+    </div>
+    @yield('scripts')
     </body>
 </html>

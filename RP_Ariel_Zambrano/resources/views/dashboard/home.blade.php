@@ -5,14 +5,13 @@
 @endsection
 @section('content')
 <!-- Modal Boostrap -->
-<form action="">
-    <a href="#" class="btn btn-info show-modal" data-toggle="modal" data-target="#ambitModal"></span> Actualitzar Àmbits</a>
-</form>
+<a href="#" class="btn btn-outline-info show-modal font-weight-bold" data-toggle="modal" data-target="#ambitModal"></span> Crear Àmbits</a>
+<a href="#" class="btn btn-outline-success font-weight-bold"></span> Actualitzar Àmbits</a>
 <div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h2 class="modal-title text-primary" id="ambitModalLabel">Actualitzar Àmbits</h2>
+            <h2 class="modal-title text-primary" id="ambitModalLabel">Crear Àmbits</h2>
         </div>
         <div class="modal-body">
             <!-- Contingut del Modal -->
@@ -47,7 +46,7 @@
                                             <textarea name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control">{{ $ambito->descripcion}}</textarea>
                                         </td>
                                         <td>
-                                            @if($number > 2)
+                                            @if($number > $ambitos->count())
                                                 <a class="deleteRow btn btn-danger d-block">X</a>
                                             @endif
                                         </td>
@@ -96,7 +95,48 @@
     <button>Àmbits</button>
 </div>
 </div>
-<p>prueba2</p>
+<!-- Tabla menu actualizar -->
+<div id="option-menus" class="container" style="display: none">
+    <div class="row clearfix">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered table-hover table-sortable" id="myTable">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            Nom Àmbit
+                        </th>
+                        <th class="text-center">
+                            Descripció
+                        </th>
+                        <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($ambitos as $ambito)
+                    @php
+                    $number = $loop->index;
+                    @endphp
+                    <tr>
+                        <td>
+                            <input type="text" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}"/>
+                        <td>
+                            <textarea name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control">{{ $ambito->descripcion}}</textarea>
+                        </td>
+                        <td>
+                            @if($number > 2)
+                            <eliminar-ambito ambito-id={{ $ambito->id }}></eliminar-ambito> {{-- Componente Vue --}}
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>  
+<!--  Fin Tabla menu actualizar -->
+
 @endsection
 
 @section('scripts')
