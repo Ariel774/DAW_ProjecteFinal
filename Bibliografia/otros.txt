@@ -1,0 +1,2 @@
+Scroll lento.
+https://stackoverflow.com/questions/9346749/slow-down-an-html-anchor-link
