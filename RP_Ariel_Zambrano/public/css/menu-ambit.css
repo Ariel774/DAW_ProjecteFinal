@@ -1,4 +1,6 @@
-
+html {
+  scroll-behavior: smooth;
+}
 .selector {
   position: relative;
   left: 50%;

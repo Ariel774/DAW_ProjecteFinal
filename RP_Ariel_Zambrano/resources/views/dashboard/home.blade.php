@@ -6,7 +6,7 @@
 @section('content')
 <!-- Modal Boostrap -->
 <a href="#" class="btn btn-outline-info show-modal font-weight-bold" data-toggle="modal" data-target="#ambitModal"></span> Crear Àmbits</a>
-<a href="#" class="btn btn-outline-success font-weight-bold"></span> Actualitzar Àmbits</a>
+<a href="#update-ambito" class="btn btn-outline-success font-weight-bold" id="update-ambitos"></span> Actualitzar Àmbits</a>
 <div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -96,7 +96,7 @@
 </div>
 </div>
 <!-- Tabla menu actualizar -->
-<div id="option-menus" class="container" style="display: none">
+<div id="options-ambitos" class="container" style="display: none">
     <div class="row clearfix">
         <div class="col-md-12 table-responsive">
             <table class="table table-bordered table-hover table-sortable" id="myTable">
@@ -134,7 +134,8 @@
             </table>
         </div>
     </div>
-</div>  
+</div>
+<a id="update-ambito"></a>
 <!--  Fin Tabla menu actualizar -->
 
 @endsection

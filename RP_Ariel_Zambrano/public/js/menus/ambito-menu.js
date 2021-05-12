@@ -1,5 +1,5 @@
+/** Menu Rotativo */
 var angleStart = -360;
-
 // jquery rotate animation
 function rotate(li,d, p) {
     $({d:angleStart}).animate({d:d}, {
@@ -33,3 +33,8 @@ $('.selector button').on("click", function(e) {
 });
 
 setTimeout(function() { toggleOptions('.selector'); }, 100);
+/** Menu Rotativo */
+/** Menu Actualizar-Eliminar ámbitos */
+$("#update-ambitos").on("click", function() {
+    $("#options-ambitos").css("display", "block");
+})
