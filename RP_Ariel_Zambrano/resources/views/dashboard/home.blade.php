@@ -99,7 +99,7 @@
 <div id="options-ambitos" class="container" style="display: none">
     <div class="row clearfix">
         <div class="col-md-12 table-responsive">
-            <table class="table table-bordered table-hover table-sortable" id="myTable">
+            <table class="table table-bordered table-hover table-sortable">
                 <thead>
                     <tr>
                         <th class="text-center">
@@ -117,21 +117,34 @@
                     @php
                     $number = $loop->index;
                     @endphp
-                    <tr>
-                        <td>
-                            <input type="text" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}"/>
-                        <td>
-                            <textarea name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control">{{ $ambito->descripcion}}</textarea>
-                        </td>
-                        <td>
-                            @if($number > 2)
-                            <eliminar-ambito ambito-id={{ $ambito->id }}></eliminar-ambito> {{-- Componente Vue --}}
-                            @endif
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <input type="text" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}" readonly/>
+                            </td>
+                            <td>
+                                <textarea name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control" readonly>{{ $ambito->descripcion}}</textarea>
+                            </td>
+                            <td>
+                                @if($number > 2)
+                                <eliminar-ambito ambito-id={{ $ambito->id }}></eliminar-ambito> {{-- Componente Vue --}}
+                                @endif
+                                <input type="submit" class="btn btn-primary" form="form-ambito_{{ $loop->index }}"value="Modificar">
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{-- @foreach($ambitos as $ambito)
+            @php
+            $number = $loop->index;
+            @endphp
+            <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->id ]) }}" method="POST" id="form-ambito_{{ $loop->index }}" novalidate>
+                @csrf 
+                @method('PUT')
+                <input type="hidden" name="ambito_{{ $loop->index }}">
+                <input type="hidden" name="descripcion_{{ $loop->index }}">
+            </form>
+            @endforeach --}}
         </div>
     </div>
 </div>

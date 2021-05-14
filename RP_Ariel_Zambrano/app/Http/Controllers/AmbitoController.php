@@ -46,7 +46,6 @@ class AmbitoController extends Controller
         // Consultem les rows que hi ha actualment en la nostra base de dades.
         $curRowsDB = auth()->user()->ambitos()->where('user_id', '=', auth()->user()->id)->count();
         $nRows = $request['nRows']; // Número de campos a guardar
-        dd($request->all());
         if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
             for ($i = $curRowsDB; $i <= $nRows; $i++) {
                 request()->validate([ // Validaciones
@@ -105,7 +104,7 @@ class AmbitoController extends Controller
      */
     public function update(Request $request, Ambito $ambito)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -41329,8 +41329,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("input", {
-    staticClass: "btn btn-danger d-block w-100 mb-2",
-    attrs: { type: "submit", value: "×" },
+    staticClass: "btn btn-danger m-1",
+    attrs: { type: "submit", value: "Esborrar" },
     on: { click: _vm.eliminarAmbito }
   })
 }

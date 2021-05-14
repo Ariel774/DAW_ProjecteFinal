@@ -4,17 +4,6 @@ $color-bg: #EBECF0;
 $color-shadow: #BABECC;
 $color-white: #FFF;
 
-body,
-html {
-    background-color: $color-bg;
-}
-
-
-div,
-p {
-    //text-shadow: 1px 1px 1px $color-white;
-}
-
 .segment {
     padding: $ruler*2 0;
     text-align: center;

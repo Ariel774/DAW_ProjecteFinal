@@ -1,8 +1,8 @@
 <template>
     <input 
     type="submit" 
-    class="btn btn-danger d-block w-100 mb-2" 
-    value="×"
+    class="btn btn-danger m-1" 
+    value="Esborrar"
     v-on:click="eliminarAmbito" 
     >
 </template>
