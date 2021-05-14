@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Ambito;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Console\Input\Input;
 
 class AmbitoController extends Controller
 {
@@ -47,6 +46,7 @@ class AmbitoController extends Controller
         // Consultem les rows que hi ha actualment en la nostra base de dades.
         $curRowsDB = auth()->user()->ambitos()->where('user_id', '=', auth()->user()->id)->count();
         $nRows = $request['nRows']; // Número de campos a guardar
+        dd($request->all());
         if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
             for ($i = $curRowsDB; $i <= $nRows; $i++) {
                 request()->validate([ // Validaciones
@@ -82,7 +82,7 @@ class AmbitoController extends Controller
      */
     public function show(Ambito $ambito)
     {
-        //
+        return view('dashboard.ambitos.show', compact('ambito'));
     }
 
     /**
@@ -116,6 +116,8 @@ class AmbitoController extends Controller
      */
     public function destroy(Ambito $ambito)
     {
-        //
+        // Eliminar la receta
+        $ambito->delete();
+        return redirect()->action([AmbitoController::class, 'index']);
     }
 }
