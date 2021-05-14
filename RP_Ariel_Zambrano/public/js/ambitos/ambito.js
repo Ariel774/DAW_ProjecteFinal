@@ -30,3 +30,11 @@ $(function(){
         $('#addrow').attr('disabled', false).prop('value', "Afegir àmbit");
     });
 });
+/** Esta función nos servirá para pasar la información de nuestros ámbitos al modal de Boostrap mediante la propiedad data-* de HTML */
+$("#table-update tbody").find("tr").on("click", function () {
+    var $tr = $(this).index();
+    var ambito = $("#ambito_"+$tr).val();
+    var descripcion = $("#descripcion_"+$tr).val();
+    $(".modal-body #ambito").val( ambito );
+    $(".modal-body #descripcion").val( descripcion );
+});
