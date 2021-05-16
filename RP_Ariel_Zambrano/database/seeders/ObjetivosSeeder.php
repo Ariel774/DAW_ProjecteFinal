@@ -18,6 +18,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Programar Java',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-06-13',
             'fecha_fin' => '2021-11-13',
             'porcentaje' => 13.05,
@@ -30,6 +31,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Programar Laravel',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-04-21',
             'fecha_fin' => '2021-10-01',
             'porcentaje' => 100.00,
@@ -42,6 +44,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Leer Quijote',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-02-11',
             'fecha_fin' => '2022-02-06',
             'porcentaje' => 40.55,
@@ -54,6 +57,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Correr cada mañana 6km',
             'descripcion' => 'Correr cada mañana en la playa de Blanes',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-01-01',
             'fecha_fin' => '2022-12-30',
             'porcentaje' => 45.05,
@@ -66,6 +70,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Caminar',
             'descripcion' => 'Caminar cada dia 5km',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-01-01',
             'fecha_fin' => '2022-12-30',
             'porcentaje' => 76.35,
@@ -78,6 +83,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Mirar Dark',
             'descripcion' => 'Mirar Dark por la noche',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-09-01',
             'fecha_fin' => '2021-12-01',
             'porcentaje' => 34.05,
@@ -90,6 +96,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Aprender CSS',
             'descripcion' => 'Alguna descripción de CSS',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '2021-07-01',
             'fecha_fin' => '2021-10-01',
             'porcentaje' => 10.75,
@@ -102,6 +109,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Programar Java',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '1995-11-13',
             'fecha_fin' => '2021-11-13',
             'porcentaje' => 13.05,
@@ -114,6 +122,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Programar Java',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '1995-11-13',
             'fecha_fin' => '2021-11-13',
             'porcentaje' => 13.05,
@@ -126,6 +135,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Programar Java',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '1995-11-13',
             'fecha_fin' => '2021-11-13',
             'porcentaje' => 13.05,
@@ -138,6 +148,7 @@ class ObjetivosSeeder extends Seeder
         DB::table('objetivos')->insert([
             'nombre' => 'Programar Java',
             'descripcion' => 'Alguna descripción xD',
+            'imagen' => '/upload-objetivos/runnin.jpg',
             'fecha_inicio' => '1995-11-13',
             'fecha_fin' => '2021-11-13',
             'porcentaje' => 13.05,
