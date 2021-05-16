@@ -41,22 +41,9 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <input 
-                                            type="text" 
-                                            name='ambito_{{ $loop->index }}' 
-                                            placeholder='Nom àmbit' 
-                                            class="form-control" 
-                                            value="{{ $ambito->nombre}}"
-                                            {{ $loop->index < $ambitos->count() ? "readonly" : ''}}
-                                            />
+                                            <input type="text" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}"/>
                                         <td>
-                                            <textarea 
-                                            name="descripcion_{{ $loop->index }}"  
-                                            placeholder="Descripció" 
-                                            class="form-control"
-                                            {{ $loop->index < $ambitos->count() ? "readonly" : ''}}>
-                                            {{ $ambito->descripcion}}
-                                            </textarea>
+                                            <textarea name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control">{{ $ambito->descripcion}}</textarea>
                                         </td>
                                         <td>
                                             @if($number > $ambitos->count())
@@ -112,7 +99,7 @@
 <div id="options-ambitos" class="container" style="display: none">
     <div class="row clearfix">
         <div class="col-md-12 table-responsive">
-            <table class="table table-bordered table-hover table-sortable" id="table-update">
+            <table class="table table-bordered table-hover table-sortable">
                 <thead>
                     <tr>
                         <th class="text-center">
@@ -132,63 +119,36 @@
                     @endphp
                         <tr>
                             <td>
-                                <input type="text" id="ambito_{{ $loop->index }}" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}" readonly/>
+                                <input type="text" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}" readonly/>
                             </td>
                             <td>
-                                <textarea id="descripcion_{{ $loop->index }}" name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control" readonly>{{ $ambito->descripcion}}</textarea>
+                                <textarea name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control" readonly>{{ $ambito->descripcion}}</textarea>
                             </td>
                             <td>
                                 @if($number > 2)
                                 <eliminar-ambito ambito-id={{ $ambito->id }}></eliminar-ambito> {{-- Componente Vue --}}
                                 @endif
-                                <button type="button" class="add-dataModal btn btn-primary" data-toggle="modal" data-target="#modificarAmbitoModal">
-                                    Modificar
-                                </button>
+                                <input type="submit" class="btn btn-primary" form="form-ambito_{{ $loop->index }}"value="Modificar">
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <!-- Inicio Modal Modificar Ámbito -->
-            <div class="modal fade" id="modificarAmbitoModal" tabindex="-1" role="dialog" aria-labelledby="modificarAmbitoModalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Contenido del Modal -->
-                        <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->id ]) }}" method="POST" novalidate>
-                            @csrf 
-                            @method('PUT')
-                            <div class="form-group">
-                              <label for="recipient-name" class="col-form-label">Àmbit:</label>
-                              <input type="text" class="form-control" id="ambito" name="ambito">
-                            </div>
-                            <div class="form-group">
-                              <label for="message-text" class="col-form-label">Descripció:</label>
-                              <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
-                            </div>
-                        </form>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Send message</button>
-                        </div>
-                        <!-- Fin del contenido del Modal -->
-                    </div>
-                </div>
-                </div>
-            </div>
-            <!-- Fin Modal Modificar Ámbito -->
+            {{-- @foreach($ambitos as $ambito)
+            @php
+            $number = $loop->index;
+            @endphp
+            <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->id ]) }}" method="POST" id="form-ambito_{{ $loop->index }}" novalidate>
+                @csrf 
+                @method('PUT')
+                <input type="hidden" name="ambito_{{ $loop->index }}">
+                <input type="hidden" name="descripcion_{{ $loop->index }}">
+            </form>
+            @endforeach --}}
         </div>
     </div>
 </div>
 <a id="update-ambito"></a>
-
-<input type="text" value="hola" id="hola">
 <!--  Fin Tabla menu actualizar -->
 
 @endsection

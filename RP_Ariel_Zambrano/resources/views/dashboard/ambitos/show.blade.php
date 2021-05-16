@@ -1,5 +1,14 @@
 @extends('layouts.dashboard')
+@section('styles')
+<link href="{{ asset('css/ambitos-show.css') }}" rel="stylesheet">
+@endsection
 @section('content')
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ $ambito->nombre }}</li>
+    </ol>
+</nav>
 <div class="card mb-3">
     <img src="/storage/img/banner.jpg" height="100px" style="width: 100%; object-fit:cover" height="auto" class="card-img-top" alt="...">
     <div class="card-body">
@@ -19,42 +28,32 @@
         </div>
     </div>
     <!-- Objetivos -->
-    <div class="card text-white bg-primary m-2">
-        <div class="card-header">
-            Header
-        </div>
-        <div class="card-body">
-            <div class="container">
+    @foreach ($ambito->objetivos as $objetivo)
+        @if($objetivo->usuario->id == Auth::user()->id) {{-- Comprobamos si el usuario es el mismo --}}
+        <div class="card text-white bg-primary m-2">
+            <div class="card-header">
                 <div class="row">
-                    <div class="col-12 col-lg-10">
-                        <h5 class="card-title">Primary card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="col-sm-8">Objectiu - {{$loop->index+1}}</div>
+                    <div class="col-sm-4"><eliminar-objetivo objetivo-id={{ $objetivo->id }}></eliminar-ambito> {{-- Componente Vue --}}
                     </div>
-                    <div class="col-1">
-                        <img src="/storage/img/banner.jpg" width="auto" height="100px" class="img-responsive rounded">
+                </div>    
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-10">
+                            <h5 class="card-title">{{ $objetivo->nombre }}</h5>
+                            <p class="card-text">{{ $objetivo->descripcion}}</p>
+                        </div>
+                        <div class="col-1">
+                            <img src="/storage/{{ $objetivo->imagen }}" class="img-ambito img-responsive rounded">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="card text-white bg-secondary m-2">
-        <div class="card-header">
-            Header
-        </div>
-        <div class="card-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-10">
-                        <h5 class="card-title">Primary card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="col-1">
-                        <img src="/storage/img/banner.jpg" width="auto" height="100px" class="img-responsive rounded">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        @endif 
+    @endforeach
     <!-- Fin Objetivos -->
 </div>
 
