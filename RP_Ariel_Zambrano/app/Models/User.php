@@ -45,9 +45,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Ambito::class, 'user_id');
     }
-    /** Relacion 1:n  de Usuario a Objetivos*/
-    public function objetivos() 
-    {
-        return $this->hasMany(Objetivo::class, 'user_id');
-    }
 }
