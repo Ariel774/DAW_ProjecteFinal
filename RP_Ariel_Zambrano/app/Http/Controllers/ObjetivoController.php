@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Objetivo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ObjetivoController extends Controller
 {
@@ -23,10 +22,9 @@ class ObjetivoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $ambito_id = $request['ambito-id'];
-        return view('dashboard.objetivos.create', compact('ambito_id'));
+        //
     }
 
     /**
@@ -37,27 +35,7 @@ class ObjetivoController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request['ambito_id'];
-        request()->validate([ // Validaciones
-            'nombre' => 'required|min:6',
-            'descripcion' => 'required|min:30',
-            'imagen' => 'required|image',
-            'fecha_inicio' => 'required',
-            'fecha_fin' => 'required'
-        ]);
-        $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
-
-        auth()->user()->objetivos()->create([ // Insertar los campos en la base de datos
-            'nombre' => $request['nombre'],
-            'descripcion' => $request['descripcion'],
-            'imagen' => $ruta_imagen,
-            'fecha_inicio' => $request['fecha_inicio'],
-            'fecha_fin' => $request['fecha_fin'],
-            'porcentaje' => "00.00",
-            'finalizado' => false,
-            'ambito_id' => $request['ambito_id'],
-        ]);
-        return redirect('/dashboard/ambitos/'.$id); // Redireccionar hacia el index
+        //
     }
 
     /**
