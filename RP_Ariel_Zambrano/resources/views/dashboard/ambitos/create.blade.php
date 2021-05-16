@@ -14,7 +14,7 @@
     </div>
     <div class="modal-body">
         <!-- Contingut del Modal -->
-        <form action="{{ route('dashboard.ambitos.store') }}" method="post" novalidate>
+        <form action="{{ route('dashboard.ambitos.store') }}" method="POST" novalidate>
             @csrf
             <input type="hidden" name="nRows" value="" id="nRows">
             <div class="container">

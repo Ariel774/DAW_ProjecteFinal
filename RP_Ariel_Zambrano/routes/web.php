@@ -25,7 +25,7 @@ Auth::routes();
 Auth::routes(['verify'=> true]); // Para verificar el email
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['auth', 'verified']], function() {
-    /** Ambitos */
+    
     Route::get('/ambitos/create', [AmbitoController::class, 'create'])->name('ambitos.create'); // Creamos los ambitos
     Route::get('/home', [AmbitoController::class, 'index'])->name('home');
     Route::post('/ambitos', [AmbitoController::class, 'store'])->name('ambitos.store');
@@ -33,10 +33,6 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     //Route::get('/dashboard/{ambito}/edit', [AmbitoController::class, 'edit'])->name('edit');
     Route::put('/ambitos/{ambito}', [AmbitoController::class, 'update'])->name('ambitos.update');
     Route::delete('/ambitos/{ambito}', [AmbitoController::class, 'destroy'])->name('ambitos.destroy');
-    /** Ambitos */
-    /** Objetivos */
-    Route::get('/objetivos/create', [ObjetivoController::class, 'create'])->name('objetivos.create');
-    Route::post('/objetivos', [ObjetivoController::class, 'store'])->name('objetivos.store');
-    /** Objetivos */
+    //Route::get('/dashboard/home', [ObjetivoController::class, 'index'])->name('dashboard.home'); // Vamos al home si estamos verificados
 });
 
