@@ -17,6 +17,13 @@ class CreateObjetivosTable extends Migration
             $table->id();
             $table->string('nombre')->comment("Nombre del objetivo");
             $table->text('descripcion')->comment("descripción del objetivo");
+            $table->string('imagen')->nullable();
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+            $table->double('porcentaje', 5, 2);
+            $table->boolean('finalizado');
+            $table->foreignId('ambito_id')->constrained()->cascadeOnDelete(); // Llave foranea
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
