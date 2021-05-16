@@ -28,6 +28,8 @@ Vue.use(VueSweetalert2); // Agregamos nuestro componente SweetAlert
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('eliminar-ambito', require('./components/EliminarAmbito.vue').default)
+Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').default)
+
 
 
 /**

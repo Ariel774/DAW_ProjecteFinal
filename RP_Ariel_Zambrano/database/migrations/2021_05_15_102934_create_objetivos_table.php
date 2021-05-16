@@ -17,7 +17,7 @@ class CreateObjetivosTable extends Migration
             $table->id();
             $table->string('nombre')->comment("Nombre del objetivo");
             $table->text('descripcion')->comment("descripción del objetivo");
-            $table->string('imagen')->nullable();
+            $table->string('imagen');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->double('porcentaje', 5, 2);

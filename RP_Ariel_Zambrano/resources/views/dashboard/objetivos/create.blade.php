@@ -4,6 +4,15 @@
 @endsection
 
 @section('content')
+<!-- Navegador -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{$ambito_id }}">Objetivos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Crear Objectiu</li>
+    </ol>
+</nav>
+<!-- Navegador -->
 <div class="form">
     <h2>Crear Objectiu</h2>
     <form  method="POST" action="{{ route('dashboard.objetivos.store') }}" enctype="multipart/form-data" novalidate>
