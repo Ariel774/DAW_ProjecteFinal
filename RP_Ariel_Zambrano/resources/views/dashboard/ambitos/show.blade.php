@@ -10,7 +10,11 @@
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $ambito->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">
-                <button type="button" class="btn btn-primary">Crear Objectiu</button>
+                <form action="{{ route('dashboard.objetivos.create') }}" method="get">
+                    @csrf
+                    <input type="hidden" name="ambito-id" value="{{ $ambito->id }}">
+                    <input type="submit" class="btn btn-success" value="Crear Objectiu">
+                </form>
             </div>
         </div>
     </div>
