@@ -40,12 +40,12 @@ class ObjetivoController extends Controller
         $id = $request['ambito_id'];
         request()->validate([ // Validaciones
             'nombre' => 'required|min:6',
-            'descripcion' => 'required|min:30',
+            'descripcion' => 'required|min:10',
             'imagen' => 'required|image',
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required'
         ]);
-        $ruta_imagen = $request['imagen']->store('upload-recetas', 'public');
+        $ruta_imagen = $request['imagen']->store('upload-objetivos', 'public');
 
         auth()->user()->objetivos()->create([ // Insertar los campos en la base de datos
             'nombre' => $request['nombre'],
@@ -102,6 +102,7 @@ class ObjetivoController extends Controller
      */
     public function destroy(Objetivo $objetivo)
     {
-        //
+        $objetivo->delete();
+        return redirect()->action([AmbitoController::class, 'show']);
     }
 }

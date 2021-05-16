@@ -154,7 +154,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modificar Àmbit</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -174,8 +174,8 @@
                             </div>
                         </form>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Send message</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                          <button type="button" class="btn btn-primary">Guardar</button>
                         </div>
                         <!-- Fin del contenido del Modal -->
                     </div>
@@ -187,8 +187,6 @@
     </div>
 </div>
 <a id="update-ambito"></a>
-
-<input type="text" value="hola" id="hola">
 <!--  Fin Tabla menu actualizar -->
 
 @endsection

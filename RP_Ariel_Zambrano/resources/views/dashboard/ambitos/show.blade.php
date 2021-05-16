@@ -20,7 +20,6 @@
             </div>
             <div class="col-sm-2">
                 <form action="{{ route('dashboard.objetivos.create') }}" method="get">
-                    @csrf
                     <input type="hidden" name="ambito-id" value="{{ $ambito->id }}">
                     <input type="submit" class="btn btn-success" value="Crear Objectiu">
                 </form>
@@ -28,13 +27,13 @@
         </div>
     </div>
     <!-- Objetivos -->
-    @foreach ($ambito->objetivos as $objetivo)
-        @if($objetivo->usuario->id == Auth::user()->id) {{-- Comprobamos si el usuario es el mismo --}}
+    @foreach ($objetivos as $objetivo)
         <div class="card text-white bg-primary m-2">
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-8">Objectiu - {{$loop->index+1}}</div>
-                    <div class="col-sm-4"><eliminar-objetivo objetivo-id={{ $objetivo->id }}></eliminar-ambito> {{-- Componente Vue --}}
+                    <div class="col-sm-4"> 
+                        <eliminar-objetivo objetivo-id={{ $objetivo->id }}></eliminar-objetivo> {{-- Componente Vue --}}
                     </div>
                 </div>    
             </div>
@@ -52,7 +51,6 @@
                 </div>
             </div>
         </div>
-        @endif 
     @endforeach
     <!-- Fin Objetivos -->
 </div>

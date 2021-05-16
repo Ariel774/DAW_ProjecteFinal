@@ -37,6 +37,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     /** Objetivos */
     Route::get('/objetivos/create', [ObjetivoController::class, 'create'])->name('objetivos.create');
     Route::post('/objetivos', [ObjetivoController::class, 'store'])->name('objetivos.store');
+    Route::delete('/objetivos/{objetivo}', [ObjetivoController::class, 'destroy'])->name('objetivos.destroy');
     /** Objetivos */
 });
 

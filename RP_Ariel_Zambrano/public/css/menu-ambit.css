@@ -26,10 +26,6 @@ html {
   transition: all .1s;
 }
 
-.selector button:hover { background: #3071a9; }
-
-.selector button:focus { outline: none; }
-
 .selector ul {
   position: absolute;
   list-style: none;
@@ -68,14 +64,12 @@ html {
   transition: all 0.8s ease-in-out, color 0.1s, background 0.1s;
 }
 
-.selector li .menuOption { background: #f0f0f0; }
+.selector li .menuOption { background: #f0f0f0; border: #01c001; }
 
 .selector li .menuOption:hover { 
-  background: #41c9ff; 
   color: black;
   text-decoration: none;
 }
-
 
 .selector.open li .menuOption {
   width: 100px;
@@ -84,4 +78,23 @@ html {
   margin-left: -40px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   font-size: 14px;
+}
+.input-menu {
+  position: relative;
+  margin-left: 0;
+  width: 100%;
+	background: none!important;
+	color: inherit!important;
+	border: none!important;
+	padding: 0;
+	font: inherit!important;
+	cursor: pointer!important;
+	outline: inherit!important;
+}
+.input-menu:hover {
+	background: rgb(36, 167, 255)!important;
+}
+
+.selector .input-menu:focus{
+  outline: none;
 }

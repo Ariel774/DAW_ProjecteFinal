@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ambito;
+use App\Models\Objetivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,7 @@ class AmbitoController extends Controller
     public function index()
     {
         $ambitos = Auth::user()->ambitos; // Guardamos el array de recetas obtenido, Recetas es el hasMany del modelo
-        return view('dashboard.home')->with('ambitos', $ambitos);
+        return view('dashboard.home',compact('ambitos'));
     }
 
     /**
@@ -80,8 +81,11 @@ class AmbitoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Ambito $ambito)
-    {
-        return view('dashboard.ambitos.show', compact('ambito'));
+    {        
+        $usuario = auth()->user()->id;
+
+        $objetivos = Objetivo::where('user_id', $usuario)->where('ambito_id', $ambito->id)->get();
+        return view('dashboard.ambitos.show', compact('ambito', 'objetivos'));
     }
 
     /**
