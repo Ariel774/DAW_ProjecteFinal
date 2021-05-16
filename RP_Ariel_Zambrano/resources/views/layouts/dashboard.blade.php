@@ -30,10 +30,17 @@
                 <div class="mr-3 mt-1">
                     <a class="github-button" href="https://github.com/themesberg/simple-bootstrap-5-dashboard" data-color-scheme="no-preference: dark; light: light; dark: light;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star /themesberg/simple-bootstrap-5-dashboard">Star</a>
                 </div>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                      Bon dia, {{ Auth::user()->name }}
-                    </button>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown pt-1 px-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        <div class="media d-flex align-items-center">
+                            <img class="user-avatar md-avatar rounded-circle" 
+                            alt="Image placeholder" 
+                            src="/storage/user-image/ariel.jpg">
+                            <div class="media-body ml-2 text-white align-items-center d-none d-lg-block">
+                            <span class="mb-0 font-small fw-bold">Bon dia, {{ Auth::user()->name }}</span>
+                            </div>
+                        </div>                       
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
                       <li><a class="dropdown-item" href="#">Configuració</a></li>

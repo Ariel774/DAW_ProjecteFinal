@@ -67,5 +67,17 @@
     background-color: #555555;
     border-color: #756c7d;
 }
+.user-avatar {
+    height: 2.5rem;
+    width: 2.5rem;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    border-radius: 50%;
+}
 
   
