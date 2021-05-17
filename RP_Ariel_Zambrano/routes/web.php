@@ -26,7 +26,7 @@ Auth::routes(['verify'=> true]); // Para verificar el email
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['auth', 'verified']], function() {
     /** Ambitos */
-    Route::get('/ambitos/create', [AmbitoController::class, 'create'])->name('ambitos.create'); // Creamos los ambitos
+    Route::get('/ambitos/create', [AmbitoController::class, 'create'])->name('ambitos.create')->middleware('revisarAmbito'); // Creamos los ambitos
     Route::get('/home', [AmbitoController::class, 'index'])->name('home');
     Route::post('/ambitos', [AmbitoController::class, 'store'])->name('ambitos.store');
     Route::get('/ambitos/{ambito}', [AmbitoController::class, 'show'])->name('ambitos.show');
