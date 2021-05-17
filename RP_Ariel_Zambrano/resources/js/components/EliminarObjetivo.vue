@@ -1,7 +1,7 @@
 <template>
     <input 
     type="submit" 
-    class="btn btn-danger m-1" 
+    class="btn btn-danger" 
     value="Esborrar"
     v-on:click="eliminarObjetivo" 
     >
@@ -32,7 +32,7 @@
                                     //console.log(respuesta) // La respuesta será lo que tengamos en nuestro controlador (el return..)
                                     this.$swal({ // Mensaje de success conforme se ha eliminado
                                     title: 'Àmbit eliminat',
-                                    text: "Se ha esborrar l'objectiu",
+                                    text: 'Se ha esborrar el àmbit',
                                     icon: 'success'
                                     });
                                     this.$el.parentElement.parentElement.parentElement.parentElement.remove();
@@ -40,7 +40,7 @@
                                 .catch(error => {
                                     console.log(error)
                                 })
-
+                        //this.$el.parentElement.parentElement.parentElement.parentElement.remove();
                         }
                 })
             }

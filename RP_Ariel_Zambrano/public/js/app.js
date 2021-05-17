@@ -1958,14 +1958,14 @@ __webpack_require__.r(__webpack_exports__);
             _this.$swal({
               // Mensaje de success conforme se ha eliminado
               title: 'Àmbit eliminat',
-              text: "Se ha esborrar l'objectiu",
+              text: 'Se ha esborrar el àmbit',
               icon: 'success'
             });
 
             _this.$el.parentElement.parentElement.parentElement.parentElement.remove();
           })["catch"](function (error) {
             console.log(error);
-          });
+          }); //this.$el.parentElement.parentElement.parentElement.parentElement.remove();
         }
       });
     }
@@ -41498,7 +41498,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("input", {
-    staticClass: "btn btn-danger m-1",
+    staticClass: "btn btn-danger",
     attrs: { type: "submit", value: "Esborrar" },
     on: { click: _vm.eliminarObjetivo }
   })

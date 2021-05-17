@@ -31,28 +31,33 @@
         <div class="card text-white bg-primary m-2">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-sm-8">Objectiu - {{$loop->index+1}}</div>
-                    <div class="col-sm-4"> 
+                    <div class="col-md-10">Objectiu - {{$loop->index+1}}</div>
+                    <div class="col-md-2"> 
                         <eliminar-objetivo objetivo-id={{ $objetivo->id }}></eliminar-objetivo> {{-- Componente Vue --}}
+                        <a href="{{ route('dashboard.objetivos.edit', ['objetivo' => $objetivo->id])}}" type="button" class="btn btn-info">Editar</a>
                     </div>
                 </div>    
             </div>
             <div class="card-body">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-lg-10">
-                            <h5 class="card-title">{{ $objetivo->nombre }}</h5>
-                            <p class="card-text">{{ $objetivo->descripcion}}</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="button-ambito">
+                            <a href="{{ route('dashboard.objetivos.edit', ['objetivo' => $objetivo->id])}}"><span>Sub Objectius</span></a>
                         </div>
-                        <div class="col-1">
-                            <img src="/storage/{{ $objetivo->imagen }}" class="img-ambito img-responsive rounded">
-                        </div>
+                    </div>
+                    <div class="col-8">
+                        <h5 class="card-title">{{ $objetivo->nombre }}</h5>
+                        <p class="card-text">{{ $objetivo->descripcion}}</p>
+                    </div>
+                    <div class="col">
+                        <img src="/storage/{{ $objetivo->imagen }}" class="img-ambito img-responsive rounded">
                     </div>
                 </div>
             </div>
         </div>
+
     @endforeach
     <!-- Fin Objetivos -->
 </div>
-
+{{ $objetivos->links() }}
 @endsection

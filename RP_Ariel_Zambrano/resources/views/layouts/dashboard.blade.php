@@ -18,6 +18,7 @@
             <div class="d-flex col-12 col-md-3 col-lg-2 mb-2 mb-lg-0 flex-wrap flex-md-nowrap justify-content-between">
                 <a class="navbar-brand" href="#" style="font-family: 'Rubik Mono One', sans-serif; color:rgb(255, 255, 255);">
                     RP Personal
+                    <img src="/storage/rp-default/logo.gif" alt="gift-image">
                 </a>
                 <button class="navbar-toggler d-md-none collapsed mb-3" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -64,7 +65,7 @@
                     <div class="position-sticky pt-md-5">
                         <ul class="nav flex-column">
                             <li class="nav-item mb-1">
-                                <a href="{{ route('dashboard.home') }}" class="btn btn-block btn-primary">
+                                <a href="{{ route('dashboard.home') }}" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                                             <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
@@ -75,7 +76,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-primary">
+                                <a href="#" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -86,7 +87,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-primary">
+                                <a href="#" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
@@ -98,7 +99,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-primary">
+                                <a href="#" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
                                             <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
@@ -109,7 +110,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-primary">
+                                <a href="#" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -120,7 +121,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-primary">
+                                <a href="#" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
                                             <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>

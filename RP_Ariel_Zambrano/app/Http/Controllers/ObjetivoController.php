@@ -79,7 +79,7 @@ class ObjetivoController extends Controller
      */
     public function edit(Objetivo $objetivo)
     {
-        //
+        return view('dashboard.objetivos.edit', compact('objetivo'));
     }
 
     /**
@@ -103,6 +103,5 @@ class ObjetivoController extends Controller
     public function destroy(Objetivo $objetivo)
     {
         $objetivo->delete();
-        return redirect()->action([AmbitoController::class, 'show']);
     }
 }

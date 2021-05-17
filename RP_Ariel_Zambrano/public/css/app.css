@@ -16168,23 +16168,6 @@ h3 {
   color: #333;
 }
 
-/* Botons */
-.btn-primary {
-  color: #fff;
-  background-color: #484c52;
-  border-color: #29313d;
-}
-
-.btn-primary:hover {
-  background-color: #707274;
-  border-color: #707274;
-}
-
-.btn-primary .active {
-  background-color: #707274 !important;
-  border-color: none !important;
-}
-
 .sidebar .nav-link.active {
   color: #586272;
   background-color: #707274;
@@ -16241,4 +16224,38 @@ input:not([type=submit]):focus, textarea:focus {
 }
 input:not([type=submit]):hover, textarea:hover {
   box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF !important;
+}
+
+/* boton para listar objetivos */
+.button-ambito {
+  width: 300px;
+  height: 100px;
+  background: #f3f0f1;
+  position: relative;
+  background: #f3f0f1;
+  margin-bottom: 25px;
+  border-radius: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+  box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.363), 6px 6px 10px rgba(0, 0, 0, 0.2);
+}
+.button-ambito span {
+  line-height: 100px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 32px;
+  font-weight: semibold;
+}
+.button-ambito a {
+  color: #000000b7;
+  text-decoration: none;
+}
+.button-ambito:hover {
+  opacity: 0.3;
+  box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+}
+.button-ambito:active {
+  opacity: 1;
+  box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5), inset 8px 8px 16px rgba(0, 0, 0, 0.301);
+  color: #000000e5;
 }

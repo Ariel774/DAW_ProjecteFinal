@@ -84,7 +84,7 @@ class AmbitoController extends Controller
     {        
         $usuario = auth()->user()->id;
 
-        $objetivos = Objetivo::where('user_id', $usuario)->where('ambito_id', $ambito->id)->get();
+        $objetivos = Objetivo::where('user_id', $usuario)->where('ambito_id', $ambito->id)->paginate(3);
         return view('dashboard.ambitos.show', compact('ambito', 'objetivos'));
     }
 
