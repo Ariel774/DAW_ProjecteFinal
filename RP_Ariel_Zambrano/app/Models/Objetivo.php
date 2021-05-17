@@ -16,7 +16,10 @@ class Objetivo extends Model
         'ambito_id',
         'porcentaje',
         'finalizado',
-        'imagen'
+        'imagen',
+        'unidades_actuales',
+        'unidades_fin',
+        'unidad'
     ];
     use HasFactory;
     /** Relacion 1:n  de Ambitos a Objetivo*/

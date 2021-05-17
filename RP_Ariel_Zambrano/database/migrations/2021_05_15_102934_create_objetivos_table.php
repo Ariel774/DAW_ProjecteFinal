@@ -18,6 +18,9 @@ class CreateObjetivosTable extends Migration
             $table->string('nombre')->comment("Nombre del objetivo");
             $table->text('descripcion')->comment("descripción del objetivo");
             $table->string('imagen');
+            $table->integer('unidades_actuales'); // Numero de unidades máximas
+            $table->integer('unidades_fin'); // Numero de unidades máximas
+            $table->string('unidad'); // Unidad de medida
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->double('porcentaje', 5, 2);

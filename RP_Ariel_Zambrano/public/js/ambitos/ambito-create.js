@@ -1,12 +1,13 @@
 $(function(){
     // Abrir Modal por defecto
-    // $('#ambitModal').modal('show'); // Mostrar àmbit
-
+    $('#ambitModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+    })
+    
     $("#nRows").val(2); // Valor por defecto
-    $(".show-modal").on('click', function(){
-        $("#ambitModal").modal(
-            { backdrop: 'static', keyboard: true });
-    });
+
     var counter = 3;
 
     $("#addrow").on("click", function () {

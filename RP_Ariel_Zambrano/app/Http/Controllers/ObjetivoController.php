@@ -43,7 +43,9 @@ class ObjetivoController extends Controller
             'descripcion' => 'required|min:10',
             'imagen' => 'required|image',
             'fecha_inicio' => 'required',
-            'fecha_fin' => 'required'
+            'fecha_fin' => 'required',
+            'unidades_fin' => 'required|min:1',
+            'unidad' => 'required'
         ]);
         $ruta_imagen = $request['imagen']->store('upload-objetivos', 'public');
 
@@ -51,6 +53,9 @@ class ObjetivoController extends Controller
             'nombre' => $request['nombre'],
             'descripcion' => $request['descripcion'],
             'imagen' => $ruta_imagen,
+            'unidades_fin' =>  $request['unidades_fin'],
+            'unidades_actuales' =>  0,
+            'unidad' =>  $request['unidad'],
             'fecha_inicio' => $request['fecha_inicio'],
             'fecha_fin' => $request['fecha_fin'],
             'porcentaje' => "00.00",
@@ -91,7 +96,21 @@ class ObjetivoController extends Controller
      */
     public function update(Request $request, Objetivo $objetivo)
     {
-        //
+        request()->validate([ // Validaciones
+            'nombre' => 'required|min:6',
+            'descripcion' => 'required|min:10',
+            'fecha_inicio' => 'required',
+            'fecha_fin' => 'required',
+            'unidades_fin' => 'required|min:1',
+            'unidad' => 'required'
+        ]);
+        $objetivo->nombre = $request['nombre'];
+        $objetivo->descripcion = $request['descripcion'];
+        $objetivo->unidades_fin = $request['unidades_fin'];
+        $objetivo->unidad = $request['unidad'];
+        $objetivo->fecha_inicio = $request['fecha_inicio'];
+        $objetivo->fecha_fin = $request['fecha_fin'];
+        $objetivo->categoria_id = $request['categoria'];
     }
 
     /**

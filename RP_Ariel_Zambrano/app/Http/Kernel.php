@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'revisarAmbito' => \App\Http\Middleware\RevisarAmbitos::class, // Middleware para revisar si el usuario tiene ambitos
+        'revisarAmbitoCreado' => \App\Http\Middleware\revisarAmbitoCreado::class, // Middleware para revisar si el usuario tiene ambitos
     ];
 }

@@ -26,8 +26,8 @@ Auth::routes(['verify'=> true]); // Para verificar el email
 
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['auth', 'verified']], function() {
     /** Ambitos */
-    Route::get('/ambitos/create', [AmbitoController::class, 'create'])->name('ambitos.create')->middleware('revisarAmbito'); // Creamos los ambitos
-    Route::get('/home', [AmbitoController::class, 'index'])->name('home');
+    Route::get('/ambitos/create', [AmbitoController::class, 'create'])->name('ambitos.create')->middleware('revisarAmbitoCreado'); // Creamos los ambitos
+    Route::get('/home', [AmbitoController::class, 'index'])->name('home')->middleware('revisarAmbito');
     Route::post('/ambitos', [AmbitoController::class, 'store'])->name('ambitos.store');
     Route::get('/ambitos/{ambito}', [AmbitoController::class, 'show'])->name('ambitos.show');
     //Route::get('/dashboard/{ambito}/edit', [AmbitoController::class, 'edit'])->name('ambitos.edit'); // Editar
@@ -39,6 +39,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::get('/objetivos/{objetivo}', [ObjetivoController::class, 'show'])->name('objetivos.show');
     Route::get('/objetivos/{objetivo}/edit', [ObjetivoController::class, 'edit'])->name('objetivos.edit'); // Editar
     Route::post('/objetivos', [ObjetivoController::class, 'store'])->name('objetivos.store');
+    Route::put('/objetivos/{objetivo}', [ObjetivoController::class, 'update'])->name('objetivos.update');
     Route::delete('/objetivos/{objetivo}', [ObjetivoController::class, 'destroy'])->name('objetivos.destroy');
     /** Objetivos */
 });

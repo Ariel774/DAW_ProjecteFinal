@@ -17,20 +17,52 @@
     <h2>Crear Objectiu</h2>
     <form  method="POST" action="{{ route('dashboard.objetivos.store') }}" enctype="multipart/form-data" novalidate>
         @csrf
-        <div class="form-group mt-1">
-            <label for="nombre">Nom objectiu:</label>
-            <input 
-            id="nombre" 
-            name="nombre" 
-            value = "{{ old('nombre') }}" 
-            class="form-control @error('nombre') is-invalid @enderror" type="text"
-            placeholder="Nom"
-            >
-            @error('nombre')
-            <span class="invalid-feedback d-block" role="alert">
-                <strong>{{$message}}</strong>
-            </span>
-            @enderror
+        <div class="form-group row mt-1">
+            <div class="col-md-4">
+                <label for="nombre">Nom objectiu:</label>
+                <input 
+                id="nombre" 
+                name="nombre" 
+                value = "{{ old('nombre') }}" 
+                class="form-control @error('nombre') is-invalid @enderror" type="text"
+                placeholder="Nom"
+                >
+                @error('nombre')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="col-md-4">
+                <label for="nombre">Unitats:</label>
+                <input 
+                id="unidades" 
+                name="unidades" 
+                value = "{{ old('unidades') }}" 
+                class="form-control @error('unidades') is-invalid @enderror" type="number"
+                placeholder="Unitats a aconseguir"
+                >
+                @error('unidades')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                @enderror
+            </div>
+            <div class="col-md-4">
+                <label for="nombre">Unitat:</label>
+                <input 
+                id="unidad" 
+                name="unidad" 
+                value = "{{ old('unidades') }}" 
+                class="form-control @error('unidad') is-invalid @enderror" type="text"
+                placeholder="km/m/pàgines/$/€/hores..."
+                >
+                @error('unidad')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                @enderror
+            </div>
         </div>
         <div class="form-group row  mt-1">
             <label for="fecha_inicio" class="col-2 col-form-label">Data Inici: </label>

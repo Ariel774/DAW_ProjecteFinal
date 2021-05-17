@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('content')
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary show-modal" data-toggle="modal" data-target="#ambitModal">
+<button type="button" class="btn btn-primary show-modal"  data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#ambitModal">
     Launch demo modal
 </button>
   
@@ -85,7 +85,5 @@
 @endsection
 
 @section('scripts')
-
-<script src="{{ asset('js/ambitos/ambito.js') }}" defer></script>
-
+<script src="{{ asset('js/ambitos/ambito-create.js') }}" defer></script>
 @endsection

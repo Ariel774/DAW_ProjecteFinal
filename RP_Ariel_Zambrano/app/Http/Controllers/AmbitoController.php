@@ -59,9 +59,10 @@ class AmbitoController extends Controller
                 ]);
             }
         } else { // Si no existen los creamos todos
+            
             for ($i = 0; $i <= $nRows; $i++) {
                 request()->validate([ // Validaciones
-                    'ambito_'.$i => 'required|min:6',
+                    'ambito_'.$i => 'required|min:3',
                     'descripcion_'.$i => 'required',
                 ]);
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
@@ -69,9 +70,9 @@ class AmbitoController extends Controller
                     'descripcion'=> $request['descripcion_'.$i]
                 ]);
             }
+            return redirect('dashboard/home');
         }
-
-        return view('dashboard.ambitos.create');
+        return view('dashboard.home');
     }
 
     /**

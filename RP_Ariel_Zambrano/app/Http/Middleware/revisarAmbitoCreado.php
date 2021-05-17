@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class RevisarAmbitos
+class revisarAmbitoCreado
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class RevisarAmbitos
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->ambitos->isEmpty()) { // Comprobamos si tiene registros
-            return redirect('/dashboard/ambitos/create');
+        if(!auth()->user()->ambitos->isEmpty()) { // Comprobamos si tiene registros
+            return redirect('/dashboard/home');
         } 
         return $next($request);
     }
