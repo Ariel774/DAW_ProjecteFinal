@@ -27,6 +27,7 @@ class CreateObjetivosTable extends Migration
             $table->boolean('finalizado');
             $table->foreignId('ambito_id')->constrained()->cascadeOnDelete(); // Llave foranea
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('slug')->unique()->comment("URL Objetivo");
             $table->timestamps();
         });
     }

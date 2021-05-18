@@ -12,8 +12,14 @@ class Ambito extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
+        'slug'
     ];
     use HasFactory;
+    // Devolver el slug de nuestra URL
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
     /** Relacion 1:n  de Ambitos a Usuario*/
     public function usuarios() 
     {

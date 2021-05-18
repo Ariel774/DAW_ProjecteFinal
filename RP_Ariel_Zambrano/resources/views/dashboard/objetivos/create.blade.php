@@ -8,14 +8,14 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{$ambito_id }}">Objetivos</a></li>
+        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->id }}">Objetivos</a></li>
         <li class="breadcrumb-item active" aria-current="page">Crear Objectiu</li>
     </ol>
 </nav>
 <!-- Navegador -->
 <div class="form">
     <h2>Crear Objectiu</h2>
-    <form  method="POST" action="{{ route('dashboard.objetivos.store') }}" enctype="multipart/form-data" novalidate>
+    <form  method="POST" action="{{ route('dashboard.objetivos.store',['ambito' => $ambito->slug]) }}" enctype="multipart/form-data" novalidate>
         @csrf
         <div class="form-group row mt-1">
             <div class="col-md-4">
@@ -36,13 +36,13 @@
             <div class="col-md-4">
                 <label for="nombre">Unitats:</label>
                 <input 
-                id="unidades" 
-                name="unidades" 
-                value = "{{ old('unidades') }}" 
-                class="form-control @error('unidades') is-invalid @enderror" type="number"
+                id="unidades_fin" 
+                name="unidades_fin" 
+                value = "{{ old('unidades_fin') }}" 
+                class="form-control @error('unidades_fin') is-invalid @enderror" type="number"
                 placeholder="Unitats a aconseguir"
                 >
-                @error('unidades')
+                @error('unidades_fin')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
                 </span>
@@ -53,7 +53,7 @@
                 <input 
                 id="unidad" 
                 name="unidad" 
-                value = "{{ old('unidades') }}" 
+                value = "{{ old('unidad') }}" 
                 class="form-control @error('unidad') is-invalid @enderror" type="text"
                 placeholder="km/m/pàgines/$/€/hores..."
                 >
@@ -114,7 +114,6 @@
             </span>
             @enderror
         </div>
-        <input type="hidden" name="ambito_id" value="{{ $ambito_id }}">
         <input type="submit" value="Crear Objectiu" class="btn btn-success">
     </form>
 </div>

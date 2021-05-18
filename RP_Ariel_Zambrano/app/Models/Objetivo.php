@@ -19,9 +19,15 @@ class Objetivo extends Model
         'imagen',
         'unidades_actuales',
         'unidades_fin',
-        'unidad'
+        'unidad',
+        'slug'
     ];
     use HasFactory;
+    // Devolver Slug
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
     /** Relacion 1:n  de Ambitos a Objetivo*/
     public function ambitos() 
     {

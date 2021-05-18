@@ -15,7 +15,7 @@
 <!-- Navegador -->
 <div class="form">
     <h2>Editar Objectiu</h2>
-    <form  method="POST" action="{{ route('dashboard.objetivos.update', ['objetivo' => $objetivo->id ] ) }}" enctype="multipart/form-data" novalidate>
+    <form  method="POST" action="{{ route('dashboard.objetivos.update', ['ambito' => $ambito->id, 'objetivo' => $objetivo->id ] ) }}" enctype="multipart/form-data" novalidate>
         @csrf
         @method('put')
         <div class="form-group row mt-1">
@@ -35,30 +35,43 @@
                 @enderror
             </div>
             <div class="col-md-4">
-                <label for="nombre">Unitats:</label>
-                <input 
-                id="unidades" 
-                name="unidades" 
-                value = "{{ $objetivo->unidades }}" 
-                class="form-control @error('unidades') is-invalid @enderror" type="number"
-                placeholder="Unitats a aconseguir"
-                >
-                @error('unidades')
+                <label for="nombre">Unitats actuals:</label>
+                <div class="input-group">
+                    <input 
+                    id="unidades_actuales" 
+                    name="unidades_actuales" 
+                    value = "{{ $objetivo->unidades_actuales }}" 
+                    class="form-control @error('unidades_actuales') is-invalid @enderror" type="number"
+                    placeholder="Unitats aconseguidues"
+                    style="margin-right: 0px"
+                    readonly
+                    >
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">{{ $objetivo->unidad }}</div>
+                    </div>
+                </div>
+                @error('unidades_actuales')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
                 </span>
                 @enderror
             </div>
             <div class="col-md-4">
-                <label for="nombre">Unitat:</label>
-                <input 
-                id="unidad" 
-                name="unidad" 
-                value = "{{ $objetivo->unidad }}" 
-                class="form-control @error('unidad') is-invalid @enderror" type="text"
-                placeholder="km/m/pàgines/$/€/hores..."
-                >
-                @error('unidad')
+                <label for="nombre">Unitats a aconseguir:</label>
+                <div class="input-group">
+                    <input 
+                    id="unidades_fin" 
+                    name="unidades_fin" 
+                    value = "{{ $objetivo->unidades_fin }}" 
+                    class="form-control @error('unidades_fin') is-invalid @enderror" type="number"
+                    placeholder="Unitats aconseguides"
+                    style="margin-right: 0px"
+                    >
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">{{ $objetivo->unidad }}</div>
+                    </div>
+                </div>
+                @error('unidades_fin')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
                 </span>

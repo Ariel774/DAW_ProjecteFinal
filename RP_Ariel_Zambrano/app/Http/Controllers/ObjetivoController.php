@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ambito;
 use App\Models\Objetivo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ObjetivoController extends Controller
 {
@@ -23,10 +24,9 @@ class ObjetivoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Ambito $ambito)
     {
-        $ambito_id = $request['ambito-id'];
-        return view('dashboard.objetivos.create', compact('ambito_id'));
+        return view('dashboard.objetivos.create', compact('ambito'));
     }
 
     /**
@@ -35,16 +35,15 @@ class ObjetivoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Ambito $ambito)
     {
-        $id = $request['ambito_id'];
         request()->validate([ // Validaciones
             'nombre' => 'required|min:6',
             'descripcion' => 'required|min:10',
             'imagen' => 'required|image',
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required',
-            'unidades_fin' => 'required|min:1',
+            'unidades_fin' => 'required',
             'unidad' => 'required'
         ]);
         $ruta_imagen = $request['imagen']->store('upload-objetivos', 'public');
@@ -52,17 +51,18 @@ class ObjetivoController extends Controller
         auth()->user()->objetivos()->create([ // Insertar los campos en la base de datos
             'nombre' => $request['nombre'],
             'descripcion' => $request['descripcion'],
+            'slug' => Str::slug($request['nombre']),
             'imagen' => $ruta_imagen,
-            'unidades_fin' =>  $request['unidades_fin'],
             'unidades_actuales' =>  0,
+            'unidades_fin' =>  $request['unidades_fin'],
             'unidad' =>  $request['unidad'],
             'fecha_inicio' => $request['fecha_inicio'],
             'fecha_fin' => $request['fecha_fin'],
             'porcentaje' => "00.00",
             'finalizado' => false,
-            'ambito_id' => $request['ambito_id'],
+            'ambito_id' => $ambito->id,
         ]);
-        return redirect('/dashboard/ambitos/'.$id); // Redireccionar hacia el index
+        return redirect('/dashboard/ambitos/'.$ambito->slug); // Redireccionar hacia el index
     }
 
     /**
@@ -82,9 +82,9 @@ class ObjetivoController extends Controller
      * @param  \App\Models\Objetivo  $objetivo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Objetivo $objetivo)
+    public function edit(Ambito $ambito, Objetivo $objetivo)
     {
-        return view('dashboard.objetivos.edit', compact('objetivo'));
+        return view('dashboard.objetivos.edit', compact('objetivo', 'ambito'));
     }
 
     /**
@@ -94,23 +94,23 @@ class ObjetivoController extends Controller
      * @param  \App\Models\Objetivo  $objetivo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Objetivo $objetivo)
+    public function update(Request $request, Ambito $ambito, Objetivo $objetivo)
     {
         request()->validate([ // Validaciones
             'nombre' => 'required|min:6',
             'descripcion' => 'required|min:10',
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required',
-            'unidades_fin' => 'required|min:1',
-            'unidad' => 'required'
+            'unidades_fin' => 'required',
         ]);
         $objetivo->nombre = $request['nombre'];
         $objetivo->descripcion = $request['descripcion'];
+        $objetivo->slug = Str::slug($request['nombre']);
         $objetivo->unidades_fin = $request['unidades_fin'];
-        $objetivo->unidad = $request['unidad'];
         $objetivo->fecha_inicio = $request['fecha_inicio'];
         $objetivo->fecha_fin = $request['fecha_fin'];
-        $objetivo->categoria_id = $request['categoria'];
+        $objetivo->save();
+        return redirect('/dashboard/ambitos/'.$ambito->id);
     }
 
     /**

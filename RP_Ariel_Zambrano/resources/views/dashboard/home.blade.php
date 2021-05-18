@@ -95,7 +95,7 @@
     <ul>
         @foreach($ambitos as $ambito)
         <li>
-            <a class="menuOption" href="{{ route('dashboard.ambitos.show', ['ambito' => $ambito->id]) }}">
+            <a class="menuOption" href="{{ route('dashboard.ambitos.show', ['ambito' => $ambito->slug]) }}">
                 <p id="option-{{ $loop->index }}" class="text-uppercase">{{ $ambito->nombre}} </p>
             </a>
         </li>

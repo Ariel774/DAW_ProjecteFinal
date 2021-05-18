@@ -17,6 +17,7 @@ class CreateAmbitosTable extends Migration
             $table->id();
             $table->string('nombre')->comment("Nombre del objetivo");
             $table->text('descripcion')->comment("descripción del objetivo");
+            $table->string('slug')->unique()->comment("URL del ambito");
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // Llave foranea
             $table->timestamps();
         });

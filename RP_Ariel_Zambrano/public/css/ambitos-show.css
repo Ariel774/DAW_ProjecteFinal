@@ -3,3 +3,11 @@
     max-width: 140px!important;
     height: 140px!important;
 }
+
+.card-ambito {
+    border-top-right-radius: 50px!important;
+    box-shadow: -8px 7px 11px -2px rgba(0,0,0,0.75);
+}
+.card-header {
+    border-top-right-radius: 50px!important;
+}

@@ -35,11 +35,11 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::delete('/ambitos/{ambito}', [AmbitoController::class, 'destroy'])->name('ambitos.destroy');
     /** Ambitos */
     /** Objetivos */
-    Route::get('/objetivos/create', [ObjetivoController::class, 'create'])->name('objetivos.create');
-    Route::get('/objetivos/{objetivo}', [ObjetivoController::class, 'show'])->name('objetivos.show');
-    Route::get('/objetivos/{objetivo}/edit', [ObjetivoController::class, 'edit'])->name('objetivos.edit'); // Editar
-    Route::post('/objetivos', [ObjetivoController::class, 'store'])->name('objetivos.store');
-    Route::put('/objetivos/{objetivo}', [ObjetivoController::class, 'update'])->name('objetivos.update');
+    Route::get('/ambitos/{ambito}/objetivos/create', [ObjetivoController::class, 'create'])->name('objetivos.create');
+    Route::get('/ambitos/{ambito?}/objetivos/{objetivo}', [ObjetivoController::class, 'show'])->name('objetivos.show');
+    Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/edit', [ObjetivoController::class, 'edit'])->name('objetivos.edit'); // Editar
+    Route::post('/ambitos/{ambito}/objetivos', [ObjetivoController::class, 'store'])->name('objetivos.store');
+    Route::put('/ambitos/{ambito?}/objetivos/{objetivo}', [ObjetivoController::class, 'update'])->name('objetivos.update');
     Route::delete('/objetivos/{objetivo}', [ObjetivoController::class, 'destroy'])->name('objetivos.destroy');
     /** Objetivos */
 });

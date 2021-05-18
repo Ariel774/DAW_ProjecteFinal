@@ -19,22 +19,19 @@
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $ambito->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">
-                <form action="{{ route('dashboard.objetivos.create') }}" method="get">
-                    <input type="hidden" name="ambito-id" value="{{ $ambito->id }}">
-                    <input type="submit" class="btn btn-success" value="Crear Objectiu">
-                </form>
+                <a href="{{ route('dashboard.objetivos.create', ['ambito' => $ambito->slug])}}" type="button" class="btn btn-success">Crear Objetivo</a>
             </div>
         </div>
     </div>
     <!-- Objetivos -->
-    @foreach ($objetivos as $objetivo)
-        <div class="card text-white bg-primary m-2">
+    @foreach ($objetivos as $objetivo) 
+        <div class="card-ambito card text-white bg-primary ml-3 mb-4">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-10">Objectiu - {{$loop->index+1}}</div>
                     <div class="col-md-2"> 
                         <eliminar-objetivo objetivo-id={{ $objetivo->id }}></eliminar-objetivo> {{-- Componente Vue --}}
-                        <a href="{{ route('dashboard.objetivos.edit', ['objetivo' => $objetivo->id])}}" type="button" class="btn btn-info">Editar</a>
+                        <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-info">Editar</a>
                     </div>
                 </div>    
             </div>
@@ -42,7 +39,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="button-ambito">
-                            <a href="{{ route('dashboard.objetivos.edit', ['objetivo' => $objetivo->id])}}"><span>Sub Objectius</span></a>
+                            <a href="{{ route('dashboard.objetivos.show', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}"><span>Sub Objectius</span></a>
                         </div>
                     </div>
                     <div class="col-8">

@@ -55,7 +55,8 @@ class AmbitoController extends Controller
                 ]);
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
                     'nombre'=> $request['ambito_'.$i],
-                    'descripcion'=> $request['descripcion_'.$i]
+                    'descripcion'=> $request['descripcion_'.$i],
+                    'slug'=> $request['ambito_'.$i]
                 ]);
             }
         } else { // Si no existen los creamos todos
@@ -67,7 +68,8 @@ class AmbitoController extends Controller
                 ]);
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
                     'nombre'=> $request['ambito_'.$i],
-                    'descripcion'=> $request['descripcion_'.$i]
+                    'descripcion'=> $request['descripcion_'.$i],
+                    'slug'=> $request['ambito_'.$i]
                 ]);
             }
             return redirect('dashboard/home');
