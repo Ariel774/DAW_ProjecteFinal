@@ -8,7 +8,7 @@
 </template>
 <script>
     export default {
-        props: ['ambitoId'], /* Si el atributo es "receta-id" el prop deberá de llamarse "RecetaId" */
+        props: ['ambitoSlug'], /* Si el atributo es "receta-id" el prop deberá de llamarse "RecetaId" */
         methods: {
             eliminarAmbito() {
 
@@ -25,10 +25,10 @@
                         if (result.isConfirmed) {
                             // Cuando borramos con axios es importante tener unos parametros para pasarle.
                             const params = {
-                                id: this.ambitoId
+                                id: this.ambitoSlug
                             }
                             // Enviar la petición al servidor
-                            axios.post(`/dashboard/ambitos/${this.ambitoId}`, {params, _method: 'delete'})
+                            axios.post(`/dashboard/ambitos/${this.ambitoSlug}`, {params, _method: 'delete'})
                                 .then(respuesta => {
                                     //console.log(respuesta) // La respuesta será lo que tengamos en nuestro controlador (el return..)
                                     this.$swal({ // Mensaje de success conforme se ha eliminado
@@ -42,7 +42,8 @@
                                     Se hace esto porque es recomendable eliminar desde el padre hacia el hijo
                                     una vez estemos en el TBODY borraremos el child (removeChild) que será un TR (this.$el=input) --> (1rpN) td --> (2ndpN) tr
                                     y eliminamos del TBODY hacia el hijo TR */
-                                    this.$el.parentNode.parentNode.parentNode.removeChild(this.$el.parentNode.parentNode);
+                                    //this.$el.parentNode.parentNode.parentNode.removeChild(this.$el.parentNode.parentNode);
+                                    window.location.href = '/dashboard/home';
                                 })
                                 .catch(error => {
                                     console.log(error)

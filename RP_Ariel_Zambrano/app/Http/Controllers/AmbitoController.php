@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ambito;
 use App\Models\Objetivo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,13 +51,13 @@ class AmbitoController extends Controller
         if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
             for ($i = $curRowsDB; $i <= $nRows; $i++) {
                 request()->validate([ // Validaciones
-                    'ambito_'.$i => 'required|min:6',
+                    'ambito_'.$i => 'required|min:4',
                     'descripcion_'.$i => 'required',
                 ]);
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
                     'nombre'=> $request['ambito_'.$i],
                     'descripcion'=> $request['descripcion_'.$i],
-                    'slug'=> $request['ambito_'.$i]
+                    'slug'=> Str::slug($request['ambito_'.$i])
                 ]);
             }
         } else { // Si no existen los creamos todos
@@ -69,12 +70,11 @@ class AmbitoController extends Controller
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
                     'nombre'=> $request['ambito_'.$i],
                     'descripcion'=> $request['descripcion_'.$i],
-                    'slug'=> $request['ambito_'.$i]
+                    'slug'=> Str::slug($request['ambito_'.$i])
                 ]);
             }
-            return redirect('dashboard/home');
         }
-        return view('dashboard.home');
+        return redirect()->action([AmbitoController::class, 'index']);
     }
 
     /**
@@ -86,9 +86,11 @@ class AmbitoController extends Controller
     public function show(Ambito $ambito)
     {        
         $usuario = auth()->user()->id;
+        $ambitosTotales = auth()->user()->ambitos()->where('user_id', '=', $usuario)->count();
+
 
         $objetivos = Objetivo::where('user_id', $usuario)->where('ambito_id', $ambito->id)->paginate(3);
-        return view('dashboard.ambitos.show', compact('ambito', 'objetivos'));
+        return view('dashboard.ambitos.show', compact('ambito', 'objetivos', 'ambitosTotales'));
     }
 
     /**
@@ -111,7 +113,15 @@ class AmbitoController extends Controller
      */
     public function update(Request $request, Ambito $ambito)
     {
-        dd($request->all());
+        request()->validate([ // Validaciones
+            'nombre' => 'required',
+            'descripcion' => 'required',
+        ]);
+        $ambito->nombre = $request['nombre'];
+        $ambito->descripcion = $request['descripcion'];
+        $ambito->slug = Str::slug($request['nombre']);
+        $ambito->save();
+        return redirect()->action([AmbitoController::class, 'index']);
     }
 
     /**

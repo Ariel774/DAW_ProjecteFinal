@@ -27,8 +27,11 @@ window.Vue = require('vue').default;
 Vue.use(VueSweetalert2); // Agregamos nuestro componente SweetAlert
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('eliminar-ambito', require('./components/EliminarAmbito.vue').default)
-Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').default)
+Vue.component('eliminar-ambito', require('./components/EliminarAmbito.vue').default);
+Vue.component('actualizar-ambito', require('./components/ActualizarAmbito.vue').default)
+
+Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').default);
+
 
 
 
@@ -37,7 +40,6 @@ Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-console.log(VueSweetalert2.prototype) //para Ver nuestros métodos con SweetAlert
 
 const app = new Vue({
     el: '#app',

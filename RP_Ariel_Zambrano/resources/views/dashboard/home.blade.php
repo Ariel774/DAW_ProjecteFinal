@@ -12,6 +12,9 @@
         <div class="modal-content">
         <div class="modal-header">
             <h2 class="modal-title text-primary" id="ambitModalLabel">Crear Àmbits</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <!-- Contingut del Modal -->
@@ -80,6 +83,7 @@
                     </div>
                 </div>  
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar Àmbits</button>
                 </div>
             </form>
@@ -139,7 +143,7 @@
                             </td>
                             <td>
                                 @if($number > 2)
-                                <eliminar-ambito ambito-id={{ $ambito->id }}></eliminar-ambito> {{-- Componente Vue --}}
+                                <eliminar-ambito ambito-slug={{ $ambito->slug }}></eliminar-ambito> {{-- Componente Vue --}}
                                 @endif
                                 <button type="button" class="add-dataModal btn btn-primary" data-toggle="modal" data-target="#modificarAmbitoModal">
                                     Modificar
@@ -160,13 +164,14 @@
                     </button>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" id="ambitoActual">
                         <!-- Contenido del Modal -->
-                        <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->id ]) }}" method="POST" novalidate>
+                        <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->slug ]) }}" method="POST" novalidate>
                             @csrf 
                             @method('PUT')
                             <div class="form-group">
                               <label for="recipient-name" class="col-form-label">Àmbit:</label>
-                              <input type="text" class="form-control" id="ambito" name="ambito">
+                              <input type="text" class="form-control" id="nombre" name="nombre" value="holaa">
                             </div>
                             <div class="form-group">
                               <label for="message-text" class="col-form-label">Descripció:</label>
@@ -175,7 +180,7 @@
                         </form>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                          <button type="button" class="btn btn-primary">Guardar</button>
+                          <actualizar-ambito ambito-slug={{ $ambito->slug }}></actualizar-ambito>
                         </div>
                         <!-- Fin del contenido del Modal -->
                     </div>

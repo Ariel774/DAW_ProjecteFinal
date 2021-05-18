@@ -15,11 +15,15 @@
         <div class="row">
             <div class="col-md-10">
                 <h5 class="card-title h3">Àmbit: {{ $ambito->nombre }}</h5>
+                @if($ambitosTotales > 3)
+                    <eliminar-ambito ambito-slug={{ $ambito->slug }}></eliminar-ambito> {{-- Componente Vue --}}
+                @endif
+                <button class="btn btn-primary show-modal" data-toggle="modal" data-target="#ambitModal">Editar</button>
                 <p class="card-text">{{ $ambito->descripcion }}</p>
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $ambito->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">
-                <a href="{{ route('dashboard.objetivos.create', ['ambito' => $ambito->slug])}}" type="button" class="btn btn-success">Crear Objetivo</a>
+                <a href="{{ route('dashboard.objetivos.create', ['ambito' => $ambito->slug])}}" type="button" class="btn btn-success">Crear Objectiu</a>
             </div>
         </div>
     </div>
@@ -56,5 +60,58 @@
     @endforeach
     <!-- Fin Objetivos -->
 </div>
+<div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title text-primary" id="ambitModalLabel">Actualitzar Àmbits</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <!-- Contingut del Modal -->
+            <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->slug ]) }}" method="POST" novalidate>
+                @csrf
+                @method('put')
+                <div class="container">
+                    <div class="row clearfix">
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-bordered table-hover table-sortable" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">
+                                            Nom Àmbit
+                                        </th>
+                                        <th class="text-center">
+                                            Descripció
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            {{ $ambito->nombre }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ $ambito->descripcion }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Àmbits</button>
+                </div>
+            </form>
+        <!-- Fi del contingut del modal -->
+        </div>
+        </div>
+    </div>
+    </div>
+<!-- Fi Modal Boostrap -->
 {{ $objetivos->links() }}
 @endsection
