@@ -20,7 +20,6 @@ class CreateAmbitosTable extends Migration
             $table->string('slug')->comment("URL del ambito");
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); // Llave foranea
             $table->timestamps();
-            $table->unique('slug', 'user_id');
         });
     }
 

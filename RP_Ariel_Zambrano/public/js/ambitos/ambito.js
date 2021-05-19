@@ -15,8 +15,8 @@ $(function(){
         var newRow = $("<tr>");
         var cols = "";
 
-        cols += `<td><input type="text" placeholder="Nom àmbit" class="form-control" name="ambito_${counter}"/></td>`;
-        cols += `<td><textarea type="text" placeholder="Descripció" class="form-control" name="descripcion_${counter}"/></textarea></td>`;
+        cols += `<td><input type="text" placeholder="Nom àmbit" class="form-control" name="ambitos[]"/></td>`;
+        cols += `<td><textarea type="text" placeholder="Descripció" class="form-control" name="descripcion[]"/></textarea></td>`;
         cols += '<td><a class="deleteRow btn btn-danger d-block">X</a></td>';
         newRow.append(cols);
         if (counter == 7) $('#addrow').attr('disabled', true).prop('value', "Has arrivat al límit d'àmbits!");

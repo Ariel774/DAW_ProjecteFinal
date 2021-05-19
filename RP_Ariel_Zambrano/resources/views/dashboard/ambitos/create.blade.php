@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('content')
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary show-modal"  data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#ambitModal">
+<button type="button" class="btn btn-primary show-modal"  data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#ambitModal" hidden>
     Launch demo modal
 </button>
   
@@ -10,7 +10,7 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
     <div class="modal-header">
-        <h2 class="modal-title text-primary" id="ambitModalLabel">Confirmar Àmbits</h2>
+        <h2 class="modal-title text-primary" id="ambitModalLabel">Crear Àmbits</h2>
     </div>
     <div class="modal-body">
         <!-- Contingut del Modal -->
@@ -36,25 +36,55 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input type="text" name='ambito_0' placeholder='Nom àmbit' class="form-control"/>
+                                        <input type="text" name="ambitos[]" value="{{ old("ambitos.0") }}" placeholder='Nom àmbit' class="form-control @error('ambitos.0') is-invalid @enderror"/>
+                                        @error('ambitos.0')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                     <td>
-                                        <textarea name="descripcion_0" placeholder="Descripció" class="form-control"></textarea>
+                                        <textarea name="descripcion[]" placeholder="Descripció" class="form-control @error('descripcion.0') is-invalid @enderror">{{ old("descripcion.0") }}</textarea>
+                                        @error('descripcion.0')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                     </td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name='ambito_1' placeholder='Nom àmbit' class="form-control"/>
+                                        <input type="text" name="ambitos[]" placeholder='Nom àmbit'  value="{{ old("ambitos.1") }}" class="form-control @error('ambitos.1') is-invalid @enderror"/>
+                                        @error('ambitos.1')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                     <td>
-                                        <textarea name="descripcion_1" placeholder="Descripció" class="form-control"></textarea>
+                                        <textarea name="descripcion[]" placeholder="Descripció" class="form-control @error('descripcion.1') is-invalid @enderror">{{ old("descripcion.1") }}</textarea>
+                                        @error('descripcion.1')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                     </td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input type="text" name='ambito_2' placeholder='Nom àmbit' class="form-control"/>
+                                        <input type="text" name="ambitos[]" placeholder='Nom àmbit' value="{{ old("ambitos.2") }}" class="form-control @error('ambitos.2') is-invalid @enderror"/>
+                                        @error('ambitos.0')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                     <td>
-                                        <textarea name="descripcion_2" placeholder="Descripció" class="form-control"></textarea>
+                                        <textarea name="descripcion[]" placeholder="Descripció" class="form-control @error('descripcion.2') is-invalid @enderror">{{ old("descripcion.2") }}</textarea>
+                                        @error('descripcion.2')
+                                        <span class="invalid-feedback d-block" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                                     </td>
                                     <td></td>
                                 </tr>

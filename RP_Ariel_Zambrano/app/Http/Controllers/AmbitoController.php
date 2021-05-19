@@ -7,6 +7,7 @@ use App\Models\Objetivo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AmbitoController extends Controller
 {
@@ -48,29 +49,27 @@ class AmbitoController extends Controller
         // Consultem les rows que hi ha actualment en la nostra base de dades.
         $curRowsDB = auth()->user()->ambitos()->where('user_id', '=', auth()->user()->id)->count();
         $nRows = $request['nRows']; // Número de campos a guardar
+        $data = $request->validate([
+            "ambitos"  => 'required|array|min:3',
+            "ambitos.*" => 'required|min:3',
+            "descripcion"  => 'required|array|min:3',
+            "descripcion.*"  => 'required',
+        ]);
         if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
-            for ($i = $curRowsDB; $i <= $nRows; $i++) {
-                request()->validate([ // Validaciones
-                    'ambito_'.$i => 'required|min:4',
-                    'descripcion_'.$i => 'required',
-                ]);
+            for ($i = $curRowsDB; $i < $nRows; $i++) {
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
-                    'nombre'=> $request['ambito_'.$i],
-                    'descripcion'=> $request['descripcion_'.$i],
-                    'slug'=> Str::slug($request['ambito_'.$i])
+                    'nombre'=> $data['ambitos'][$i],
+                    'descripcion'=> $data['descripcion'][$i],
+                    'slug'=> $this->createSlug($data['ambitos'][$i])
                 ]);
             }
-        } else { // Si no existen los creamos todos
             
+        } else { // Si no existen los creamos todos 
             for ($i = 0; $i <= $nRows; $i++) {
-                request()->validate([ // Validaciones
-                    'ambito_'.$i => 'required|min:3',
-                    'descripcion_'.$i => 'required',
-                ]);
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
-                    'nombre'=> $request['ambito_'.$i],
-                    'descripcion'=> $request['descripcion_'.$i],
-                    'slug'=> Str::slug($request['ambito_'.$i])
+                    'nombre'=> $data['ambitos'][$i],
+                    'descripcion'=> $data['descripcion'][$i],
+                    'slug'=> $this->createSlug($data['ambitos'][$i])
                 ]);
             }
         }
@@ -119,7 +118,7 @@ class AmbitoController extends Controller
         ]);
         $ambito->nombre = $request['nombre'];
         $ambito->descripcion = $request['descripcion'];
-        $ambito->slug = Str::slug($request['nombre']);
+        $ambito->slug = $this->createSlug($request['nombre']);
         $ambito->save();
         return redirect()->action([AmbitoController::class, 'index']);
     }
@@ -135,5 +134,29 @@ class AmbitoController extends Controller
         // Eliminar la receta
         $ambito->delete();
         return redirect()->action([AmbitoController::class, 'index']);
+    }
+    public function createSlug($title)
+    {
+        $slug = Str::slug($title);
+        $allSlugs = $this->getRelatedSlugs($slug);
+        if (! $allSlugs->contains('slug', $slug)){
+            return $slug;
+        }
+
+        $i = 1;
+        $is_contain = true;
+        do {
+            $newSlug = $slug . '-' . $i;
+            if (!$allSlugs->contains('slug', $newSlug)) {
+                $is_contain = false;
+                return $newSlug;
+            }
+            $i++;
+        } while ($is_contain);
+    }
+    protected function getRelatedSlugs($slug)
+    {        
+        $usuario = auth()->user()->id;
+        return Ambito::select('slug')->where('slug', 'like', $slug.'%')->where('user_id', '=', $usuario)->get();
     }
 }

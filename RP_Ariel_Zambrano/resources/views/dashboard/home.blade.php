@@ -39,31 +39,32 @@
                                 </thead>
                                 <tbody>
                                     @foreach($ambitos as $ambito)
-                                    @php
-                                    $number = $loop->index;
-                                    @endphp
                                     <tr>
                                         <td>
-                                            <input 
-                                            type="text" 
-                                            name='ambito_{{ $loop->index }}' 
-                                            placeholder='Nom àmbit' 
-                                            class="form-control" 
-                                            value="{{ $ambito->nombre}}"
+                                            <input type="text" name="ambitos[]" value="{{ $ambito->nombre }}" 
+                                            placeholder='Nom àmbit' class="form-control @error('ambitos.{{$loop->index}}') is-invalid @enderror"
                                             {{ $loop->index < $ambitos->count() ? "readonly" : ''}}
                                             />
+                                            @error('ambitos.0')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{$message}}</strong>
+                                            </span>
+                                            @enderror
                                         <td>
-                                            <textarea 
-                                            name="descripcion_{{ $loop->index }}"  
-                                            placeholder="Descripció" 
-                                            class="form-control"
-                                            {{ $loop->index < $ambitos->count() ? "readonly" : ''}}>
-                                            {{ $ambito->descripcion}}
+                                            <textarea name="descripcion[]" placeholder="Descripció" 
+                                            class="form-control @error('descripcion.{{$loop->index}}') is-invalid @enderror"
+                                            {{ $loop->index < $ambitos->count() ? "readonly" : ''}}
+                                            >{{ $ambito->descripcion}}
                                             </textarea>
+                                            @error('descripcion.{{$loop->index}}')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{$message}}</strong>
+                                            </span>
+                                            @enderror
                                         </td>
                                         <td>
-                                            @if($number > $ambitos->count())
-                                                <a class="deleteRow btn btn-danger d-block">X</a>
+                                            @if($loop->index > $ambitos->count())
+                                            <a class="deleteRow btn btn-danger d-block">X</a>
                                             @endif
                                         </td>
                                     </tr>

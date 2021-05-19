@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ambito;
 use App\Models\Objetivo;
+use App\Models\SubObjetivo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -51,7 +52,7 @@ class ObjetivoController extends Controller
         auth()->user()->objetivos()->create([ // Insertar los campos en la base de datos
             'nombre' => $request['nombre'],
             'descripcion' => $request['descripcion'],
-            'slug' => Str::slug($request['nombre']),
+            'slug' => $this->createSlug($request['nombre']),
             'imagen' => $ruta_imagen,
             'unidades_actuales' =>  0,
             'unidades_fin' =>  $request['unidades_fin'],
@@ -71,9 +72,10 @@ class ObjetivoController extends Controller
      * @param  \App\Models\Objetivo  $objetivo
      * @return \Illuminate\Http\Response
      */
-    public function show(Objetivo $objetivo)
+    public function show(Ambito $ambito, Objetivo $objetivo)
     {
-        //
+        $subObjetivos = SubObjetivo::where('ambito_id', $ambito->id)->paginate(3);
+        return view('dashboard.objetivos.show', compact('ambito','subObjetivos'));
     }
 
     /**
@@ -97,7 +99,7 @@ class ObjetivoController extends Controller
     public function update(Request $request, Ambito $ambito, Objetivo $objetivo)
     {
         request()->validate([ // Validaciones
-            'nombre' => 'required|min:6',
+            'nombre' => 'required|min:6|unique:slug',
             'descripcion' => 'required|min:10',
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required',
@@ -122,5 +124,29 @@ class ObjetivoController extends Controller
     public function destroy(Objetivo $objetivo)
     {
         $objetivo->delete();
+    }
+    public function createSlug($title)
+    {
+        $slug = Str::slug($title);
+        $allSlugs = $this->getRelatedSlugs($slug);
+        if (! $allSlugs->contains('slug', $slug)){
+            return $slug;
+        }
+
+        $i = 1;
+        $is_contain = true;
+        do {
+            $newSlug = $slug . '-' . $i;
+            if (!$allSlugs->contains('slug', $newSlug)) {
+                $is_contain = false;
+                return $newSlug;
+            }
+            $i++;
+        } while ($is_contain);
+    }
+    protected function getRelatedSlugs($slug)
+    {        
+        $usuario = auth()->user()->id;
+        return Objetivo::select('slug')->where('slug', 'like', $slug.'%')->where('user_id', '=', $usuario)->get();
     }
 }
