@@ -8,7 +8,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->slug }}">Objetivos</a></li>
+        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->slug }}">{{ $ambito->slug }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">Crear Objectiu</li>
     </ol>
 </nav>

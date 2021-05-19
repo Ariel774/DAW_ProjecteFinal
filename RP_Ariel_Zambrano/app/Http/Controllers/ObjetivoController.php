@@ -74,8 +74,9 @@ class ObjetivoController extends Controller
      */
     public function show(Ambito $ambito, Objetivo $objetivo)
     {
-        $subObjetivos = SubObjetivo::where('ambito_id', $ambito->id)->paginate(3);
-        return view('dashboard.objetivos.show', compact('ambito','subObjetivos'));
+        $subObjetivo = SubObjetivo::where('objetivo_id', $objetivo->id);
+        $subObjetivos = SubObjetivo::where('objetivo_id', $objetivo->id)->paginate(3);
+        return view('dashboard.objetivos.show', compact('subObjetivo', 'subObjetivos', 'objetivo'));
     }
 
     /**

@@ -86,8 +86,6 @@ class AmbitoController extends Controller
     {        
         $usuario = auth()->user()->id;
         $ambitosTotales = auth()->user()->ambitos()->where('user_id', '=', $usuario)->count();
-
-
         $objetivos = Objetivo::where('user_id', $usuario)->where('ambito_id', $ambito->id)->paginate(3);
         return view('dashboard.ambitos.show', compact('ambito', 'objetivos', 'ambitosTotales'));
     }

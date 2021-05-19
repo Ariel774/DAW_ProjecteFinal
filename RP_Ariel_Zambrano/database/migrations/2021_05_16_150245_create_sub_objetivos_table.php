@@ -15,18 +15,13 @@ class CreateSubObjetivosTable extends Migration
     {
         Schema::create('sub_objetivos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->comment("Nombre del objetivo");
-            $table->text('descripcion')->comment("descripción del objetivo");
-            $table->string('imagen');
-            $table->integer('unidades_actuales'); // Numero de unidades máximas
-            $table->integer('unidades_fin'); // Numero de unidades máximas
-            $table->string('unidad'); // Unidad de medida
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->double('porcentaje', 5, 2);
-            $table->boolean('finalizado');
-            $table->foreignId('ambito_id')->constrained()->cascadeOnDelete(); // Llave foranea
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('nombre')->comment("Nombre del sub objetivo");
+            $table->text('descripcion')->comment("descripción del sub objetivo");
+            $table->integer('unidades_realizar')->comment("unidades a realizar sub objetivo");; // Numero de unidades máximas
+            $table->time('hora_inicio');
+            $table->time('hora_fin');
+            $table->foreignId('dia_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); // Llave foranea
+            $table->foreignId('objetivo_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); // Llave foranea
             $table->timestamps();
         });
     }

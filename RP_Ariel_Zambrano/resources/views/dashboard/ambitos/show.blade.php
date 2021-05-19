@@ -34,24 +34,25 @@
                 <div class="row">
                     <div class="col-md-10">Objectiu - {{$loop->index+1}}</div>
                     <div class="col-md-2"> 
-                        <eliminar-objetivo objetivo-id={{ $objetivo->id }}></eliminar-objetivo> {{-- Componente Vue --}}
+                        <eliminar-objetivo objetivo-id={{ $objetivo->slug }}></eliminar-objetivo> {{-- Componente Vue --}}
                         <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-info">Editar</a>
                     </div>
                 </div>    
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col">
+                    <div class="col-lg-2">
                         <div class="button-ambito">
-                            <a href="{{ route('dashboard.objetivos.show', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}"><span>Sub Objectius</span></a>
+                            <a class="btn-a" href="{{ route('dashboard.objetivos.show', 
+                            ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}">Sub Objectius</a>
                         </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-lg-8">
                         <h5 class="card-title">{{ $objetivo->nombre }}</h5>
                         <p class="card-text">{{ $objetivo->descripcion}}</p>
                     </div>
-                    <div class="col">
-                        <img src="/storage/{{ $objetivo->imagen }}" class="img-ambito img-responsive rounded">
+                    <div class="col-lg-2">
+                        <img src="/storage/{{ $objetivo->imagen }}" class="img-ambito rounded">
                     </div>
                 </div>
             </div>

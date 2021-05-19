@@ -23,7 +23,6 @@
                                 @auth
                                     <a href="{{ route('dashboard.home') }}" class="btn btn-white btn-animate">Go to Home</a>
                                 @else
-                                <div></div>
                                     <a href="{{ route('login') }}" class="btn btn-white btn-animate">Log in</a>
             
                                     @if (Route::has('register'))
