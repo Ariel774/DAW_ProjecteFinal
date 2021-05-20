@@ -50,7 +50,7 @@ class AmbitoController extends Controller
         $curRowsDB = auth()->user()->ambitos()->where('user_id', '=', auth()->user()->id)->count();
         $nRows = $request['nRows']; // Número de campos a guardar
         $data = $request->validate([
-            "ambitos"  => 'required|array|min:3',
+            "ambitos"  => 'required|array|min:3|max:11',
             "ambitos.*" => 'required|min:3',
             "descripcion"  => 'required|array|min:3',
             "descripcion.*"  => 'required',
@@ -58,18 +58,18 @@ class AmbitoController extends Controller
         if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
             for ($i = $curRowsDB; $i < $nRows; $i++) {
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
-                    'nombre'=> $data['ambitos'][$i],
+                    'nombre'=> filter_var($data['ambitos'][$i], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH),
                     'descripcion'=> $data['descripcion'][$i],
-                    'slug'=> $this->createSlug($data['ambitos'][$i])
+                    'slug'=> $this->createSlug(filter_var($data['ambitos'][$i], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH))
                 ]);
             }
             
         } else { // Si no existen los creamos todos 
             for ($i = 0; $i <= $nRows; $i++) {
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
-                    'nombre'=> $data['ambitos'][$i],
+                    'nombre'=> filter_var($data['ambitos'][$i], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH),
                     'descripcion'=> $data['descripcion'][$i],
-                    'slug'=> $this->createSlug($data['ambitos'][$i])
+                    'slug'=> $this->createSlug(filter_var($data['ambitos'][$i], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH))
                 ]);
             }
         }
@@ -114,9 +114,9 @@ class AmbitoController extends Controller
             'nombre' => 'required',
             'descripcion' => 'required',
         ]);
-        $ambito->nombre = $request['nombre'];
+        $ambito->nombre = filter_var($request['nombre'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
         $ambito->descripcion = $request['descripcion'];
-        $ambito->slug = $this->createSlug($request['nombre']);
+        $ambito->slug = $this->createSlug(filter_var($request['nombre'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH));
         $ambito->save();
         return redirect()->action([AmbitoController::class, 'index']);
     }

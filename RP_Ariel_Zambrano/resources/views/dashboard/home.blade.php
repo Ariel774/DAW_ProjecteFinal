@@ -6,7 +6,6 @@
 @section('content')
 <!-- Modal Boostrap -->
 <a href="#" class="btn btn-outline-info show-modal font-weight-bold" data-toggle="modal" data-target="#ambitModal"></span> Crear Àmbits</a>
-<a href="#update-ambito" class="btn btn-outline-success font-weight-bold" id="update-ambitos"></span> Actualitzar Àmbits</a>
 <div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -45,7 +44,7 @@
                                             placeholder='Nom àmbit' class="form-control @error('ambitos.{{$loop->index}}') is-invalid @enderror"
                                             {{ $loop->index < $ambitos->count() ? "readonly" : ''}}
                                             />
-                                            @error('ambitos.0')
+                                            @error('ambitos.{{$loop->index}}')
                                             <span class="invalid-feedback d-block" role="alert">
                                                 <strong>{{$message}}</strong>
                                             </span>
@@ -113,87 +112,6 @@
     <button>Àmbits</button>
 </div>
 </div>
-<!-- Tabla menu actualizar -->
-<div id="options-ambitos" class="container" style="display: none">
-    <div class="row clearfix">
-        <div class="col-md-12 table-responsive">
-            <table class="table table-bordered table-hover table-sortable" id="table-update">
-                <thead>
-                    <tr>
-                        <th class="text-center">
-                            Nom Àmbit
-                        </th>
-                        <th class="text-center">
-                            Descripció
-                        </th>
-                        <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($ambitos as $ambito)
-                    @php
-                    $number = $loop->index;
-                    @endphp
-                        <tr>
-                            <td>
-                                <input type="text" id="ambito_{{ $loop->index }}" name='ambito_{{ $loop->index }}' placeholder='Nom àmbit' class="form-control" value="{{ $ambito->nombre}}" readonly/>
-                            </td>
-                            <td>
-                                <textarea id="descripcion_{{ $loop->index }}" name="descripcion_{{ $loop->index }}" placeholder="Descripció" class="form-control" readonly>{{ $ambito->descripcion}}</textarea>
-                            </td>
-                            <td>
-                                @if($number > 2)
-                                <eliminar-ambito ambito-slug={{ $ambito->slug }}></eliminar-ambito> {{-- Componente Vue --}}
-                                @endif
-                                <button type="button" class="add-dataModal btn btn-primary" data-toggle="modal" data-target="#modificarAmbitoModal">
-                                    Modificar
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <!-- Inicio Modal Modificar Ámbito -->
-            <div class="modal fade" id="modificarAmbitoModal" tabindex="-1" role="dialog" aria-labelledby="modificarAmbitoModalTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modificar Àmbit</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" id="ambitoActual">
-                        <!-- Contenido del Modal -->
-                        <form action="{{ route('dashboard.ambitos.update', ['ambito' => $ambito->slug ]) }}" method="POST" novalidate>
-                            @csrf 
-                            @method('PUT')
-                            <div class="form-group">
-                              <label for="recipient-name" class="col-form-label">Àmbit:</label>
-                              <input type="text" class="form-control" id="nombre" name="nombre" value="holaa">
-                            </div>
-                            <div class="form-group">
-                              <label for="message-text" class="col-form-label">Descripció:</label>
-                              <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
-                            </div>
-                        </form>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                          <actualizar-ambito ambito-slug={{ $ambito->slug }}></actualizar-ambito>
-                        </div>
-                        <!-- Fin del contenido del Modal -->
-                    </div>
-                </div>
-                </div>
-            </div>
-            <!-- Fin Modal Modificar Ámbito -->
-        </div>
-    </div>
-</div>
-<a id="update-ambito"></a>
-<!--  Fin Tabla menu actualizar -->
 
 @endsection
 

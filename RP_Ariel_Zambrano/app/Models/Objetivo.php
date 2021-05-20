@@ -38,4 +38,9 @@ class Objetivo extends Model
     {
         return $this->belongsTo(User::class, 'user_id'); // FK de esta tabla
     }
+    /** Relacion 1:n  de Objetivo a Sub Objetivo*/
+    public function subObjetivos() 
+    {
+        return $this->hasMany(SubObjetivo::class,'objetivo_id'); // FK de esta tabla
+    }
 }

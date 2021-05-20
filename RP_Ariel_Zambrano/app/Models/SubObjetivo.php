@@ -22,4 +22,8 @@ class SubObjetivo extends Model
         'slug'
     ];
     use HasFactory;
+    public function objetivo() 
+    {
+        return $this->belongsTo(Objetivo::class, 'objetivo_id');
+    }
 }

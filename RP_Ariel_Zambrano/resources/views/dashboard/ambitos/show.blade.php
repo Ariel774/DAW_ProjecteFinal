@@ -92,10 +92,29 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-center">
-                                            {{ $ambito->nombre }}
+                                            <input 
+                                            id="nombre" 
+                                            name="nombre" 
+                                            value = "{{ $ambito->nombre }}" 
+                                            class="form-control @error('nombre') is-invalid @enderror" type="text"
+                                            placeholder="Nom"
+                                            >
+                                            @error('nombre')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{$message}}</strong>
+                                            </span>
+                                            @enderror
                                         </td>
                                         <td class="text-center">
-                                            {{ $ambito->descripcion }}
+                                            <textarea id="descripcion" 
+                                            placeholder="Descripció" 
+                                            name="descripcion" 
+                                            class="form-control @error('descripcion') is-invalid @enderror">{{ $ambito->descripcion }}</textarea>
+                                            @error('descripcion')
+                                            <span class="invalid-feedback d-block" role="alert">
+                                                <strong>{{$message}}</strong>
+                                            </span>
+                                            @enderror
                                         </td>
                                     </tr>
                                 </tbody>

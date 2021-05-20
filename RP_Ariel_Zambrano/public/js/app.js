@@ -1926,16 +1926,11 @@ __webpack_require__.r(__webpack_exports__);
               title: 'Àmbit eliminat',
               text: 'Se ha esborrar el àmbit',
               icon: 'success'
-            }); // Eliminar el ambito del DOM (de la págia)
-
-            /* Es parentNode se hace 3 veces porque partimos del input --> (1rpN)td --> (2ndpN)tr --> (3rdpN)tbody con esto estaremos en el TBODY
-            Se hace esto porque es recomendable eliminar desde el padre hacia el hijo
-            una vez estemos en el TBODY borraremos el child (removeChild) que será un TR (this.$el=input) --> (1rpN) td --> (2ndpN) tr
-            y eliminamos del TBODY hacia el hijo TR */
-            //this.$el.parentNode.parentNode.parentNode.removeChild(this.$el.parentNode.parentNode);
-
-
-            window.location.href = '/dashboard/home';
+            }).then(function (result) {
+              if (result.isConfirmed) {
+                window.location.href = '/dashboard/home';
+              }
+            });
           })["catch"](function (error) {
             console.log(error);
           });
