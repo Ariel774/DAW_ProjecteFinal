@@ -25,9 +25,9 @@ class ObjetivoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, Ambito $ambito)
+    public function create(Ambito $ambito, Objetivo $objetivo)
     {
-        return view('dashboard.objetivos.create', compact('ambito'));
+        return view('dashboard.objetivos.create', compact('ambito', 'objetivo'));
     }
 
     /**

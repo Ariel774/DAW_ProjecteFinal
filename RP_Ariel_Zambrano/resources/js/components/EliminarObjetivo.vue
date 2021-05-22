@@ -36,6 +36,7 @@
                                     icon: 'success'
                                     });
                                     this.$el.parentElement.parentElement.parentElement.parentElement.remove();
+                                    //this.$el.parentNode.parentNode.parentNode.parentNode.remove();
                                 })
                                 .catch(error => {
                                     console.log(error)

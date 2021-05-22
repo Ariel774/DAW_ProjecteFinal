@@ -22,7 +22,7 @@
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $objetivo->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">
-                <a href="{{ route('dashboard.subobjetivos.create', ['ambito' => $objetivo->ambitos, 'objetivo' => $objetivo->slug])}}" 
+                <a href="{{ route('dashboard.sub-objetivos.create', ['ambito' => $objetivo->ambitos->slug, 'objetivo' => $objetivo->slug])}}" 
                     type="button" class="btn btn-success">Crear Sub Objectiu</a>
             </div>
         </div>

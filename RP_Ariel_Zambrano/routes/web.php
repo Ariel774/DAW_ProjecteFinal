@@ -4,6 +4,7 @@ use App\Http\Controllers\AmbitoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObjetivoController;
+use App\Http\Controllers\SubObjetivoController;
 use App\Models\SubObjetivo;
 
 /*
@@ -44,7 +45,10 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::delete('/objetivos/{objetivo}', [ObjetivoController::class, 'destroy'])->name('objetivos.destroy');
     /** Objetivos */
     /** SubObjetivos */
-    Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/create', [SubObjetivo::class, 'create'])->name('subobjetivos.create');
+    Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/create', [SubObjetivoController::class, 'create'])->name('sub-objetivos.create');
+    Route::post('/ambitos/{ambito}/objetivos/{objetivo}/sub-objetivos/', [SubObjetivoController::class, 'store'])->name('sub-objetivos.store');
+
+    ///Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/sub-objetivos/create', [SubObjetivo::class, 'show'])->name('sub-objetivos.create');
     /** SubObjetivos */
 });
 

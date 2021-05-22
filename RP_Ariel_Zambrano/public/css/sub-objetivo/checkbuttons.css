@@ -1,0 +1,21 @@
+.weekDays-selector input {
+    display: none!important;
+  }
+  
+  .weekDays-selector input[type=checkbox] + label {
+    display: inline-block;
+    border-radius: 6px;
+    margin-left: 5px;
+    background: #dddddd;
+    height: 40px;
+    width: 70px;
+    text-align: center;    
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .weekDays-selector input[type=checkbox]:checked + label {
+    background: #00bded;
+    color: #ffffff;
+  }

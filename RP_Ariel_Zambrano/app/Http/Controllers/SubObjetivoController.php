@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ambito;
+use App\Models\Objetivo;
 use App\Models\SubObjetivo;
 use Illuminate\Http\Request;
 
@@ -22,9 +24,10 @@ class SubObjetivoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Ambito $ambito, Objetivo $objetivo)
     {
-        //
+        return view('dashboard.sub-objetivos.create', compact('ambito', 'objetivo'));
+
     }
 
     /**

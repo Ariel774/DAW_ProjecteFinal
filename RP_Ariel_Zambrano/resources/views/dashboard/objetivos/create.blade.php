@@ -9,10 +9,11 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->slug }}">{{ $ambito->nombre }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Crear Objectiu</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ $objetivo->nombre }}Crea Objectiu</li>
     </ol>
 </nav>
 <!-- Navegador -->
+<!-- Formulario -->
 <div class="form">
     <h2>Crear Objectiu</h2>
     <form  method="POST" action="{{ route('dashboard.objetivos.store',['ambito' => $ambito->slug]) }}" enctype="multipart/form-data" novalidate>
@@ -117,5 +118,6 @@
         <input type="submit" value="Crear Objectiu" class="btn btn-success">
     </form>
 </div>
+<!-- Formulario -->
 
 @endsection

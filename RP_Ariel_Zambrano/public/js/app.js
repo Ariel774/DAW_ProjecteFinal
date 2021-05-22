@@ -1997,7 +1997,8 @@ __webpack_require__.r(__webpack_exports__);
               icon: 'success'
             });
 
-            _this.$el.parentElement.parentElement.parentElement.parentElement.remove();
+            _this.$el.parentElement.parentElement.parentElement.parentElement.remove(); //this.$el.parentNode.parentNode.parentNode.parentNode.remove();
+
           })["catch"](function (error) {
             console.log(error);
           }); //this.$el.parentElement.parentElement.parentElement.parentElement.remove();
