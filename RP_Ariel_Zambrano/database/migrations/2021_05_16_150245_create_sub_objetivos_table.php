@@ -20,8 +20,8 @@ class CreateSubObjetivosTable extends Migration
             $table->integer('unidades_realizar')->comment("unidades a realizar sub objetivo");; // Numero de unidades máximas
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->foreignId('dia_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); // Llave foranea
-            $table->foreignId('objetivo_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); // Llave foranea
+            $table->foreignId('dia_id')->constrained(); // Llave foranea
+            $table->foreignId('objetivo_id')->constrained(); // Llave foranea
             $table->timestamps();
         });
     }

@@ -1,5 +1,7 @@
 .weekDays-selector input {
-    display: none!important;
+     display: none!important;
+     white-space: nowrap;
+
   }
   
   .weekDays-selector input[type=checkbox] + label {
@@ -8,7 +10,7 @@
     margin-left: 5px;
     background: #dddddd;
     height: 40px;
-    width: 70px;
+    width: 100px;
     text-align: center;    
     line-height: 40px;
     text-align: center;
@@ -19,3 +21,5 @@
     background: #00bded;
     color: #ffffff;
   }
+
+  

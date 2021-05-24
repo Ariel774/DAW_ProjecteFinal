@@ -10,16 +10,11 @@ class SubObjetivo extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'fecha_inicio',
-        'fecha_fin',
-        'ambito_id',
-        'porcentaje',
-        'finalizado',
-        'imagen',
-        'unidades_actuales',
-        'unidades_fin',
-        'unidad',
-        'slug'
+        'unidades_realizar',
+        'hora_inicio',
+        'hora_fin',
+        'dia_id',
+        'objetivo_id',
     ];
     use HasFactory;
     public function objetivo() 

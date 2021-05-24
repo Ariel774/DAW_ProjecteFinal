@@ -36,9 +36,27 @@ class SubObjetivoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Ambito $ambito, Objetivo $objetivo)
     {
-        //
+        request()->validate([ // Validaciones
+            'nombre' => 'required|min:6',
+            'hora_inicio' => 'required',
+            'hora_fin' => 'required',
+            'unidades_realizar' => 'required',
+            'dia' => 'required',
+        ]);
+        $arrayDay = $request['dia'];
+        foreach ($arrayDay as $dia_id) {
+            SubObjetivo::create([ // Insertar los campos en la base de datos
+                'nombre' => $request['nombre'],
+                'descripcion' => $request['descripcion'] ?? '',
+                'unidades_realizar' =>  $request['unidades_realizar'],
+                'hora_inicio' => $request['hora_inicio'],
+                'hora_fin' => $request['hora_fin'],
+                'dia_id' => $dia_id,
+                'objetivo_id' => $objetivo->id,
+            ]);
+        }    
     }
 
     /**

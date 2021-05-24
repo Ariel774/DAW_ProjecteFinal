@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AmbitoController;
+use App\Http\Controllers\CalendarioController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObjetivoController;
@@ -50,5 +51,15 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
 
     ///Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/sub-objetivos/create', [SubObjetivo::class, 'show'])->name('sub-objetivos.create');
     /** SubObjetivos */
+
+    /** Calendario */
+    Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
+    // Route::post('/calendario', [CalendarioController::class, 'store'])->name('calendario.store');
+    // Route::get('/calendario/{calendario}', [CalendarioController::class, 'show'])->name('calendario.show');
+    // Route::put('/calendario/{calendario}', [CalendarioController::class, 'update'])->name('calendario.update');
+    // Route::delete('/calendario/{calendario}', [CalendarioController::class, 'destroy'])->name('calendario.destroy');
+
+
+    /** Calendario */
 });
 

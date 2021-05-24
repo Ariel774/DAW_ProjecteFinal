@@ -31,6 +31,7 @@ Vue.component('eliminar-ambito', require('./components/EliminarAmbito.vue').defa
 Vue.component('actualizar-ambito', require('./components/ActualizarAmbito.vue').default)
 
 Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').default);
+Vue.component('calendario-component', require('./components/CalendarioComponent.vue').default);
 
 
 

@@ -58,21 +58,26 @@
             <div class="form-group row mt-1">
                 <label for="nombre">Escull un o més dies: </label>
                 <div class="weekDays-selector">
-                    <input type="checkbox" value=1 id="weekday-mon" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=1 id="weekday-mon" class="weekday" />
                     <label for="weekday-mon">Dilluns</label>
-                    <input type="checkbox" value=2 id="weekday-tue" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=2 id="weekday-tue" class="weekday" />
                     <label for="weekday-tue">Dimarts</label>
-                    <input type="checkbox" value=3 id="weekday-wed" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=3 id="weekday-wed" class="weekday" />
                     <label for="weekday-wed">Dimecres</label>
-                    <input type="checkbox" value=4 id="weekday-thu" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=4 id="weekday-thu" class="weekday" />
                     <label for="weekday-thu">Dijous</label>
-                    <input type="checkbox" value=5 id="weekday-fri" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=5 id="weekday-fri" class="weekday" />
                     <label for="weekday-fri">Divendres</label>
-                    <input type="checkbox" value=6 id="weekday-sat" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=6 id="weekday-sat" class="weekday" />
                     <label for="weekday-sat">Dissabte</label>
-                    <input type="checkbox" value=7 id="weekday-sun" class="weekday" />
+                    <input type="checkbox" name="dia[]" value=7 id="weekday-sun" class="weekday" />
                     <label for="weekday-sun">Diumenge</label>
                 </div>
+                @error('dia')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                @enderror
             </div>
         </div>
         <div class="form-group row  mt-1">
@@ -80,7 +85,8 @@
             <div class="col-md-4">
               <input 
               class="form-control @error('hora_inicio') is-invalid @enderror" 
-              name="hora_inicio" type="time" id="hora_inicio">
+              name="hora_inicio" type="time" id="hora_inicio"
+              value = "{{ old('hora_inicio') }}" >
               @error('hora_inicio')
               <span class="invalid-feedback d-block" role="alert">
                   <strong>{{$message}}</strong>
@@ -90,7 +96,8 @@
             <label for="hora_fin" class="col-2 col-form-label">Hora Fi: </label>
             <div class="col-md-4">
                 <input class="form-control @error('hora_fin') is-invalid @enderror" 
-                type="time" name="hora_fin" id="hora_fin">
+                type="time" name="hora_fin" id="hora_fin"
+                value = "{{ old('hora_fin') }}" >
                 @error('hora_fin')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>

@@ -99,7 +99,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-secondary">
+                                <a href="{{ route('dashboard.calendario.index') }}" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
                                             <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
