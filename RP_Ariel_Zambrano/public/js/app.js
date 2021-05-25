@@ -13267,6 +13267,1240 @@ var main = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_0__.createPlugin)({
 
 /***/ }),
 
+/***/ "./node_modules/@fullcalendar/timegrid/main.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@fullcalendar/timegrid/main.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "DayTimeCols": () => (/* binding */ DayTimeCols),
+/* harmony export */   "DayTimeColsSlicer": () => (/* binding */ DayTimeColsSlicer),
+/* harmony export */   "DayTimeColsView": () => (/* binding */ DayTimeColsView),
+/* harmony export */   "TimeCols": () => (/* binding */ TimeCols),
+/* harmony export */   "TimeColsSlatsCoords": () => (/* binding */ TimeColsSlatsCoords),
+/* harmony export */   "TimeColsView": () => (/* binding */ TimeColsView),
+/* harmony export */   "buildDayRanges": () => (/* binding */ buildDayRanges),
+/* harmony export */   "buildSlatMetas": () => (/* binding */ buildSlatMetas),
+/* harmony export */   "buildTimeColsModel": () => (/* binding */ buildTimeColsModel)
+/* harmony export */ });
+/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.css */ "./node_modules/@fullcalendar/timegrid/main.css");
+/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_main_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/common */ "./node_modules/@fullcalendar/common/main.js");
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
+/*!
+FullCalendar v5.7.0
+Docs & License: https://fullcalendar.io/
+(c) 2021 Adam Shaw
+*/
+
+
+
+
+
+
+var AllDaySplitter = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(AllDaySplitter, _super);
+    function AllDaySplitter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    AllDaySplitter.prototype.getKeyInfo = function () {
+        return {
+            allDay: {},
+            timed: {},
+        };
+    };
+    AllDaySplitter.prototype.getKeysForDateSpan = function (dateSpan) {
+        if (dateSpan.allDay) {
+            return ['allDay'];
+        }
+        return ['timed'];
+    };
+    AllDaySplitter.prototype.getKeysForEventDef = function (eventDef) {
+        if (!eventDef.allDay) {
+            return ['timed'];
+        }
+        if ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.hasBgRendering)(eventDef)) {
+            return ['timed', 'allDay'];
+        }
+        return ['allDay'];
+    };
+    return AllDaySplitter;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.Splitter));
+
+var DEFAULT_SLAT_LABEL_FORMAT = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createFormatter)({
+    hour: 'numeric',
+    minute: '2-digit',
+    omitZeroMinute: true,
+    meridiem: 'short',
+});
+function TimeColsAxisCell(props) {
+    var classNames = [
+        'fc-timegrid-slot',
+        'fc-timegrid-slot-label',
+        props.isLabeled ? 'fc-scrollgrid-shrink' : 'fc-timegrid-slot-minor',
+    ];
+    return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.ViewContextType.Consumer, null, function (context) {
+        if (!props.isLabeled) {
+            return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { className: classNames.join(' '), "data-time": props.isoTimeStr }));
+        }
+        var dateEnv = context.dateEnv, options = context.options, viewApi = context.viewApi;
+        var labelFormat = // TODO: fully pre-parse
+         options.slotLabelFormat == null ? DEFAULT_SLAT_LABEL_FORMAT :
+            Array.isArray(options.slotLabelFormat) ? (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createFormatter)(options.slotLabelFormat[0]) :
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createFormatter)(options.slotLabelFormat);
+        var hookProps = {
+            level: 0,
+            time: props.time,
+            date: dateEnv.toDate(props.date),
+            view: viewApi,
+            text: dateEnv.format(props.date, labelFormat),
+        };
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.RenderHook, { hookProps: hookProps, classNames: options.slotLabelClassNames, content: options.slotLabelContent, defaultContent: renderInnerContent, didMount: options.slotLabelDidMount, willUnmount: options.slotLabelWillUnmount }, function (rootElRef, customClassNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { ref: rootElRef, className: classNames.concat(customClassNames).join(' '), "data-time": props.isoTimeStr },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-slot-label-frame fc-scrollgrid-shrink-frame" },
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-slot-label-cushion fc-scrollgrid-shrink-cushion", ref: innerElRef }, innerContent)))); }));
+    }));
+}
+function renderInnerContent(props) {
+    return props.text;
+}
+
+var TimeBodyAxis = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeBodyAxis, _super);
+    function TimeBodyAxis() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TimeBodyAxis.prototype.render = function () {
+        return this.props.slatMetas.map(function (slatMeta) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", { key: slatMeta.key },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColsAxisCell, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, slatMeta)))); });
+    };
+    return TimeBodyAxis;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+
+var DEFAULT_WEEK_NUM_FORMAT = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createFormatter)({ week: 'short' });
+var AUTO_ALL_DAY_MAX_EVENT_ROWS = 5;
+var TimeColsView = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColsView, _super);
+    function TimeColsView() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.allDaySplitter = new AllDaySplitter(); // for use by subclasses
+        _this.headerElRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        _this.rootElRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        _this.scrollerElRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        _this.state = {
+            slatCoords: null,
+        };
+        _this.handleScrollTopRequest = function (scrollTop) {
+            var scrollerEl = _this.scrollerElRef.current;
+            if (scrollerEl) { // TODO: not sure how this could ever be null. weirdness with the reducer
+                scrollerEl.scrollTop = scrollTop;
+            }
+        };
+        /* Header Render Methods
+        ------------------------------------------------------------------------------------------------------------------*/
+        _this.renderHeadAxis = function (rowKey, frameHeight) {
+            if (frameHeight === void 0) { frameHeight = ''; }
+            var options = _this.context.options;
+            var dateProfile = _this.props.dateProfile;
+            var range = dateProfile.renderRange;
+            var dayCnt = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.diffDays)(range.start, range.end);
+            var navLinkAttrs = (options.navLinks && dayCnt === 1) // only do in day views (to avoid doing in week views that dont need it)
+                ? { 'data-navlink': (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.buildNavLinkData)(range.start, 'week'), tabIndex: 0 }
+                : {};
+            if (options.weekNumbers && rowKey === 'day') {
+                return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.WeekNumberRoot, { date: range.start, defaultFormat: DEFAULT_WEEK_NUM_FORMAT }, function (rootElRef, classNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("th", { ref: rootElRef, className: [
+                        'fc-timegrid-axis',
+                        'fc-scrollgrid-shrink',
+                    ].concat(classNames).join(' ') },
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-axis-frame fc-scrollgrid-shrink-frame fc-timegrid-axis-frame-liquid", style: { height: frameHeight } },
+                        (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ ref: innerElRef, className: "fc-timegrid-axis-cushion fc-scrollgrid-shrink-cushion fc-scrollgrid-sync-inner" }, navLinkAttrs), innerContent)))); }));
+            }
+            return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("th", { className: "fc-timegrid-axis" },
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-axis-frame", style: { height: frameHeight } })));
+        };
+        /* Table Component Render Methods
+        ------------------------------------------------------------------------------------------------------------------*/
+        // only a one-way height sync. we don't send the axis inner-content height to the DayGrid,
+        // but DayGrid still needs to have classNames on inner elements in order to measure.
+        _this.renderTableRowAxis = function (rowHeight) {
+            var _a = _this.context, options = _a.options, viewApi = _a.viewApi;
+            var hookProps = {
+                text: options.allDayText,
+                view: viewApi,
+            };
+            return (
+            // TODO: make reusable hook. used in list view too
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.RenderHook, { hookProps: hookProps, classNames: options.allDayClassNames, content: options.allDayContent, defaultContent: renderAllDayInner, didMount: options.allDayDidMount, willUnmount: options.allDayWillUnmount }, function (rootElRef, classNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { ref: rootElRef, className: [
+                    'fc-timegrid-axis',
+                    'fc-scrollgrid-shrink',
+                ].concat(classNames).join(' ') },
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: 'fc-timegrid-axis-frame fc-scrollgrid-shrink-frame' + (rowHeight == null ? ' fc-timegrid-axis-frame-liquid' : ''), style: { height: rowHeight } },
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", { className: "fc-timegrid-axis-cushion fc-scrollgrid-shrink-cushion fc-scrollgrid-sync-inner", ref: innerElRef }, innerContent)))); }));
+        };
+        _this.handleSlatCoords = function (slatCoords) {
+            _this.setState({ slatCoords: slatCoords });
+        };
+        return _this;
+    }
+    // rendering
+    // ----------------------------------------------------------------------------------------------------
+    TimeColsView.prototype.renderSimpleLayout = function (headerRowContent, allDayContent, timeContent) {
+        var _a = this, context = _a.context, props = _a.props;
+        var sections = [];
+        var stickyHeaderDates = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getStickyHeaderDates)(context.options);
+        if (headerRowContent) {
+            sections.push({
+                type: 'header',
+                key: 'header',
+                isSticky: stickyHeaderDates,
+                chunk: {
+                    elRef: this.headerElRef,
+                    tableClassName: 'fc-col-header',
+                    rowContent: headerRowContent,
+                },
+            });
+        }
+        if (allDayContent) {
+            sections.push({
+                type: 'body',
+                key: 'all-day',
+                chunk: { content: allDayContent },
+            });
+            sections.push({
+                type: 'body',
+                key: 'all-day-divider',
+                outerContent: ( // TODO: rename to cellContent so don't need to define <tr>?
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", { className: "fc-scrollgrid-section" },
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { className: 'fc-timegrid-divider ' + context.theme.getClass('tableCellShaded') }))),
+            });
+        }
+        sections.push({
+            type: 'body',
+            key: 'body',
+            liquid: true,
+            expandRows: Boolean(context.options.expandRows),
+            chunk: {
+                scrollerElRef: this.scrollerElRef,
+                content: timeContent,
+            },
+        });
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.ViewRoot, { viewSpec: context.viewSpec, elRef: this.rootElRef }, function (rootElRef, classNames) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: ['fc-timegrid'].concat(classNames).join(' '), ref: rootElRef },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.SimpleScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, collapsibleWidth: props.forPrint, cols: [{ width: 'shrink' }], sections: sections }))); }));
+    };
+    TimeColsView.prototype.renderHScrollLayout = function (headerRowContent, allDayContent, timeContent, colCnt, dayMinWidth, slatMetas, slatCoords) {
+        var _this = this;
+        var ScrollGrid = this.context.pluginHooks.scrollGridImpl;
+        if (!ScrollGrid) {
+            throw new Error('No ScrollGrid implementation');
+        }
+        var _a = this, context = _a.context, props = _a.props;
+        var stickyHeaderDates = !props.forPrint && (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getStickyHeaderDates)(context.options);
+        var stickyFooterScrollbar = !props.forPrint && (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getStickyFooterScrollbar)(context.options);
+        var sections = [];
+        if (headerRowContent) {
+            sections.push({
+                type: 'header',
+                key: 'header',
+                isSticky: stickyHeaderDates,
+                syncRowHeights: true,
+                chunks: [
+                    {
+                        key: 'axis',
+                        rowContent: function (arg) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", null, _this.renderHeadAxis('day', arg.rowSyncHeights[0]))); },
+                    },
+                    {
+                        key: 'cols',
+                        elRef: this.headerElRef,
+                        tableClassName: 'fc-col-header',
+                        rowContent: headerRowContent,
+                    },
+                ],
+            });
+        }
+        if (allDayContent) {
+            sections.push({
+                type: 'body',
+                key: 'all-day',
+                syncRowHeights: true,
+                chunks: [
+                    {
+                        key: 'axis',
+                        rowContent: function (contentArg) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", null, _this.renderTableRowAxis(contentArg.rowSyncHeights[0]))); },
+                    },
+                    {
+                        key: 'cols',
+                        content: allDayContent,
+                    },
+                ],
+            });
+            sections.push({
+                key: 'all-day-divider',
+                type: 'body',
+                outerContent: ( // TODO: rename to cellContent so don't need to define <tr>?
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", { className: "fc-scrollgrid-section" },
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { colSpan: 2, className: 'fc-timegrid-divider ' + context.theme.getClass('tableCellShaded') }))),
+            });
+        }
+        var isNowIndicator = context.options.nowIndicator;
+        sections.push({
+            type: 'body',
+            key: 'body',
+            liquid: true,
+            expandRows: Boolean(context.options.expandRows),
+            chunks: [
+                {
+                    key: 'axis',
+                    content: function (arg) { return (
+                    // TODO: make this now-indicator arrow more DRY with TimeColsContent
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-axis-chunk" },
+                        (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("table", { style: { height: arg.expandRows ? arg.clientHeight : '' } },
+                            arg.tableColGroupNode,
+                            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tbody", null,
+                                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeBodyAxis, { slatMetas: slatMetas }))),
+                        (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-now-indicator-container" },
+                            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.NowTimer, { unit: isNowIndicator ? 'minute' : 'day' /* hacky */ }, function (nowDate) {
+                                var nowIndicatorTop = isNowIndicator &&
+                                    slatCoords &&
+                                    slatCoords.safeComputeTop(nowDate); // might return void
+                                if (typeof nowIndicatorTop === 'number') {
+                                    return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.NowIndicatorRoot, { isAxis: true, date: nowDate }, function (rootElRef, classNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { ref: rootElRef, className: ['fc-timegrid-now-indicator-arrow'].concat(classNames).join(' '), style: { top: nowIndicatorTop } }, innerContent)); }));
+                                }
+                                return null;
+                            })))); },
+                },
+                {
+                    key: 'cols',
+                    scrollerElRef: this.scrollerElRef,
+                    content: timeContent,
+                },
+            ],
+        });
+        if (stickyFooterScrollbar) {
+            sections.push({
+                key: 'footer',
+                type: 'footer',
+                isSticky: true,
+                chunks: [
+                    {
+                        key: 'axis',
+                        content: _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.renderScrollShim,
+                    },
+                    {
+                        key: 'cols',
+                        content: _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.renderScrollShim,
+                    },
+                ],
+            });
+        }
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.ViewRoot, { viewSpec: context.viewSpec, elRef: this.rootElRef }, function (rootElRef, classNames) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: ['fc-timegrid'].concat(classNames).join(' '), ref: rootElRef },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(ScrollGrid, { liquid: !props.isHeightAuto && !props.forPrint, collapsibleWidth: false, colGroups: [
+                    { width: 'shrink', cols: [{ width: 'shrink' }] },
+                    { cols: [{ span: colCnt, minWidth: dayMinWidth }] },
+                ], sections: sections }))); }));
+    };
+    /* Dimensions
+    ------------------------------------------------------------------------------------------------------------------*/
+    TimeColsView.prototype.getAllDayMaxEventProps = function () {
+        var _a = this.context.options, dayMaxEvents = _a.dayMaxEvents, dayMaxEventRows = _a.dayMaxEventRows;
+        if (dayMaxEvents === true || dayMaxEventRows === true) { // is auto?
+            dayMaxEvents = undefined;
+            dayMaxEventRows = AUTO_ALL_DAY_MAX_EVENT_ROWS; // make sure "auto" goes to a real number
+        }
+        return { dayMaxEvents: dayMaxEvents, dayMaxEventRows: dayMaxEventRows };
+    };
+    return TimeColsView;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DateComponent));
+function renderAllDayInner(hookProps) {
+    return hookProps.text;
+}
+
+var TimeColsSlatsCoords = /** @class */ (function () {
+    function TimeColsSlatsCoords(positions, dateProfile, slotDuration) {
+        this.positions = positions;
+        this.dateProfile = dateProfile;
+        this.slotDuration = slotDuration;
+    }
+    TimeColsSlatsCoords.prototype.safeComputeTop = function (date) {
+        var dateProfile = this.dateProfile;
+        if ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.rangeContainsMarker)(dateProfile.currentRange, date)) {
+            var startOfDayDate = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.startOfDay)(date);
+            var timeMs = date.valueOf() - startOfDayDate.valueOf();
+            if (timeMs >= (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.asRoughMs)(dateProfile.slotMinTime) &&
+                timeMs < (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.asRoughMs)(dateProfile.slotMaxTime)) {
+                return this.computeTimeTop((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createDuration)(timeMs));
+            }
+        }
+        return null;
+    };
+    // Computes the top coordinate, relative to the bounds of the grid, of the given date.
+    // A `startOfDayDate` must be given for avoiding ambiguity over how to treat midnight.
+    TimeColsSlatsCoords.prototype.computeDateTop = function (when, startOfDayDate) {
+        if (!startOfDayDate) {
+            startOfDayDate = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.startOfDay)(when);
+        }
+        return this.computeTimeTop((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createDuration)(when.valueOf() - startOfDayDate.valueOf()));
+    };
+    // Computes the top coordinate, relative to the bounds of the grid, of the given time (a Duration).
+    // This is a makeshify way to compute the time-top. Assumes all slatMetas dates are uniform.
+    // Eventually allow computation with arbirary slat dates.
+    TimeColsSlatsCoords.prototype.computeTimeTop = function (duration) {
+        var _a = this, positions = _a.positions, dateProfile = _a.dateProfile;
+        var len = positions.els.length;
+        // floating-point value of # of slots covered
+        var slatCoverage = (duration.milliseconds - (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.asRoughMs)(dateProfile.slotMinTime)) / (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.asRoughMs)(this.slotDuration);
+        var slatIndex;
+        var slatRemainder;
+        // compute a floating-point number for how many slats should be progressed through.
+        // from 0 to number of slats (inclusive)
+        // constrained because slotMinTime/slotMaxTime might be customized.
+        slatCoverage = Math.max(0, slatCoverage);
+        slatCoverage = Math.min(len, slatCoverage);
+        // an integer index of the furthest whole slat
+        // from 0 to number slats (*exclusive*, so len-1)
+        slatIndex = Math.floor(slatCoverage);
+        slatIndex = Math.min(slatIndex, len - 1);
+        // how much further through the slatIndex slat (from 0.0-1.0) must be covered in addition.
+        // could be 1.0 if slatCoverage is covering *all* the slots
+        slatRemainder = slatCoverage - slatIndex;
+        return positions.tops[slatIndex] +
+            positions.getHeight(slatIndex) * slatRemainder;
+    };
+    return TimeColsSlatsCoords;
+}());
+
+var TimeColsSlatsBody = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColsSlatsBody, _super);
+    function TimeColsSlatsBody() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TimeColsSlatsBody.prototype.render = function () {
+        var _a = this, props = _a.props, context = _a.context;
+        var options = context.options;
+        var slatElRefs = props.slatElRefs;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tbody", null, props.slatMetas.map(function (slatMeta, i) {
+            var hookProps = {
+                time: slatMeta.time,
+                date: context.dateEnv.toDate(slatMeta.date),
+                view: context.viewApi,
+            };
+            var classNames = [
+                'fc-timegrid-slot',
+                'fc-timegrid-slot-lane',
+                slatMeta.isLabeled ? '' : 'fc-timegrid-slot-minor',
+            ];
+            return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", { key: slatMeta.key, ref: slatElRefs.createRef(slatMeta.key) },
+                props.axis && ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColsAxisCell, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, slatMeta))),
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.RenderHook, { hookProps: hookProps, classNames: options.slotLaneClassNames, content: options.slotLaneContent, didMount: options.slotLaneDidMount, willUnmount: options.slotLaneWillUnmount }, function (rootElRef, customClassNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { ref: rootElRef, className: classNames.concat(customClassNames).join(' '), "data-time": slatMeta.isoTimeStr }, innerContent)); })));
+        })));
+    };
+    return TimeColsSlatsBody;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+
+/*
+for the horizontal "slats" that run width-wise. Has a time axis on a side. Depends on RTL.
+*/
+var TimeColsSlats = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColsSlats, _super);
+    function TimeColsSlats() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.rootElRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        _this.slatElRefs = new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.RefMap();
+        return _this;
+    }
+    TimeColsSlats.prototype.render = function () {
+        var _a = this, props = _a.props, context = _a.context;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-slots", ref: this.rootElRef },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("table", { className: context.theme.getClass('table'), style: {
+                    minWidth: props.tableMinWidth,
+                    width: props.clientWidth,
+                    height: props.minHeight,
+                } },
+                props.tableColGroupNode /* relies on there only being a single <col> for the axis */,
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColsSlatsBody, { slatElRefs: this.slatElRefs, axis: props.axis, slatMetas: props.slatMetas }))));
+    };
+    TimeColsSlats.prototype.componentDidMount = function () {
+        this.updateSizing();
+    };
+    TimeColsSlats.prototype.componentDidUpdate = function () {
+        this.updateSizing();
+    };
+    TimeColsSlats.prototype.componentWillUnmount = function () {
+        if (this.props.onCoords) {
+            this.props.onCoords(null);
+        }
+    };
+    TimeColsSlats.prototype.updateSizing = function () {
+        var _a = this, context = _a.context, props = _a.props;
+        if (props.onCoords &&
+            props.clientWidth !== null // means sizing has stabilized
+        ) {
+            var rootEl = this.rootElRef.current;
+            if (rootEl.offsetHeight) { // not hidden by css
+                props.onCoords(new TimeColsSlatsCoords(new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.PositionCache(this.rootElRef.current, collectSlatEls(this.slatElRefs.currentMap, props.slatMetas), false, true), this.props.dateProfile, context.options.slotDuration));
+            }
+        }
+    };
+    return TimeColsSlats;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+function collectSlatEls(elMap, slatMetas) {
+    return slatMetas.map(function (slatMeta) { return elMap[slatMeta.key]; });
+}
+
+function splitSegsByCol(segs, colCnt) {
+    var segsByCol = [];
+    var i;
+    for (i = 0; i < colCnt; i += 1) {
+        segsByCol.push([]);
+    }
+    if (segs) {
+        for (i = 0; i < segs.length; i += 1) {
+            segsByCol[segs[i].col].push(segs[i]);
+        }
+    }
+    return segsByCol;
+}
+function splitInteractionByCol(ui, colCnt) {
+    var byRow = [];
+    if (!ui) {
+        for (var i = 0; i < colCnt; i += 1) {
+            byRow[i] = null;
+        }
+    }
+    else {
+        for (var i = 0; i < colCnt; i += 1) {
+            byRow[i] = {
+                affectedInstances: ui.affectedInstances,
+                isEvent: ui.isEvent,
+                segs: [],
+            };
+        }
+        for (var _i = 0, _a = ui.segs; _i < _a.length; _i++) {
+            var seg = _a[_i];
+            byRow[seg.col].segs.push(seg);
+        }
+    }
+    return byRow;
+}
+
+var TimeColMoreLink = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColMoreLink, _super);
+    function TimeColMoreLink() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.rootElRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        return _this;
+    }
+    TimeColMoreLink.prototype.render = function () {
+        var _this = this;
+        var props = this.props;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.MoreLinkRoot, { allDayDate: null, moreCnt: props.hiddenSegs.length, allSegs: props.hiddenSegs, hiddenSegs: props.hiddenSegs, alignmentElRef: this.rootElRef, defaultContent: renderMoreLinkInner, extraDateSpan: props.extraDateSpan, dateProfile: props.dateProfile, todayRange: props.todayRange, popoverContent: function () { return renderPlainFgSegs(props.hiddenSegs, props); } }, function (rootElRef, classNames, innerElRef, innerContent, handleClick) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", { ref: function (el) {
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.setRef)(rootElRef, el);
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.setRef)(_this.rootElRef, el);
+            }, className: ['fc-timegrid-more-link'].concat(classNames).join(' '), style: { top: props.top, bottom: props.bottom }, onClick: handleClick },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { ref: innerElRef, className: "fc-timegrid-more-link-inner fc-sticky" }, innerContent))); }));
+    };
+    return TimeColMoreLink;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+function renderMoreLinkInner(props) {
+    return props.shortText;
+}
+
+// segInputs assumed sorted
+function computeFgSegPlacements(segInputs, strictOrder, maxStackCnt) {
+    var hierarchy = new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.SegHierarchy();
+    if (strictOrder != null) {
+        hierarchy.strictOrder = strictOrder;
+    }
+    if (maxStackCnt != null) {
+        hierarchy.maxStackCnt = maxStackCnt;
+    }
+    var hiddenEntries = hierarchy.addSegs(segInputs);
+    var hiddenGroups = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.groupIntersectingEntries)(hiddenEntries);
+    var web = buildWeb(hierarchy);
+    web = stretchWeb(web, 1); // all levelCoords/thickness will have 0.0-1.0
+    var segRects = webToRects(web);
+    return { segRects: segRects, hiddenGroups: hiddenGroups };
+}
+function buildWeb(hierarchy) {
+    var entriesByLevel = hierarchy.entriesByLevel;
+    var buildNode = cacheable(function (level, lateral) { return level + ':' + lateral; }, function (level, lateral) {
+        var siblingRange = findNextLevelSegs(hierarchy, level, lateral);
+        var nextLevelRes = buildNodes(siblingRange, buildNode);
+        var entry = entriesByLevel[level][lateral];
+        return [
+            (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, entry), { nextLevelNodes: nextLevelRes[0] }),
+            entry.thickness + nextLevelRes[1],
+        ];
+    });
+    return buildNodes(entriesByLevel.length
+        ? { level: 0, lateralStart: 0, lateralEnd: entriesByLevel[0].length }
+        : null, buildNode)[0];
+}
+function buildNodes(siblingRange, buildNode) {
+    if (!siblingRange) {
+        return [[], 0];
+    }
+    var level = siblingRange.level, lateralStart = siblingRange.lateralStart, lateralEnd = siblingRange.lateralEnd;
+    var lateral = lateralStart;
+    var pairs = [];
+    while (lateral < lateralEnd) {
+        pairs.push(buildNode(level, lateral));
+        lateral += 1;
+    }
+    pairs.sort(cmpDescPressures);
+    return [
+        pairs.map(extractNode),
+        pairs[0][1],
+    ];
+}
+function cmpDescPressures(a, b) {
+    return b[1] - a[1];
+}
+function extractNode(a) {
+    return a[0];
+}
+function findNextLevelSegs(hierarchy, subjectLevel, subjectLateral) {
+    var levelCoords = hierarchy.levelCoords, entriesByLevel = hierarchy.entriesByLevel;
+    var subjectEntry = entriesByLevel[subjectLevel][subjectLateral];
+    var afterSubject = levelCoords[subjectLevel] + subjectEntry.thickness;
+    var levelCnt = levelCoords.length;
+    var level = subjectLevel;
+    // skip past levels that are too high up
+    for (; level < levelCnt && levelCoords[level] < afterSubject; level += 1)
+        ; // do nothing
+    for (; level < levelCnt; level += 1) {
+        var entries = entriesByLevel[level];
+        var entry = void 0;
+        var searchIndex = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.binarySearch)(entries, subjectEntry.spanStart, _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getEntrySpanEnd);
+        var lateralStart = searchIndex[0] + searchIndex[1]; // if exact match (which doesn't collide), go to next one
+        var lateralEnd = lateralStart;
+        while ( // loop through entries that horizontally intersect
+        (entry = entries[lateralEnd]) && // but not past the whole seg list
+            entry.spanStart < subjectEntry.spanEnd) {
+            lateralEnd += 1;
+        }
+        if (lateralStart < lateralEnd) {
+            return { level: level, lateralStart: lateralStart, lateralEnd: lateralEnd };
+        }
+    }
+    return null;
+}
+function stretchWeb(topLevelNodes, totalThickness) {
+    var stretchNode = cacheable(function (node, startCoord, prevThickness) { return (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.buildEntryKey)(node); }, function (node, startCoord, prevThickness) {
+        var nextLevelNodes = node.nextLevelNodes, thickness = node.thickness;
+        var allThickness = thickness + prevThickness;
+        var thicknessFraction = thickness / allThickness;
+        var endCoord;
+        var newChildren = [];
+        if (!nextLevelNodes.length) {
+            endCoord = totalThickness;
+        }
+        else {
+            for (var _i = 0, nextLevelNodes_1 = nextLevelNodes; _i < nextLevelNodes_1.length; _i++) {
+                var childNode = nextLevelNodes_1[_i];
+                if (endCoord === undefined) {
+                    var res = stretchNode(childNode, startCoord, allThickness);
+                    endCoord = res[0];
+                    newChildren.push(res[1]);
+                }
+                else {
+                    var res = stretchNode(childNode, endCoord, 0);
+                    newChildren.push(res[1]);
+                }
+            }
+        }
+        var newThickness = (endCoord - startCoord) * thicknessFraction;
+        return [endCoord - newThickness, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, node), { thickness: newThickness, nextLevelNodes: newChildren })];
+    });
+    return topLevelNodes.map(function (node) { return stretchNode(node, 0, 0)[1]; });
+}
+// not sorted in any particular order
+function webToRects(topLevelNodes) {
+    var rects = [];
+    var processNode = cacheable(function (node, levelCoord, stackDepth) { return (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.buildEntryKey)(node); }, function (node, levelCoord, stackDepth) {
+        var rect = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, node), { levelCoord: levelCoord,
+            stackDepth: stackDepth, stackForward: 0 });
+        rects.push(rect);
+        return (rect.stackForward = processNodes(node.nextLevelNodes, levelCoord + node.thickness, stackDepth + 1) + 1);
+    });
+    function processNodes(nodes, levelCoord, stackDepth) {
+        var stackForward = 0;
+        for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+            var node = nodes_1[_i];
+            stackForward = Math.max(processNode(node, levelCoord, stackDepth), stackForward);
+        }
+        return stackForward;
+    }
+    processNodes(topLevelNodes, 0, 0);
+    return rects; // TODO: sort rects by levelCoord to be consistent with toRects?
+}
+// TODO: move to general util
+function cacheable(keyFunc, workFunc) {
+    var cache = {};
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        var key = keyFunc.apply(void 0, args);
+        return (key in cache)
+            ? cache[key]
+            : (cache[key] = workFunc.apply(void 0, args));
+    };
+}
+
+var DEFAULT_TIME_FORMAT = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createFormatter)({
+    hour: 'numeric',
+    minute: '2-digit',
+    meridiem: false,
+});
+var TimeColEvent = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColEvent, _super);
+    function TimeColEvent() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TimeColEvent.prototype.render = function () {
+        var classNames = [
+            'fc-timegrid-event',
+            'fc-v-event',
+        ];
+        if (this.props.isShort) {
+            classNames.push('fc-timegrid-event-short');
+        }
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.StandardEvent, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, this.props, { defaultTimeFormat: DEFAULT_TIME_FORMAT, extraClassNames: classNames })));
+    };
+    return TimeColEvent;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+
+var TimeColMisc = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColMisc, _super);
+    function TimeColMisc() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TimeColMisc.prototype.render = function () {
+        var props = this.props;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DayCellContent, { date: props.date, dateProfile: props.dateProfile, todayRange: props.todayRange, extraHookProps: props.extraHookProps }, function (innerElRef, innerContent) { return (innerContent &&
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-col-misc", ref: innerElRef }, innerContent)); }));
+    };
+    return TimeColMisc;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+
+var TimeCol = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeCol, _super);
+    function TimeCol() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.sortEventSegs = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.sortEventSegs);
+        _this.computeFgSegPlacements = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(computeFgSegPlacements); // only for non-print, non-mirror
+        return _this;
+    }
+    TimeCol.prototype.render = function () {
+        var _this = this;
+        var _a = this, props = _a.props, context = _a.context;
+        var isSelectMirror = context.options.selectMirror;
+        var mirrorSegs = (props.eventDrag && props.eventDrag.segs) ||
+            (props.eventResize && props.eventResize.segs) ||
+            (isSelectMirror && props.dateSelectionSegs) ||
+            [];
+        var interactionAffectedInstances = // TODO: messy way to compute this
+         (props.eventDrag && props.eventDrag.affectedInstances) ||
+            (props.eventResize && props.eventResize.affectedInstances) ||
+            {};
+        var sortedFgSegs = this.sortEventSegs(props.fgEventSegs, context.options.eventOrder);
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DayCellRoot, { elRef: props.elRef, date: props.date, dateProfile: props.dateProfile, todayRange: props.todayRange, extraHookProps: props.extraHookProps }, function (rootElRef, classNames, dataAttrs) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ ref: rootElRef, className: ['fc-timegrid-col'].concat(classNames, props.extraClassNames || []).join(' ') }, dataAttrs, props.extraDataAttrs),
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-col-frame" },
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-col-bg" },
+                    _this.renderFillSegs(props.businessHourSegs, 'non-business'),
+                    _this.renderFillSegs(props.bgEventSegs, 'bg-event'),
+                    _this.renderFillSegs(props.dateSelectionSegs, 'highlight')),
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(sortedFgSegs, interactionAffectedInstances)),
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-col-events" }, _this.renderFgSegs(mirrorSegs, {}, Boolean(props.eventDrag), Boolean(props.eventResize), Boolean(isSelectMirror))),
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-now-indicator-container" }, _this.renderNowIndicator(props.nowIndicatorSegs)),
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColMisc, { date: props.date, dateProfile: props.dateProfile, todayRange: props.todayRange, extraHookProps: props.extraHookProps })))); }));
+    };
+    TimeCol.prototype.renderFgSegs = function (sortedFgSegs, segIsInvisible, isDragging, isResizing, isDateSelecting) {
+        var props = this.props;
+        if (props.forPrint) {
+            return renderPlainFgSegs(sortedFgSegs, props);
+        }
+        if (props.slatCoords) {
+            return this.renderPositionedFgSegs(sortedFgSegs, segIsInvisible, isDragging, isResizing, isDateSelecting);
+        }
+        return null;
+    };
+    TimeCol.prototype.renderPositionedFgSegs = function (segs, // if not mirror, needs to be sorted
+    segIsInvisible, isDragging, isResizing, isDateSelecting) {
+        var _this = this;
+        var _a = this.context.options, eventMaxStack = _a.eventMaxStack, eventShortHeight = _a.eventShortHeight, eventOrderStrict = _a.eventOrderStrict;
+        var _b = this.props, eventSelection = _b.eventSelection, todayRange = _b.todayRange, nowDate = _b.nowDate;
+        var isMirror = isDragging || isResizing || isDateSelecting;
+        var segInputs = this.buildSegInputs(segs);
+        var _c = isMirror ? computeFgSegPlacements(segInputs) : // don't use memoized
+            this.computeFgSegPlacements(segInputs, eventOrderStrict, eventMaxStack), segRects = _c.segRects, hiddenGroups = _c.hiddenGroups;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.Fragment, null,
+            this.renderHiddenGroups(hiddenGroups, segs),
+            segRects.map(function (segRect) {
+                var seg = segs[segRect.segInput.index];
+                var instanceId = seg.eventRange.instance.instanceId;
+                var positionCss = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)((0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, _this.computeSegTopBottomCss(segRect.segInput)), (isMirror ? { left: 0, right: 0 } : _this.computeSegLeftRightCss(segRect)));
+                return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: 'fc-timegrid-event-harness' + (segRect.stackForward > 0 ? ' fc-timegrid-event-harness-inset' : ''), key: instanceId, style: (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ visibility: segIsInvisible[instanceId] ? 'hidden' : '' }, positionCss) },
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColEvent, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ seg: seg, isDragging: isDragging, isResizing: isResizing, isDateSelecting: isDateSelecting, isSelected: instanceId === eventSelection, isShort: (segRect.spanEnd - segRect.spanStart) < eventShortHeight }, (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getSegMeta)(seg, todayRange, nowDate)))));
+            })));
+    };
+    // will already have eventMinHeight applied because segInputs already had it
+    TimeCol.prototype.renderHiddenGroups = function (hiddenGroups, segs) {
+        var _this = this;
+        var _a = this.props, extraDateSpan = _a.extraDateSpan, dateProfile = _a.dateProfile, todayRange = _a.todayRange, nowDate = _a.nowDate, eventSelection = _a.eventSelection, eventDrag = _a.eventDrag, eventResize = _a.eventResize;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, hiddenGroups.map(function (hiddenGroup) {
+            var positionCss = _this.computeSegTopBottomCss(hiddenGroup);
+            var hiddenSegs = compileSegsFromEntries(hiddenGroup.entries, segs);
+            return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColMoreLink, { key: (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.buildIsoString)((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.computeEarliestSegStart)(hiddenSegs)), hiddenSegs: hiddenSegs, top: positionCss.top, bottom: positionCss.bottom, extraDateSpan: extraDateSpan, dateProfile: dateProfile, todayRange: todayRange, nowDate: nowDate, eventSelection: eventSelection, eventDrag: eventDrag, eventResize: eventResize }));
+        })));
+    };
+    TimeCol.prototype.buildSegInputs = function (segs) {
+        var _a = this.props, date = _a.date, slatCoords = _a.slatCoords;
+        var eventMinHeight = this.context.options.eventMinHeight;
+        var segInputs = [];
+        for (var i = 0; i < segs.length; i += 1) {
+            var seg = segs[i];
+            var spanStart = slatCoords.computeDateTop(seg.start, date);
+            var spanEnd = Math.max(spanStart + (eventMinHeight || 0), // yuck
+            slatCoords.computeDateTop(seg.end, date));
+            segInputs.push({
+                index: i,
+                spanStart: Math.round(spanStart),
+                spanEnd: Math.round(spanEnd),
+                thickness: 1,
+            });
+        }
+        return segInputs;
+    };
+    TimeCol.prototype.renderFillSegs = function (segs, fillType) {
+        var _this = this;
+        var props = this.props;
+        if (!props.slatCoords) {
+            return null;
+        }
+        var segInputs = this.buildSegInputs(segs);
+        var children = segInputs.map(function (segInput) {
+            var seg = segs[segInput.index];
+            return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { key: (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.buildEventRangeKey)(seg.eventRange), className: "fc-timegrid-bg-harness", style: _this.computeSegTopBottomCss(segInput) }, fillType === 'bg-event' ?
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BgEvent, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ seg: seg }, (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getSegMeta)(seg, props.todayRange, props.nowDate))) :
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.renderFill)(fillType)));
+        });
+        return (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, children);
+    };
+    TimeCol.prototype.renderNowIndicator = function (segs) {
+        var _a = this.props, slatCoords = _a.slatCoords, date = _a.date;
+        if (!slatCoords) {
+            return null;
+        }
+        return segs.map(function (seg, i) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.NowIndicatorRoot, { isAxis: false, date: date, 
+            // key doesn't matter. will only ever be one
+            key: i }, function (rootElRef, classNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { ref: rootElRef, className: ['fc-timegrid-now-indicator-line'].concat(classNames).join(' '), style: { top: slatCoords.computeDateTop(seg.start, date) } }, innerContent)); })); });
+    };
+    TimeCol.prototype.computeSegTopBottomCss = function (segLike) {
+        return {
+            top: segLike.spanStart,
+            bottom: -segLike.spanEnd,
+        };
+    };
+    TimeCol.prototype.computeSegLeftRightCss = function (segRect) {
+        var _a = this.context, isRtl = _a.isRtl, options = _a.options;
+        var shouldOverlap = options.slotEventOverlap;
+        var nearCoord = segRect.levelCoord; // the left side if LTR. the right side if RTL. floating-point
+        var farCoord = segRect.levelCoord + segRect.thickness; // the right side if LTR. the left side if RTL. floating-point
+        var left; // amount of space from left edge, a fraction of the total width
+        var right; // amount of space from right edge, a fraction of the total width
+        if (shouldOverlap) {
+            // double the width, but don't go beyond the maximum forward coordinate (1.0)
+            farCoord = Math.min(1, nearCoord + (farCoord - nearCoord) * 2);
+        }
+        if (isRtl) {
+            left = 1 - farCoord;
+            right = nearCoord;
+        }
+        else {
+            left = nearCoord;
+            right = 1 - farCoord;
+        }
+        var props = {
+            zIndex: segRect.stackDepth + 1,
+            left: left * 100 + '%',
+            right: right * 100 + '%',
+        };
+        if (shouldOverlap && !segRect.stackForward) {
+            // add padding to the edge so that forward stacked events don't cover the resizer's icon
+            props[isRtl ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
+        }
+        return props;
+    };
+    return TimeCol;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+function renderPlainFgSegs(sortedFgSegs, _a) {
+    var todayRange = _a.todayRange, nowDate = _a.nowDate, eventSelection = _a.eventSelection, eventDrag = _a.eventDrag, eventResize = _a.eventResize;
+    var hiddenInstances = (eventDrag ? eventDrag.affectedInstances : null) ||
+        (eventResize ? eventResize.affectedInstances : null) ||
+        {};
+    return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, sortedFgSegs.map(function (seg) {
+        var instanceId = seg.eventRange.instance.instanceId;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { key: instanceId, style: { visibility: hiddenInstances[instanceId] ? 'hidden' : '' } },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColEvent, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ seg: seg, isDragging: false, isResizing: false, isDateSelecting: false, isSelected: instanceId === eventSelection, isShort: false }, (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.getSegMeta)(seg, todayRange, nowDate)))));
+    })));
+}
+function compileSegsFromEntries(segEntries, allSegs) {
+    return segEntries.map(function (segEntry) { return allSegs[segEntry.segInput.index]; });
+}
+
+var TimeColsContent = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeColsContent, _super);
+    function TimeColsContent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.splitFgEventSegs = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitSegsByCol);
+        _this.splitBgEventSegs = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitSegsByCol);
+        _this.splitBusinessHourSegs = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitSegsByCol);
+        _this.splitNowIndicatorSegs = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitSegsByCol);
+        _this.splitDateSelectionSegs = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitSegsByCol);
+        _this.splitEventDrag = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitInteractionByCol);
+        _this.splitEventResize = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(splitInteractionByCol);
+        _this.rootElRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        _this.cellElRefs = new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.RefMap();
+        return _this;
+    }
+    TimeColsContent.prototype.render = function () {
+        var _this = this;
+        var _a = this, props = _a.props, context = _a.context;
+        var nowIndicatorTop = context.options.nowIndicator &&
+            props.slatCoords &&
+            props.slatCoords.safeComputeTop(props.nowDate); // might return void
+        var colCnt = props.cells.length;
+        var fgEventSegsByRow = this.splitFgEventSegs(props.fgEventSegs, colCnt);
+        var bgEventSegsByRow = this.splitBgEventSegs(props.bgEventSegs, colCnt);
+        var businessHourSegsByRow = this.splitBusinessHourSegs(props.businessHourSegs, colCnt);
+        var nowIndicatorSegsByRow = this.splitNowIndicatorSegs(props.nowIndicatorSegs, colCnt);
+        var dateSelectionSegsByRow = this.splitDateSelectionSegs(props.dateSelectionSegs, colCnt);
+        var eventDragByRow = this.splitEventDrag(props.eventDrag, colCnt);
+        var eventResizeByRow = this.splitEventResize(props.eventResize, colCnt);
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-cols", ref: this.rootElRef },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("table", { style: {
+                    minWidth: props.tableMinWidth,
+                    width: props.clientWidth,
+                } },
+                props.tableColGroupNode,
+                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tbody", null,
+                    (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("tr", null,
+                        props.axis && ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("td", { className: "fc-timegrid-col fc-timegrid-axis" },
+                            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-col-frame" },
+                                (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-now-indicator-container" }, typeof nowIndicatorTop === 'number' && ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.NowIndicatorRoot, { isAxis: true, date: props.nowDate }, function (rootElRef, classNames, innerElRef, innerContent) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { ref: rootElRef, className: ['fc-timegrid-now-indicator-arrow'].concat(classNames).join(' '), style: { top: nowIndicatorTop } }, innerContent)); })))))),
+                        props.cells.map(function (cell, i) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeCol, { key: cell.key, elRef: _this.cellElRefs.createRef(cell.key), dateProfile: props.dateProfile, date: cell.date, nowDate: props.nowDate, todayRange: props.todayRange, extraHookProps: cell.extraHookProps, extraDataAttrs: cell.extraDataAttrs, extraClassNames: cell.extraClassNames, extraDateSpan: cell.extraDateSpan, fgEventSegs: fgEventSegsByRow[i], bgEventSegs: bgEventSegsByRow[i], businessHourSegs: businessHourSegsByRow[i], nowIndicatorSegs: nowIndicatorSegsByRow[i], dateSelectionSegs: dateSelectionSegsByRow[i], eventDrag: eventDragByRow[i], eventResize: eventResizeByRow[i], slatCoords: props.slatCoords, eventSelection: props.eventSelection, forPrint: props.forPrint })); }))))));
+    };
+    TimeColsContent.prototype.componentDidMount = function () {
+        this.updateCoords();
+    };
+    TimeColsContent.prototype.componentDidUpdate = function () {
+        this.updateCoords();
+    };
+    TimeColsContent.prototype.updateCoords = function () {
+        var props = this.props;
+        if (props.onColCoords &&
+            props.clientWidth !== null // means sizing has stabilized
+        ) {
+            props.onColCoords(new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.PositionCache(this.rootElRef.current, collectCellEls(this.cellElRefs.currentMap, props.cells), true, // horizontal
+            false));
+        }
+    };
+    return TimeColsContent;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.BaseComponent));
+function collectCellEls(elMap, cells) {
+    return cells.map(function (cell) { return elMap[cell.key]; });
+}
+
+/* A component that renders one or more columns of vertical time slots
+----------------------------------------------------------------------------------------------------------------------*/
+var TimeCols = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(TimeCols, _super);
+    function TimeCols() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.processSlotOptions = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(processSlotOptions);
+        _this.state = {
+            slatCoords: null,
+        };
+        _this.handleRootEl = function (el) {
+            if (el) {
+                _this.context.registerInteractiveComponent(_this, {
+                    el: el,
+                    isHitComboAllowed: _this.props.isHitComboAllowed,
+                });
+            }
+            else {
+                _this.context.unregisterInteractiveComponent(_this);
+            }
+        };
+        _this.handleScrollRequest = function (request) {
+            var onScrollTopRequest = _this.props.onScrollTopRequest;
+            var slatCoords = _this.state.slatCoords;
+            if (onScrollTopRequest && slatCoords) {
+                if (request.time) {
+                    var top_1 = slatCoords.computeTimeTop(request.time);
+                    top_1 = Math.ceil(top_1); // zoom can give weird floating-point values. rather scroll a little bit further
+                    if (top_1) {
+                        top_1 += 1; // to overcome top border that slots beyond the first have. looks better
+                    }
+                    onScrollTopRequest(top_1);
+                }
+                return true;
+            }
+            return false;
+        };
+        _this.handleColCoords = function (colCoords) {
+            _this.colCoords = colCoords;
+        };
+        _this.handleSlatCoords = function (slatCoords) {
+            _this.setState({ slatCoords: slatCoords });
+            if (_this.props.onSlatCoords) {
+                _this.props.onSlatCoords(slatCoords);
+            }
+        };
+        return _this;
+    }
+    TimeCols.prototype.render = function () {
+        var _a = this, props = _a.props, state = _a.state;
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", { className: "fc-timegrid-body", ref: this.handleRootEl, style: {
+                // these props are important to give this wrapper correct dimensions for interactions
+                // TODO: if we set it here, can we avoid giving to inner tables?
+                width: props.clientWidth,
+                minWidth: props.tableMinWidth,
+            } },
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColsSlats, { axis: props.axis, dateProfile: props.dateProfile, slatMetas: props.slatMetas, clientWidth: props.clientWidth, minHeight: props.expandRows ? props.clientHeight : '', tableMinWidth: props.tableMinWidth, tableColGroupNode: props.axis ? props.tableColGroupNode : null /* axis depends on the colgroup's shrinking */, onCoords: this.handleSlatCoords }),
+            (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeColsContent, { cells: props.cells, axis: props.axis, dateProfile: props.dateProfile, businessHourSegs: props.businessHourSegs, bgEventSegs: props.bgEventSegs, fgEventSegs: props.fgEventSegs, dateSelectionSegs: props.dateSelectionSegs, eventSelection: props.eventSelection, eventDrag: props.eventDrag, eventResize: props.eventResize, todayRange: props.todayRange, nowDate: props.nowDate, nowIndicatorSegs: props.nowIndicatorSegs, clientWidth: props.clientWidth, tableMinWidth: props.tableMinWidth, tableColGroupNode: props.tableColGroupNode, slatCoords: state.slatCoords, onColCoords: this.handleColCoords, forPrint: props.forPrint })));
+    };
+    TimeCols.prototype.componentDidMount = function () {
+        this.scrollResponder = this.context.createScrollResponder(this.handleScrollRequest);
+    };
+    TimeCols.prototype.componentDidUpdate = function (prevProps) {
+        this.scrollResponder.update(prevProps.dateProfile !== this.props.dateProfile);
+    };
+    TimeCols.prototype.componentWillUnmount = function () {
+        this.scrollResponder.detach();
+    };
+    TimeCols.prototype.queryHit = function (positionLeft, positionTop) {
+        var _a = this.context, dateEnv = _a.dateEnv, options = _a.options;
+        var colCoords = this.colCoords;
+        var dateProfile = this.props.dateProfile;
+        var slatCoords = this.state.slatCoords;
+        var _b = this.processSlotOptions(this.props.slotDuration, options.snapDuration), snapDuration = _b.snapDuration, snapsPerSlot = _b.snapsPerSlot;
+        var colIndex = colCoords.leftToIndex(positionLeft);
+        var slatIndex = slatCoords.positions.topToIndex(positionTop);
+        if (colIndex != null && slatIndex != null) {
+            var cell = this.props.cells[colIndex];
+            var slatTop = slatCoords.positions.tops[slatIndex];
+            var slatHeight = slatCoords.positions.getHeight(slatIndex);
+            var partial = (positionTop - slatTop) / slatHeight; // floating point number between 0 and 1
+            var localSnapIndex = Math.floor(partial * snapsPerSlot); // the snap # relative to start of slat
+            var snapIndex = slatIndex * snapsPerSlot + localSnapIndex;
+            var dayDate = this.props.cells[colIndex].date;
+            var time = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.addDurations)(dateProfile.slotMinTime, (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.multiplyDuration)(snapDuration, snapIndex));
+            var start = dateEnv.add(dayDate, time);
+            var end = dateEnv.add(start, snapDuration);
+            return {
+                dateProfile: dateProfile,
+                dateSpan: (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ range: { start: start, end: end }, allDay: false }, cell.extraDateSpan),
+                dayEl: colCoords.els[colIndex],
+                rect: {
+                    left: colCoords.lefts[colIndex],
+                    right: colCoords.rights[colIndex],
+                    top: slatTop,
+                    bottom: slatTop + slatHeight,
+                },
+                layer: 0,
+            };
+        }
+        return null;
+    };
+    return TimeCols;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DateComponent));
+function processSlotOptions(slotDuration, snapDurationOverride) {
+    var snapDuration = snapDurationOverride || slotDuration;
+    var snapsPerSlot = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.wholeDivideDurations)(slotDuration, snapDuration);
+    if (snapsPerSlot === null) {
+        snapDuration = slotDuration;
+        snapsPerSlot = 1;
+        // TODO: say warning?
+    }
+    return { snapDuration: snapDuration, snapsPerSlot: snapsPerSlot };
+}
+
+var DayTimeColsSlicer = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(DayTimeColsSlicer, _super);
+    function DayTimeColsSlicer() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    DayTimeColsSlicer.prototype.sliceRange = function (range, dayRanges) {
+        var segs = [];
+        for (var col = 0; col < dayRanges.length; col += 1) {
+            var segRange = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.intersectRanges)(range, dayRanges[col]);
+            if (segRange) {
+                segs.push({
+                    start: segRange.start,
+                    end: segRange.end,
+                    isStart: segRange.start.valueOf() === range.start.valueOf(),
+                    isEnd: segRange.end.valueOf() === range.end.valueOf(),
+                    col: col,
+                });
+            }
+        }
+        return segs;
+    };
+    return DayTimeColsSlicer;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.Slicer));
+
+var DayTimeCols = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(DayTimeCols, _super);
+    function DayTimeCols() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.buildDayRanges = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(buildDayRanges);
+        _this.slicer = new DayTimeColsSlicer();
+        _this.timeColsRef = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createRef)();
+        return _this;
+    }
+    DayTimeCols.prototype.render = function () {
+        var _this = this;
+        var _a = this, props = _a.props, context = _a.context;
+        var dateProfile = props.dateProfile, dayTableModel = props.dayTableModel;
+        var isNowIndicator = context.options.nowIndicator;
+        var dayRanges = this.buildDayRanges(dayTableModel, dateProfile, context.dateEnv);
+        // give it the first row of cells
+        // TODO: would move this further down hierarchy, but sliceNowDate needs it
+        return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.NowTimer, { unit: isNowIndicator ? 'minute' : 'day' }, function (nowDate, todayRange) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(TimeCols, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({ ref: _this.timeColsRef }, _this.slicer.sliceProps(props, dateProfile, null, context, dayRanges), { forPrint: props.forPrint, axis: props.axis, dateProfile: dateProfile, slatMetas: props.slatMetas, slotDuration: props.slotDuration, cells: dayTableModel.cells[0], tableColGroupNode: props.tableColGroupNode, tableMinWidth: props.tableMinWidth, clientWidth: props.clientWidth, clientHeight: props.clientHeight, expandRows: props.expandRows, nowDate: nowDate, nowIndicatorSegs: isNowIndicator && _this.slicer.sliceNowDate(nowDate, context, dayRanges), todayRange: todayRange, onScrollTopRequest: props.onScrollTopRequest, onSlatCoords: props.onSlatCoords }))); }));
+    };
+    return DayTimeCols;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DateComponent));
+function buildDayRanges(dayTableModel, dateProfile, dateEnv) {
+    var ranges = [];
+    for (var _i = 0, _a = dayTableModel.headerDates; _i < _a.length; _i++) {
+        var date = _a[_i];
+        ranges.push({
+            start: dateEnv.add(date, dateProfile.slotMinTime),
+            end: dateEnv.add(date, dateProfile.slotMaxTime),
+        });
+    }
+    return ranges;
+}
+
+// potential nice values for the slot-duration and interval-duration
+// from largest to smallest
+var STOCK_SUB_DURATIONS = [
+    { hours: 1 },
+    { minutes: 30 },
+    { minutes: 15 },
+    { seconds: 30 },
+    { seconds: 15 },
+];
+function buildSlatMetas(slotMinTime, slotMaxTime, explicitLabelInterval, slotDuration, dateEnv) {
+    var dayStart = new Date(0);
+    var slatTime = slotMinTime;
+    var slatIterator = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createDuration)(0);
+    var labelInterval = explicitLabelInterval || computeLabelInterval(slotDuration);
+    var metas = [];
+    while ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.asRoughMs)(slatTime) < (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.asRoughMs)(slotMaxTime)) {
+        var date = dateEnv.add(dayStart, slatTime);
+        var isLabeled = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.wholeDivideDurations)(slatIterator, labelInterval) !== null;
+        metas.push({
+            date: date,
+            time: slatTime,
+            key: date.toISOString(),
+            isoTimeStr: (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.formatIsoTimeString)(date),
+            isLabeled: isLabeled,
+        });
+        slatTime = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.addDurations)(slatTime, slotDuration);
+        slatIterator = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.addDurations)(slatIterator, slotDuration);
+    }
+    return metas;
+}
+// Computes an automatic value for slotLabelInterval
+function computeLabelInterval(slotDuration) {
+    var i;
+    var labelInterval;
+    var slotsPerLabel;
+    // find the smallest stock label interval that results in more than one slots-per-label
+    for (i = STOCK_SUB_DURATIONS.length - 1; i >= 0; i -= 1) {
+        labelInterval = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createDuration)(STOCK_SUB_DURATIONS[i]);
+        slotsPerLabel = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.wholeDivideDurations)(labelInterval, slotDuration);
+        if (slotsPerLabel !== null && slotsPerLabel > 1) {
+            return labelInterval;
+        }
+    }
+    return slotDuration; // fall back
+}
+
+var DayTimeColsView = /** @class */ (function (_super) {
+    (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__extends)(DayTimeColsView, _super);
+    function DayTimeColsView() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.buildTimeColsModel = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(buildTimeColsModel);
+        _this.buildSlatMetas = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.memoize)(buildSlatMetas);
+        return _this;
+    }
+    DayTimeColsView.prototype.render = function () {
+        var _this = this;
+        var _a = this.context, options = _a.options, dateEnv = _a.dateEnv, dateProfileGenerator = _a.dateProfileGenerator;
+        var props = this.props;
+        var dateProfile = props.dateProfile;
+        var dayTableModel = this.buildTimeColsModel(dateProfile, dateProfileGenerator);
+        var splitProps = this.allDaySplitter.splitProps(props);
+        var slatMetas = this.buildSlatMetas(dateProfile.slotMinTime, dateProfile.slotMaxTime, options.slotLabelInterval, options.slotDuration, dateEnv);
+        var dayMinWidth = options.dayMinWidth;
+        var hasAttachedAxis = !dayMinWidth;
+        var hasDetachedAxis = dayMinWidth;
+        var headerContent = options.dayHeaders && ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DayHeader, { dates: dayTableModel.headerDates, dateProfile: dateProfile, datesRepDistinctDays: true, renderIntro: hasAttachedAxis ? this.renderHeadAxis : null }));
+        var allDayContent = (options.allDaySlot !== false) && (function (contentArg) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__.DayTable, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, splitProps.allDay, { dateProfile: dateProfile, dayTableModel: dayTableModel, nextDayThreshold: options.nextDayThreshold, tableMinWidth: contentArg.tableMinWidth, colGroupNode: contentArg.tableColGroupNode, renderRowIntro: hasAttachedAxis ? _this.renderTableRowAxis : null, showWeekNumbers: false, expandRows: false, headerAlignElRef: _this.headerElRef, clientWidth: contentArg.clientWidth, clientHeight: contentArg.clientHeight, forPrint: props.forPrint }, _this.getAllDayMaxEventProps()))); });
+        var timeGridContent = function (contentArg) { return ((0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createElement)(DayTimeCols, (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__assign)({}, splitProps.timed, { dayTableModel: dayTableModel, dateProfile: dateProfile, axis: hasAttachedAxis, slotDuration: options.slotDuration, slatMetas: slatMetas, forPrint: props.forPrint, tableColGroupNode: contentArg.tableColGroupNode, tableMinWidth: contentArg.tableMinWidth, clientWidth: contentArg.clientWidth, clientHeight: contentArg.clientHeight, onSlatCoords: _this.handleSlatCoords, expandRows: contentArg.expandRows, onScrollTopRequest: _this.handleScrollTopRequest }))); };
+        return hasDetachedAxis
+            ? this.renderHScrollLayout(headerContent, allDayContent, timeGridContent, dayTableModel.colCnt, dayMinWidth, slatMetas, this.state.slatCoords)
+            : this.renderSimpleLayout(headerContent, allDayContent, timeGridContent);
+    };
+    return DayTimeColsView;
+}(TimeColsView));
+function buildTimeColsModel(dateProfile, dateProfileGenerator) {
+    var daySeries = new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DaySeriesModel(dateProfile.renderRange, dateProfileGenerator);
+    return new _fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.DayTableModel(daySeries, false);
+}
+
+var OPTION_REFINERS = {
+    allDaySlot: Boolean,
+};
+
+var main = (0,_fullcalendar_common__WEBPACK_IMPORTED_MODULE_1__.createPlugin)({
+    initialView: 'timeGridWeek',
+    optionRefiners: OPTION_REFINERS,
+    views: {
+        timeGrid: {
+            component: DayTimeColsView,
+            usesMinMaxTime: true,
+            allDaySlot: true,
+            slotDuration: '00:30:00',
+            slotEventOverlap: true,
+        },
+        timeGridDay: {
+            type: 'timeGrid',
+            duration: { days: 1 },
+        },
+        timeGridWeek: {
+            type: 'timeGrid',
+            duration: { weeks: 1 },
+        },
+    },
+});
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (main);
+
+//# sourceMappingURL=main.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@fullcalendar/vue/dist/FullCalendar.js":
 /*!*************************************************************!*\
   !*** ./node_modules/@fullcalendar/vue/dist/FullCalendar.js ***!
@@ -15683,6 +16917,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fullcalendar/vue */ "./node_modules/@fullcalendar/vue/dist/main.js");
 /* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
 /* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
+/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -15694,34 +16988,65 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       calendarOptions: {
-        plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__.default, _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_2__.default],
+        // Plugins
+        plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__.default, _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_2__.default, _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__.default],
+        // Botones del calendario
+        headerToolbar: {
+          left: 'dayGridMonth,timeGridWeek,timeGridDay',
+          center: 'title',
+          right: 'prevYear,prev,next,nextYear'
+        },
+        // Tamaño del calendario
+        height: 750,
+        // Por defecto ver el mes
         initialView: 'dayGridMonth',
-        dateClick: this.handleDateClick,
         events: [{
-          title: 'event 1',
-          date: '2021-05-22'
-        }, {
-          title: 'event 3',
-          date: '2021-05-22'
-        }, {
-          title: 'event 1',
-          date: '2021-05-22'
-        }, {
-          title: 'event 1',
-          date: '2021-05-22'
-        }, {
-          title: 'event 1',
-          date: '2021-05-22'
-        }, {
-          title: 'event 2',
-          date: '2019-04-02'
-        }]
+          title: 'Programar',
+          start: '2021-05-23',
+          end: '2021-06-24',
+          daysOfWeek: ['4'],
+          startTime: '18:00',
+          endTime: '21:00',
+          color: 'green'
+        } // {
+        // title: 'event with URL',
+        // url: 'https://www.google.com/',
+        // start: '2021-05-29'
+        // },
+        ],
+        dayMaxEvents: true,
+        weekends: true,
+        selectable: true,
+        editable: false,
+        eventTimeFormat: {
+          // like '14:30:00'
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        },
+        eventClick: function eventClick(info) {
+          var eventObj = info.event;
+
+          if (eventObj.url) {
+            alert('Clicked ' + eventObj.title + '.\n' + 'Will open ' + eventObj.url + ' in a new tab');
+          }
+        }
       }
     };
   },
   methods: {
-    handleDateClick: function handleDateClick(arg) {
-      alert('date click! ' + arg.dateStr);
+    addNewEvent: function addNewEvent() {
+      var _this = this;
+
+      axios.post("/dashboard/calendario", _objectSpread({}, this.newEvent)).then(function (data) {
+        _this.getEvents(); // update our list of events
+
+
+        _this.resetForm(); // clear newEvent properties (e.g. title, start_date and end_date)
+
+      })["catch"](function (err) {
+        return console.log("Unable to add new event!", err.response.data);
+      });
     }
   }
 });
@@ -15852,8 +17177,9 @@ __webpack_require__.r(__webpack_exports__);
               icon: 'success'
             });
 
-            _this.$el.parentElement.parentElement.parentElement.parentElement.remove(); //this.$el.parentNode.parentNode.parentNode.parentNode.remove();
+            _this.$el.parentElement.parentElement.parentElement.parentElement.remove();
 
+            _this.$el.child; //this.$el.parentNode.parentNode.parentNode.parentNode.remove();
           })["catch"](function (error) {
             console.log(error);
           }); //this.$el.parentElement.parentElement.parentElement.parentElement.remove();
@@ -20457,7 +21783,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* classes attached to <body> */\n\n.fc-not-allowed,\n.fc-not-allowed .fc-event { /* override events' custom cursors */\n  cursor: not-allowed;\n}\n\n.fc-unselectable {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  -webkit-touch-callout: none;\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n}\n.fc {\n  /* layout of immediate children */\n  display: flex;\n  flex-direction: column;\n\n  font-size: 1em\n}\n.fc,\n  .fc *,\n  .fc *:before,\n  .fc *:after {\n    box-sizing: border-box;\n  }\n.fc table {\n    border-collapse: collapse;\n    border-spacing: 0;\n    font-size: 1em; /* normalize cross-browser */\n  }\n.fc th {\n    text-align: center;\n  }\n.fc th,\n  .fc td {\n    vertical-align: top;\n    padding: 0;\n  }\n.fc a[data-navlink] {\n    cursor: pointer;\n  }\n.fc a[data-navlink]:hover {\n    text-decoration: underline;\n  }\n.fc-direction-ltr {\n  direction: ltr;\n  text-align: left;\n}\n.fc-direction-rtl {\n  direction: rtl;\n  text-align: right;\n}\n.fc-theme-standard td,\n  .fc-theme-standard th {\n    border: 1px solid #ddd;\n    border: 1px solid var(--fc-border-color, #ddd);\n  }\n/* for FF, which doesn't expand a 100% div within a table cell. use absolute positioning */\n/* inner-wrappers are responsible for being absolute */\n/* TODO: best place for this? */\n.fc-liquid-hack td,\n  .fc-liquid-hack th {\n    position: relative;\n  }\n\n@font-face {\n  font-family: 'fcicons';\n  src: url(\"data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBfAAAAC8AAAAYGNtYXAXVtKNAAABHAAAAFRnYXNwAAAAEAAAAXAAAAAIZ2x5ZgYydxIAAAF4AAAFNGhlYWQUJ7cIAAAGrAAAADZoaGVhB20DzAAABuQAAAAkaG10eCIABhQAAAcIAAAALGxvY2ED4AU6AAAHNAAAABhtYXhwAA8AjAAAB0wAAAAgbmFtZXsr690AAAdsAAABhnBvc3QAAwAAAAAI9AAAACAAAwPAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpBgPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAOAAAAAoACAACAAIAAQAg6Qb//f//AAAAAAAg6QD//f//AAH/4xcEAAMAAQAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAABAWIAjQKeAskAEwAAJSc3NjQnJiIHAQYUFwEWMjc2NCcCnuLiDQ0MJAz/AA0NAQAMJAwNDcni4gwjDQwM/wANIwz/AA0NDCMNAAAAAQFiAI0CngLJABMAACUBNjQnASYiBwYUHwEHBhQXFjI3AZ4BAA0N/wAMJAwNDeLiDQ0MJAyNAQAMIw0BAAwMDSMM4uINIwwNDQAAAAIA4gC3Ax4CngATACcAACUnNzY0JyYiDwEGFB8BFjI3NjQnISc3NjQnJiIPAQYUHwEWMjc2NCcB87e3DQ0MIw3VDQ3VDSMMDQ0BK7e3DQ0MJAzVDQ3VDCQMDQ3zuLcMJAwNDdUNIwzWDAwNIwy4twwkDA0N1Q0jDNYMDA0jDAAAAgDiALcDHgKeABMAJwAAJTc2NC8BJiIHBhQfAQcGFBcWMjchNzY0LwEmIgcGFB8BBwYUFxYyNwJJ1Q0N1Q0jDA0Nt7cNDQwjDf7V1Q0N1QwkDA0Nt7cNDQwkDLfWDCMN1Q0NDCQMt7gMIw0MDNYMIw3VDQ0MJAy3uAwjDQwMAAADAFUAAAOrA1UAMwBoAHcAABMiBgcOAQcOAQcOARURFBYXHgEXHgEXHgEzITI2Nz4BNz4BNz4BNRE0JicuAScuAScuASMFITIWFx4BFx4BFx4BFREUBgcOAQcOAQcOASMhIiYnLgEnLgEnLgE1ETQ2Nz4BNz4BNz4BMxMhMjY1NCYjISIGFRQWM9UNGAwLFQkJDgUFBQUFBQ4JCRULDBgNAlYNGAwLFQkJDgUFBQUFBQ4JCRULDBgN/aoCVgQIBAQHAwMFAQIBAQIBBQMDBwQECAT9qgQIBAQHAwMFAQIBAQIBBQMDBwQECASAAVYRGRkR/qoRGRkRA1UFBAUOCQkVDAsZDf2rDRkLDBUJCA4FBQUFBQUOCQgVDAsZDQJVDRkLDBUJCQ4FBAVVAgECBQMCBwQECAX9qwQJAwQHAwMFAQICAgIBBQMDBwQDCQQCVQUIBAQHAgMFAgEC/oAZEhEZGRESGQAAAAADAFUAAAOrA1UAMwBoAIkAABMiBgcOAQcOAQcOARURFBYXHgEXHgEXHgEzITI2Nz4BNz4BNz4BNRE0JicuAScuAScuASMFITIWFx4BFx4BFx4BFREUBgcOAQcOAQcOASMhIiYnLgEnLgEnLgE1ETQ2Nz4BNz4BNz4BMxMzFRQWMzI2PQEzMjY1NCYrATU0JiMiBh0BIyIGFRQWM9UNGAwLFQkJDgUFBQUFBQ4JCRULDBgNAlYNGAwLFQkJDgUFBQUFBQ4JCRULDBgN/aoCVgQIBAQHAwMFAQIBAQIBBQMDBwQECAT9qgQIBAQHAwMFAQIBAQIBBQMDBwQECASAgBkSEhmAERkZEYAZEhIZgBEZGREDVQUEBQ4JCRUMCxkN/asNGQsMFQkIDgUFBQUFBQ4JCBUMCxkNAlUNGQsMFQkJDgUEBVUCAQIFAwIHBAQIBf2rBAkDBAcDAwUBAgICAgEFAwMHBAMJBAJVBQgEBAcCAwUCAQL+gIASGRkSgBkSERmAEhkZEoAZERIZAAABAOIAjQMeAskAIAAAExcHBhQXFjI/ARcWMjc2NC8BNzY0JyYiDwEnJiIHBhQX4uLiDQ0MJAzi4gwkDA0N4uINDQwkDOLiDCQMDQ0CjeLiDSMMDQ3h4Q0NDCMN4uIMIw0MDOLiDAwNIwwAAAABAAAAAQAAa5n0y18PPPUACwQAAAAAANivOVsAAAAA2K85WwAAAAADqwNVAAAACAACAAAAAAAAAAEAAAPA/8AAAAQAAAAAAAOrAAEAAAAAAAAAAAAAAAAAAAALBAAAAAAAAAAAAAAAAgAAAAQAAWIEAAFiBAAA4gQAAOIEAABVBAAAVQQAAOIAAAAAAAoAFAAeAEQAagCqAOoBngJkApoAAQAAAAsAigADAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABAAcAAAABAAAAAAACAAcAYAABAAAAAAADAAcANgABAAAAAAAEAAcAdQABAAAAAAAFAAsAFQABAAAAAAAGAAcASwABAAAAAAAKABoAigADAAEECQABAA4ABwADAAEECQACAA4AZwADAAEECQADAA4APQADAAEECQAEAA4AfAADAAEECQAFABYAIAADAAEECQAGAA4AUgADAAEECQAKADQApGZjaWNvbnMAZgBjAGkAYwBvAG4Ac1ZlcnNpb24gMS4wAFYAZQByAHMAaQBvAG4AIAAxAC4AMGZjaWNvbnMAZgBjAGkAYwBvAG4Ac2ZjaWNvbnMAZgBjAGkAYwBvAG4Ac1JlZ3VsYXIAUgBlAGcAdQBsAGEAcmZjaWNvbnMAZgBjAGkAYwBvAG4Ac0ZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\") format('truetype');\n  font-weight: normal;\n  font-style: normal;\n}\n\n.fc-icon {\n  /* added for fc */\n  display: inline-block;\n  width: 1em;\n  height: 1em;\n  text-align: center;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n\n  /* use !important to prevent issues with browser extensions that change fonts */\n  font-family: 'fcicons' !important;\n  speak: none;\n  font-style: normal;\n  font-weight: normal;\n  font-variant: normal;\n  text-transform: none;\n  line-height: 1;\n\n  /* Better Font Rendering =========== */\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\n.fc-icon-chevron-left:before {\n  content: \"\\e900\";\n}\n\n.fc-icon-chevron-right:before {\n  content: \"\\e901\";\n}\n\n.fc-icon-chevrons-left:before {\n  content: \"\\e902\";\n}\n\n.fc-icon-chevrons-right:before {\n  content: \"\\e903\";\n}\n\n.fc-icon-minus-square:before {\n  content: \"\\e904\";\n}\n\n.fc-icon-plus-square:before {\n  content: \"\\e905\";\n}\n\n.fc-icon-x:before {\n  content: \"\\e906\";\n}\n/*\nLots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css\n\nThese styles only apply when the standard-theme is activated.\nWhen it's NOT activated, the fc-button classes won't even be in the DOM.\n*/\n.fc {\n\n  /* reset */\n\n}\n.fc .fc-button {\n    border-radius: 0;\n    overflow: visible;\n    text-transform: none;\n    margin: 0;\n    font-family: inherit;\n    font-size: inherit;\n    line-height: inherit;\n  }\n.fc .fc-button:focus {\n    outline: 1px dotted;\n    outline: 5px auto -webkit-focus-ring-color;\n  }\n.fc .fc-button {\n    -webkit-appearance: button;\n  }\n.fc .fc-button:not(:disabled) {\n    cursor: pointer;\n  }\n.fc .fc-button::-moz-focus-inner {\n    padding: 0;\n    border-style: none;\n  }\n.fc {\n\n  /* theme */\n\n}\n.fc .fc-button {\n    display: inline-block;\n    font-weight: 400;\n    text-align: center;\n    vertical-align: middle;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    background-color: transparent;\n    border: 1px solid transparent;\n    padding: 0.4em 0.65em;\n    font-size: 1em;\n    line-height: 1.5;\n    border-radius: 0.25em;\n  }\n.fc .fc-button:hover {\n    text-decoration: none;\n  }\n.fc .fc-button:focus {\n    outline: 0;\n    box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);\n  }\n.fc .fc-button:disabled {\n    opacity: 0.65;\n  }\n.fc {\n\n  /* \"primary\" coloring */\n\n}\n.fc .fc-button-primary {\n    color: #fff;\n    color: var(--fc-button-text-color, #fff);\n    background-color: #2C3E50;\n    background-color: var(--fc-button-bg-color, #2C3E50);\n    border-color: #2C3E50;\n    border-color: var(--fc-button-border-color, #2C3E50);\n  }\n.fc .fc-button-primary:hover {\n    color: #fff;\n    color: var(--fc-button-text-color, #fff);\n    background-color: #1e2b37;\n    background-color: var(--fc-button-hover-bg-color, #1e2b37);\n    border-color: #1a252f;\n    border-color: var(--fc-button-hover-border-color, #1a252f);\n  }\n.fc .fc-button-primary:disabled { /* not DRY */\n    color: #fff;\n    color: var(--fc-button-text-color, #fff);\n    background-color: #2C3E50;\n    background-color: var(--fc-button-bg-color, #2C3E50);\n    border-color: #2C3E50;\n    border-color: var(--fc-button-border-color, #2C3E50); /* overrides :hover */\n  }\n.fc .fc-button-primary:focus {\n    box-shadow: 0 0 0 0.2rem rgba(76, 91, 106, 0.5);\n  }\n.fc .fc-button-primary:not(:disabled):active,\n  .fc .fc-button-primary:not(:disabled).fc-button-active {\n    color: #fff;\n    color: var(--fc-button-text-color, #fff);\n    background-color: #1a252f;\n    background-color: var(--fc-button-active-bg-color, #1a252f);\n    border-color: #151e27;\n    border-color: var(--fc-button-active-border-color, #151e27);\n  }\n.fc .fc-button-primary:not(:disabled):active:focus,\n  .fc .fc-button-primary:not(:disabled).fc-button-active:focus {\n    box-shadow: 0 0 0 0.2rem rgba(76, 91, 106, 0.5);\n  }\n.fc {\n\n  /* icons within buttons */\n\n}\n.fc .fc-button .fc-icon {\n    vertical-align: middle;\n    font-size: 1.5em; /* bump up the size (but don't make it bigger than line-height of button, which is 1.5em also) */\n  }\n.fc .fc-button-group {\n    position: relative;\n    display: inline-flex;\n    vertical-align: middle;\n  }\n.fc .fc-button-group > .fc-button {\n    position: relative;\n    flex: 1 1 auto;\n  }\n.fc .fc-button-group > .fc-button:hover {\n    z-index: 1;\n  }\n.fc .fc-button-group > .fc-button:focus,\n  .fc .fc-button-group > .fc-button:active,\n  .fc .fc-button-group > .fc-button.fc-button-active {\n    z-index: 1;\n  }\n.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {\n    margin-left: -1px;\n    border-top-left-radius: 0;\n    border-bottom-left-radius: 0;\n  }\n.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n  }\n.fc-direction-rtl .fc-button-group > .fc-button:not(:first-child) {\n    margin-right: -1px;\n    border-top-right-radius: 0;\n    border-bottom-right-radius: 0;\n  }\n.fc-direction-rtl .fc-button-group > .fc-button:not(:last-child) {\n    border-top-left-radius: 0;\n    border-bottom-left-radius: 0;\n  }\n.fc .fc-toolbar {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n  }\n.fc .fc-toolbar.fc-header-toolbar {\n    margin-bottom: 1.5em;\n  }\n.fc .fc-toolbar.fc-footer-toolbar {\n    margin-top: 1.5em;\n  }\n.fc .fc-toolbar-title {\n    font-size: 1.75em;\n    margin: 0;\n  }\n.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {\n    margin-left: .75em; /* space between */\n  }\n.fc-direction-rtl .fc-toolbar > * > :not(:first-child) {\n    margin-right: .75em; /* space between */\n  }\n.fc-direction-rtl .fc-toolbar-ltr { /* when the toolbar-chunk positioning system is explicitly left-to-right */\n    flex-direction: row-reverse;\n  }\n.fc .fc-scroller {\n    -webkit-overflow-scrolling: touch;\n    position: relative; /* for abs-positioned elements within */\n  }\n.fc .fc-scroller-liquid {\n    height: 100%;\n  }\n.fc .fc-scroller-liquid-absolute {\n    position: absolute;\n    top: 0;\n    right: 0;\n    left: 0;\n    bottom: 0;\n  }\n.fc .fc-scroller-harness {\n    position: relative;\n    overflow: hidden;\n    direction: ltr;\n      /* hack for chrome computing the scroller's right/left wrong for rtl. undone below... */\n      /* TODO: demonstrate in codepen */\n  }\n.fc .fc-scroller-harness-liquid {\n    height: 100%;\n  }\n.fc-direction-rtl .fc-scroller-harness > .fc-scroller { /* undo above hack */\n    direction: rtl;\n  }\n.fc-theme-standard .fc-scrollgrid {\n    border: 1px solid #ddd;\n    border: 1px solid var(--fc-border-color, #ddd); /* bootstrap does this. match */\n  }\n.fc .fc-scrollgrid,\n    .fc .fc-scrollgrid table { /* all tables (self included) */\n      width: 100%; /* because tables don't normally do this */\n      table-layout: fixed;\n    }\n.fc .fc-scrollgrid table { /* inner tables */\n      border-top-style: hidden;\n      border-left-style: hidden;\n      border-right-style: hidden;\n    }\n.fc .fc-scrollgrid {\n\n    border-collapse: separate;\n    border-right-width: 0;\n    border-bottom-width: 0;\n\n  }\n.fc .fc-scrollgrid-liquid {\n    height: 100%;\n  }\n.fc .fc-scrollgrid-section { /* a <tr> */\n    height: 1px /* better than 0, for firefox */\n\n  }\n.fc .fc-scrollgrid-section > td {\n      height: 1px; /* needs a height so inner div within grow. better than 0, for firefox */\n    }\n.fc .fc-scrollgrid-section table {\n      height: 1px;\n        /* for most browsers, if a height isn't set on the table, can't do liquid-height within cells */\n        /* serves as a min-height. harmless */\n    }\n.fc .fc-scrollgrid-section-liquid {\n    height: auto\n\n  }\n.fc .fc-scrollgrid-section-liquid > td {\n      height: 100%; /* better than `auto`, for firefox */\n    }\n.fc .fc-scrollgrid-section > * {\n    border-top-width: 0;\n    border-left-width: 0;\n  }\n.fc .fc-scrollgrid-section-header > *,\n  .fc .fc-scrollgrid-section-footer > * {\n    border-bottom-width: 0;\n  }\n.fc .fc-scrollgrid-section-body table,\n  .fc .fc-scrollgrid-section-footer table {\n    border-bottom-style: hidden; /* head keeps its bottom border tho */\n  }\n.fc {\n\n  /* stickiness */\n\n}\n.fc .fc-scrollgrid-section-sticky > * {\n    background: #fff;\n    background: var(--fc-page-bg-color, #fff);\n    position: sticky;\n    z-index: 3; /* TODO: var */\n    /* TODO: box-shadow when sticking */\n  }\n.fc .fc-scrollgrid-section-header.fc-scrollgrid-section-sticky > * {\n    top: 0; /* because border-sharing causes a gap at the top */\n      /* TODO: give safari -1. has bug */\n  }\n.fc .fc-scrollgrid-section-footer.fc-scrollgrid-section-sticky > * {\n    bottom: 0; /* known bug: bottom-stickiness doesn't work in safari */\n  }\n.fc .fc-scrollgrid-sticky-shim { /* for horizontal scrollbar */\n    height: 1px; /* needs height to create scrollbars */\n    margin-bottom: -1px;\n  }\n.fc-sticky { /* no .fc wrap because used as child of body */\n  position: sticky;\n}\n.fc .fc-view-harness {\n    flex-grow: 1; /* because this harness is WITHIN the .fc's flexbox */\n    position: relative;\n  }\n.fc {\n\n  /* when the harness controls the height, make the view liquid */\n\n}\n.fc .fc-view-harness-active > .fc-view {\n    position: absolute;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n  }\n.fc .fc-col-header-cell-cushion {\n    display: inline-block; /* x-browser for when sticky (when multi-tier header) */\n    padding: 2px 4px;\n  }\n.fc .fc-bg-event,\n  .fc .fc-non-business,\n  .fc .fc-highlight {\n    /* will always have a harness with position:relative/absolute, so absolutely expand */\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n  }\n.fc .fc-non-business {\n    background: rgba(215, 215, 215, 0.3);\n    background: var(--fc-non-business-color, rgba(215, 215, 215, 0.3));\n  }\n.fc .fc-bg-event {\n    background: rgb(143, 223, 130);\n    background: var(--fc-bg-event-color, rgb(143, 223, 130));\n    opacity: 0.3;\n    opacity: var(--fc-bg-event-opacity, 0.3)\n  }\n.fc .fc-bg-event .fc-event-title {\n      margin: .5em;\n      font-size: .85em;\n      font-size: var(--fc-small-font-size, .85em);\n      font-style: italic;\n    }\n.fc .fc-highlight {\n    background: rgba(188, 232, 241, 0.3);\n    background: var(--fc-highlight-color, rgba(188, 232, 241, 0.3));\n  }\n.fc .fc-cell-shaded,\n  .fc .fc-day-disabled {\n    background: rgba(208, 208, 208, 0.3);\n    background: var(--fc-neutral-bg-color, rgba(208, 208, 208, 0.3));\n  }\n/* link resets */\n/* ---------------------------------------------------------------------------------------------------- */\na.fc-event,\na.fc-event:hover {\n  text-decoration: none;\n}\n/* cursor */\n.fc-event[href],\n.fc-event.fc-event-draggable {\n  cursor: pointer;\n}\n/* event text content */\n/* ---------------------------------------------------------------------------------------------------- */\n.fc-event .fc-event-main {\n    position: relative;\n    z-index: 2;\n  }\n/* dragging */\n/* ---------------------------------------------------------------------------------------------------- */\n.fc-event-dragging:not(.fc-event-selected) { /* MOUSE */\n    opacity: 0.75;\n  }\n.fc-event-dragging.fc-event-selected { /* TOUCH */\n    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);\n  }\n/* resizing */\n/* ---------------------------------------------------------------------------------------------------- */\n/* (subclasses should hone positioning for touch and non-touch) */\n.fc-event .fc-event-resizer {\n    display: none;\n    position: absolute;\n    z-index: 4;\n  }\n.fc-event:hover, /* MOUSE */\n.fc-event-selected { /* TOUCH */\n\n}\n.fc-event:hover .fc-event-resizer, .fc-event-selected .fc-event-resizer {\n    display: block;\n  }\n.fc-event-selected .fc-event-resizer {\n    border-radius: 4px;\n    border-radius: calc(var(--fc-event-resizer-dot-total-width, 8px) / 2);\n    border-width: 1px;\n    border-width: var(--fc-event-resizer-dot-border-width, 1px);\n    width: 8px;\n    width: var(--fc-event-resizer-dot-total-width, 8px);\n    height: 8px;\n    height: var(--fc-event-resizer-dot-total-width, 8px);\n    border-style: solid;\n    border-color: inherit;\n    background: #fff;\n    background: var(--fc-page-bg-color, #fff)\n\n    /* expand hit area */\n\n  }\n.fc-event-selected .fc-event-resizer:before {\n      content: '';\n      position: absolute;\n      top: -20px;\n      left: -20px;\n      right: -20px;\n      bottom: -20px;\n    }\n/* selecting (always TOUCH) */\n/* ---------------------------------------------------------------------------------------------------- */\n.fc-event-selected {\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)\n\n  /* expand hit area (subclasses should expand) */\n\n}\n.fc-event-selected:before {\n    content: \"\";\n    position: absolute;\n    z-index: 3;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n  }\n.fc-event-selected {\n\n  /* dimmer effect */\n\n}\n.fc-event-selected:after {\n    content: \"\";\n    background: rgba(0, 0, 0, 0.25);\n    background: var(--fc-event-selected-overlay-color, rgba(0, 0, 0, 0.25));\n    position: absolute;\n    z-index: 1;\n\n    /* assume there's a border on all sides. overcome it. */\n    /* sometimes there's NOT a border, in which case the dimmer will go over */\n    /* an adjacent border, which looks fine. */\n    top: -1px;\n    left: -1px;\n    right: -1px;\n    bottom: -1px;\n  }\n/*\nA HORIZONTAL event\n*/\n.fc-h-event { /* allowed to be top-level */\n  display: block;\n  border: 1px solid #3788d8;\n  border: 1px solid var(--fc-event-border-color, #3788d8);\n  background-color: #3788d8;\n  background-color: var(--fc-event-bg-color, #3788d8)\n\n}\n.fc-h-event .fc-event-main {\n    color: #fff;\n    color: var(--fc-event-text-color, #fff);\n  }\n.fc-h-event .fc-event-main-frame {\n    display: flex; /* for make fc-event-title-container expand */\n  }\n.fc-h-event .fc-event-time {\n    max-width: 100%; /* clip overflow on this element */\n    overflow: hidden;\n  }\n.fc-h-event .fc-event-title-container { /* serves as a container for the sticky cushion */\n    flex-grow: 1;\n    flex-shrink: 1;\n    min-width: 0; /* important for allowing to shrink all the way */\n  }\n.fc-h-event .fc-event-title {\n    display: inline-block; /* need this to be sticky cross-browser */\n    vertical-align: top; /* for not messing up line-height */\n    left: 0;  /* for sticky */\n    right: 0; /* for sticky */\n    max-width: 100%; /* clip overflow on this element */\n    overflow: hidden;\n  }\n.fc-h-event.fc-event-selected:before {\n    /* expand hit area */\n    top: -10px;\n    bottom: -10px;\n  }\n/* adjust border and border-radius (if there is any) for non-start/end */\n.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start),\n.fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-end) {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n  border-left-width: 0;\n}\n.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end),\n.fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  border-right-width: 0;\n}\n/* resizers */\n.fc-h-event:not(.fc-event-selected) .fc-event-resizer {\n  top: 0;\n  bottom: 0;\n  width: 8px;\n  width: var(--fc-event-resizer-thickness, 8px);\n}\n.fc-direction-ltr .fc-h-event:not(.fc-event-selected) .fc-event-resizer-start,\n.fc-direction-rtl .fc-h-event:not(.fc-event-selected) .fc-event-resizer-end {\n  cursor: w-resize;\n  left: -4px;\n  left: calc(var(--fc-event-resizer-thickness, 8px) / -2);\n}\n.fc-direction-ltr .fc-h-event:not(.fc-event-selected) .fc-event-resizer-end,\n.fc-direction-rtl .fc-h-event:not(.fc-event-selected) .fc-event-resizer-start {\n  cursor: e-resize;\n  right: -4px;\n  right: calc(var(--fc-event-resizer-thickness, 8px) / -2);\n}\n/* resizers for TOUCH */\n.fc-h-event.fc-event-selected .fc-event-resizer {\n  top: 50%;\n  margin-top: -4px;\n  margin-top: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\n}\n.fc-direction-ltr .fc-h-event.fc-event-selected .fc-event-resizer-start,\n.fc-direction-rtl .fc-h-event.fc-event-selected .fc-event-resizer-end {\n  left: -4px;\n  left: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\n}\n.fc-direction-ltr .fc-h-event.fc-event-selected .fc-event-resizer-end,\n.fc-direction-rtl .fc-h-event.fc-event-selected .fc-event-resizer-start {\n  right: -4px;\n  right: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\n}\n.fc .fc-popover {\n    position: absolute;\n    z-index: 9999;\n    box-shadow: 0 2px 6px rgba(0,0,0,.15);\n  }\n.fc .fc-popover-header {\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n    align-items: center;\n    padding: 3px 4px;\n  }\n.fc .fc-popover-title {\n    margin: 0 2px;\n  }\n.fc .fc-popover-close {\n    cursor: pointer;\n    opacity: 0.65;\n    font-size: 1.1em;\n  }\n.fc-theme-standard .fc-popover {\n    border: 1px solid #ddd;\n    border: 1px solid var(--fc-border-color, #ddd);\n    background: #fff;\n    background: var(--fc-page-bg-color, #fff);\n  }\n.fc-theme-standard .fc-popover-header {\n    background: rgba(208, 208, 208, 0.3);\n    background: var(--fc-neutral-bg-color, rgba(208, 208, 208, 0.3));\n  }\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n/* classes attached to <body> */\r\n\r\n.fc-not-allowed,\r\n.fc-not-allowed .fc-event { /* override events' custom cursors */\r\n  cursor: not-allowed;\r\n}\r\n\r\n.fc-unselectable {\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n      -ms-user-select: none;\r\n          user-select: none;\r\n  -webkit-touch-callout: none;\r\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\r\n}\r\n.fc {\r\n  /* layout of immediate children */\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  font-size: 1em\r\n}\r\n.fc,\r\n  .fc *,\r\n  .fc *:before,\r\n  .fc *:after {\r\n    box-sizing: border-box;\r\n  }\r\n.fc table {\r\n    border-collapse: collapse;\r\n    border-spacing: 0;\r\n    font-size: 1em; /* normalize cross-browser */\r\n  }\r\n.fc th {\r\n    text-align: center;\r\n  }\r\n.fc th,\r\n  .fc td {\r\n    vertical-align: top;\r\n    padding: 0;\r\n  }\r\n.fc a[data-navlink] {\r\n    cursor: pointer;\r\n  }\r\n.fc a[data-navlink]:hover {\r\n    text-decoration: underline;\r\n  }\r\n.fc-direction-ltr {\r\n  direction: ltr;\r\n  text-align: left;\r\n}\r\n.fc-direction-rtl {\r\n  direction: rtl;\r\n  text-align: right;\r\n}\r\n.fc-theme-standard td,\r\n  .fc-theme-standard th {\r\n    border: 1px solid #ddd;\r\n    border: 1px solid var(--fc-border-color, #ddd);\r\n  }\r\n/* for FF, which doesn't expand a 100% div within a table cell. use absolute positioning */\r\n/* inner-wrappers are responsible for being absolute */\r\n/* TODO: best place for this? */\r\n.fc-liquid-hack td,\r\n  .fc-liquid-hack th {\r\n    position: relative;\r\n  }\r\n\r\n@font-face {\r\n  font-family: 'fcicons';\r\n  src: url(\"data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBfAAAAC8AAAAYGNtYXAXVtKNAAABHAAAAFRnYXNwAAAAEAAAAXAAAAAIZ2x5ZgYydxIAAAF4AAAFNGhlYWQUJ7cIAAAGrAAAADZoaGVhB20DzAAABuQAAAAkaG10eCIABhQAAAcIAAAALGxvY2ED4AU6AAAHNAAAABhtYXhwAA8AjAAAB0wAAAAgbmFtZXsr690AAAdsAAABhnBvc3QAAwAAAAAI9AAAACAAAwPAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpBgPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAOAAAAAoACAACAAIAAQAg6Qb//f//AAAAAAAg6QD//f//AAH/4xcEAAMAAQAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAABAWIAjQKeAskAEwAAJSc3NjQnJiIHAQYUFwEWMjc2NCcCnuLiDQ0MJAz/AA0NAQAMJAwNDcni4gwjDQwM/wANIwz/AA0NDCMNAAAAAQFiAI0CngLJABMAACUBNjQnASYiBwYUHwEHBhQXFjI3AZ4BAA0N/wAMJAwNDeLiDQ0MJAyNAQAMIw0BAAwMDSMM4uINIwwNDQAAAAIA4gC3Ax4CngATACcAACUnNzY0JyYiDwEGFB8BFjI3NjQnISc3NjQnJiIPAQYUHwEWMjc2NCcB87e3DQ0MIw3VDQ3VDSMMDQ0BK7e3DQ0MJAzVDQ3VDCQMDQ3zuLcMJAwNDdUNIwzWDAwNIwy4twwkDA0N1Q0jDNYMDA0jDAAAAgDiALcDHgKeABMAJwAAJTc2NC8BJiIHBhQfAQcGFBcWMjchNzY0LwEmIgcGFB8BBwYUFxYyNwJJ1Q0N1Q0jDA0Nt7cNDQwjDf7V1Q0N1QwkDA0Nt7cNDQwkDLfWDCMN1Q0NDCQMt7gMIw0MDNYMIw3VDQ0MJAy3uAwjDQwMAAADAFUAAAOrA1UAMwBoAHcAABMiBgcOAQcOAQcOARURFBYXHgEXHgEXHgEzITI2Nz4BNz4BNz4BNRE0JicuAScuAScuASMFITIWFx4BFx4BFx4BFREUBgcOAQcOAQcOASMhIiYnLgEnLgEnLgE1ETQ2Nz4BNz4BNz4BMxMhMjY1NCYjISIGFRQWM9UNGAwLFQkJDgUFBQUFBQ4JCRULDBgNAlYNGAwLFQkJDgUFBQUFBQ4JCRULDBgN/aoCVgQIBAQHAwMFAQIBAQIBBQMDBwQECAT9qgQIBAQHAwMFAQIBAQIBBQMDBwQECASAAVYRGRkR/qoRGRkRA1UFBAUOCQkVDAsZDf2rDRkLDBUJCA4FBQUFBQUOCQgVDAsZDQJVDRkLDBUJCQ4FBAVVAgECBQMCBwQECAX9qwQJAwQHAwMFAQICAgIBBQMDBwQDCQQCVQUIBAQHAgMFAgEC/oAZEhEZGRESGQAAAAADAFUAAAOrA1UAMwBoAIkAABMiBgcOAQcOAQcOARURFBYXHgEXHgEXHgEzITI2Nz4BNz4BNz4BNRE0JicuAScuAScuASMFITIWFx4BFx4BFx4BFREUBgcOAQcOAQcOASMhIiYnLgEnLgEnLgE1ETQ2Nz4BNz4BNz4BMxMzFRQWMzI2PQEzMjY1NCYrATU0JiMiBh0BIyIGFRQWM9UNGAwLFQkJDgUFBQUFBQ4JCRULDBgNAlYNGAwLFQkJDgUFBQUFBQ4JCRULDBgN/aoCVgQIBAQHAwMFAQIBAQIBBQMDBwQECAT9qgQIBAQHAwMFAQIBAQIBBQMDBwQECASAgBkSEhmAERkZEYAZEhIZgBEZGREDVQUEBQ4JCRUMCxkN/asNGQsMFQkIDgUFBQUFBQ4JCBUMCxkNAlUNGQsMFQkJDgUEBVUCAQIFAwIHBAQIBf2rBAkDBAcDAwUBAgICAgEFAwMHBAMJBAJVBQgEBAcCAwUCAQL+gIASGRkSgBkSERmAEhkZEoAZERIZAAABAOIAjQMeAskAIAAAExcHBhQXFjI/ARcWMjc2NC8BNzY0JyYiDwEnJiIHBhQX4uLiDQ0MJAzi4gwkDA0N4uINDQwkDOLiDCQMDQ0CjeLiDSMMDQ3h4Q0NDCMN4uIMIw0MDOLiDAwNIwwAAAABAAAAAQAAa5n0y18PPPUACwQAAAAAANivOVsAAAAA2K85WwAAAAADqwNVAAAACAACAAAAAAAAAAEAAAPA/8AAAAQAAAAAAAOrAAEAAAAAAAAAAAAAAAAAAAALBAAAAAAAAAAAAAAAAgAAAAQAAWIEAAFiBAAA4gQAAOIEAABVBAAAVQQAAOIAAAAAAAoAFAAeAEQAagCqAOoBngJkApoAAQAAAAsAigADAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABAAcAAAABAAAAAAACAAcAYAABAAAAAAADAAcANgABAAAAAAAEAAcAdQABAAAAAAAFAAsAFQABAAAAAAAGAAcASwABAAAAAAAKABoAigADAAEECQABAA4ABwADAAEECQACAA4AZwADAAEECQADAA4APQADAAEECQAEAA4AfAADAAEECQAFABYAIAADAAEECQAGAA4AUgADAAEECQAKADQApGZjaWNvbnMAZgBjAGkAYwBvAG4Ac1ZlcnNpb24gMS4wAFYAZQByAHMAaQBvAG4AIAAxAC4AMGZjaWNvbnMAZgBjAGkAYwBvAG4Ac2ZjaWNvbnMAZgBjAGkAYwBvAG4Ac1JlZ3VsYXIAUgBlAGcAdQBsAGEAcmZjaWNvbnMAZgBjAGkAYwBvAG4Ac0ZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\") format('truetype');\r\n  font-weight: normal;\r\n  font-style: normal;\r\n}\r\n\r\n.fc-icon {\r\n  /* added for fc */\r\n  display: inline-block;\r\n  width: 1em;\r\n  height: 1em;\r\n  text-align: center;\r\n  -webkit-user-select: none;\r\n     -moz-user-select: none;\r\n      -ms-user-select: none;\r\n          user-select: none;\r\n\r\n  /* use !important to prevent issues with browser extensions that change fonts */\r\n  font-family: 'fcicons' !important;\r\n  speak: none;\r\n  font-style: normal;\r\n  font-weight: normal;\r\n  font-variant: normal;\r\n  text-transform: none;\r\n  line-height: 1;\r\n\r\n  /* Better Font Rendering =========== */\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\n.fc-icon-chevron-left:before {\r\n  content: \"\\e900\";\r\n}\r\n\r\n.fc-icon-chevron-right:before {\r\n  content: \"\\e901\";\r\n}\r\n\r\n.fc-icon-chevrons-left:before {\r\n  content: \"\\e902\";\r\n}\r\n\r\n.fc-icon-chevrons-right:before {\r\n  content: \"\\e903\";\r\n}\r\n\r\n.fc-icon-minus-square:before {\r\n  content: \"\\e904\";\r\n}\r\n\r\n.fc-icon-plus-square:before {\r\n  content: \"\\e905\";\r\n}\r\n\r\n.fc-icon-x:before {\r\n  content: \"\\e906\";\r\n}\r\n/*\r\nLots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css\r\n\r\nThese styles only apply when the standard-theme is activated.\r\nWhen it's NOT activated, the fc-button classes won't even be in the DOM.\r\n*/\r\n.fc {\r\n\r\n  /* reset */\r\n\r\n}\r\n.fc .fc-button {\r\n    border-radius: 0;\r\n    overflow: visible;\r\n    text-transform: none;\r\n    margin: 0;\r\n    font-family: inherit;\r\n    font-size: inherit;\r\n    line-height: inherit;\r\n  }\r\n.fc .fc-button:focus {\r\n    outline: 1px dotted;\r\n    outline: 5px auto -webkit-focus-ring-color;\r\n  }\r\n.fc .fc-button {\r\n    -webkit-appearance: button;\r\n  }\r\n.fc .fc-button:not(:disabled) {\r\n    cursor: pointer;\r\n  }\r\n.fc .fc-button::-moz-focus-inner {\r\n    padding: 0;\r\n    border-style: none;\r\n  }\r\n.fc {\r\n\r\n  /* theme */\r\n\r\n}\r\n.fc .fc-button {\r\n    display: inline-block;\r\n    font-weight: 400;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    -webkit-user-select: none;\r\n       -moz-user-select: none;\r\n        -ms-user-select: none;\r\n            user-select: none;\r\n    background-color: transparent;\r\n    border: 1px solid transparent;\r\n    padding: 0.4em 0.65em;\r\n    font-size: 1em;\r\n    line-height: 1.5;\r\n    border-radius: 0.25em;\r\n  }\r\n.fc .fc-button:hover {\r\n    text-decoration: none;\r\n  }\r\n.fc .fc-button:focus {\r\n    outline: 0;\r\n    box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);\r\n  }\r\n.fc .fc-button:disabled {\r\n    opacity: 0.65;\r\n  }\r\n.fc {\r\n\r\n  /* \"primary\" coloring */\r\n\r\n}\r\n.fc .fc-button-primary {\r\n    color: #fff;\r\n    color: var(--fc-button-text-color, #fff);\r\n    background-color: #2C3E50;\r\n    background-color: var(--fc-button-bg-color, #2C3E50);\r\n    border-color: #2C3E50;\r\n    border-color: var(--fc-button-border-color, #2C3E50);\r\n  }\r\n.fc .fc-button-primary:hover {\r\n    color: #fff;\r\n    color: var(--fc-button-text-color, #fff);\r\n    background-color: #1e2b37;\r\n    background-color: var(--fc-button-hover-bg-color, #1e2b37);\r\n    border-color: #1a252f;\r\n    border-color: var(--fc-button-hover-border-color, #1a252f);\r\n  }\r\n.fc .fc-button-primary:disabled { /* not DRY */\r\n    color: #fff;\r\n    color: var(--fc-button-text-color, #fff);\r\n    background-color: #2C3E50;\r\n    background-color: var(--fc-button-bg-color, #2C3E50);\r\n    border-color: #2C3E50;\r\n    border-color: var(--fc-button-border-color, #2C3E50); /* overrides :hover */\r\n  }\r\n.fc .fc-button-primary:focus {\r\n    box-shadow: 0 0 0 0.2rem rgba(76, 91, 106, 0.5);\r\n  }\r\n.fc .fc-button-primary:not(:disabled):active,\r\n  .fc .fc-button-primary:not(:disabled).fc-button-active {\r\n    color: #fff;\r\n    color: var(--fc-button-text-color, #fff);\r\n    background-color: #1a252f;\r\n    background-color: var(--fc-button-active-bg-color, #1a252f);\r\n    border-color: #151e27;\r\n    border-color: var(--fc-button-active-border-color, #151e27);\r\n  }\r\n.fc .fc-button-primary:not(:disabled):active:focus,\r\n  .fc .fc-button-primary:not(:disabled).fc-button-active:focus {\r\n    box-shadow: 0 0 0 0.2rem rgba(76, 91, 106, 0.5);\r\n  }\r\n.fc {\r\n\r\n  /* icons within buttons */\r\n\r\n}\r\n.fc .fc-button .fc-icon {\r\n    vertical-align: middle;\r\n    font-size: 1.5em; /* bump up the size (but don't make it bigger than line-height of button, which is 1.5em also) */\r\n  }\r\n.fc .fc-button-group {\r\n    position: relative;\r\n    display: inline-flex;\r\n    vertical-align: middle;\r\n  }\r\n.fc .fc-button-group > .fc-button {\r\n    position: relative;\r\n    flex: 1 1 auto;\r\n  }\r\n.fc .fc-button-group > .fc-button:hover {\r\n    z-index: 1;\r\n  }\r\n.fc .fc-button-group > .fc-button:focus,\r\n  .fc .fc-button-group > .fc-button:active,\r\n  .fc .fc-button-group > .fc-button.fc-button-active {\r\n    z-index: 1;\r\n  }\r\n.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {\r\n    margin-left: -1px;\r\n    border-top-left-radius: 0;\r\n    border-bottom-left-radius: 0;\r\n  }\r\n.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {\r\n    border-top-right-radius: 0;\r\n    border-bottom-right-radius: 0;\r\n  }\r\n.fc-direction-rtl .fc-button-group > .fc-button:not(:first-child) {\r\n    margin-right: -1px;\r\n    border-top-right-radius: 0;\r\n    border-bottom-right-radius: 0;\r\n  }\r\n.fc-direction-rtl .fc-button-group > .fc-button:not(:last-child) {\r\n    border-top-left-radius: 0;\r\n    border-bottom-left-radius: 0;\r\n  }\r\n.fc .fc-toolbar {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n  }\r\n.fc .fc-toolbar.fc-header-toolbar {\r\n    margin-bottom: 1.5em;\r\n  }\r\n.fc .fc-toolbar.fc-footer-toolbar {\r\n    margin-top: 1.5em;\r\n  }\r\n.fc .fc-toolbar-title {\r\n    font-size: 1.75em;\r\n    margin: 0;\r\n  }\r\n.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {\r\n    margin-left: .75em; /* space between */\r\n  }\r\n.fc-direction-rtl .fc-toolbar > * > :not(:first-child) {\r\n    margin-right: .75em; /* space between */\r\n  }\r\n.fc-direction-rtl .fc-toolbar-ltr { /* when the toolbar-chunk positioning system is explicitly left-to-right */\r\n    flex-direction: row-reverse;\r\n  }\r\n.fc .fc-scroller {\r\n    -webkit-overflow-scrolling: touch;\r\n    position: relative; /* for abs-positioned elements within */\r\n  }\r\n.fc .fc-scroller-liquid {\r\n    height: 100%;\r\n  }\r\n.fc .fc-scroller-liquid-absolute {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    left: 0;\r\n    bottom: 0;\r\n  }\r\n.fc .fc-scroller-harness {\r\n    position: relative;\r\n    overflow: hidden;\r\n    direction: ltr;\r\n      /* hack for chrome computing the scroller's right/left wrong for rtl. undone below... */\r\n      /* TODO: demonstrate in codepen */\r\n  }\r\n.fc .fc-scroller-harness-liquid {\r\n    height: 100%;\r\n  }\r\n.fc-direction-rtl .fc-scroller-harness > .fc-scroller { /* undo above hack */\r\n    direction: rtl;\r\n  }\r\n.fc-theme-standard .fc-scrollgrid {\r\n    border: 1px solid #ddd;\r\n    border: 1px solid var(--fc-border-color, #ddd); /* bootstrap does this. match */\r\n  }\r\n.fc .fc-scrollgrid,\r\n    .fc .fc-scrollgrid table { /* all tables (self included) */\r\n      width: 100%; /* because tables don't normally do this */\r\n      table-layout: fixed;\r\n    }\r\n.fc .fc-scrollgrid table { /* inner tables */\r\n      border-top-style: hidden;\r\n      border-left-style: hidden;\r\n      border-right-style: hidden;\r\n    }\r\n.fc .fc-scrollgrid {\r\n\r\n    border-collapse: separate;\r\n    border-right-width: 0;\r\n    border-bottom-width: 0;\r\n\r\n  }\r\n.fc .fc-scrollgrid-liquid {\r\n    height: 100%;\r\n  }\r\n.fc .fc-scrollgrid-section { /* a <tr> */\r\n    height: 1px /* better than 0, for firefox */\r\n\r\n  }\r\n.fc .fc-scrollgrid-section > td {\r\n      height: 1px; /* needs a height so inner div within grow. better than 0, for firefox */\r\n    }\r\n.fc .fc-scrollgrid-section table {\r\n      height: 1px;\r\n        /* for most browsers, if a height isn't set on the table, can't do liquid-height within cells */\r\n        /* serves as a min-height. harmless */\r\n    }\r\n.fc .fc-scrollgrid-section-liquid {\r\n    height: auto\r\n\r\n  }\r\n.fc .fc-scrollgrid-section-liquid > td {\r\n      height: 100%; /* better than `auto`, for firefox */\r\n    }\r\n.fc .fc-scrollgrid-section > * {\r\n    border-top-width: 0;\r\n    border-left-width: 0;\r\n  }\r\n.fc .fc-scrollgrid-section-header > *,\r\n  .fc .fc-scrollgrid-section-footer > * {\r\n    border-bottom-width: 0;\r\n  }\r\n.fc .fc-scrollgrid-section-body table,\r\n  .fc .fc-scrollgrid-section-footer table {\r\n    border-bottom-style: hidden; /* head keeps its bottom border tho */\r\n  }\r\n.fc {\r\n\r\n  /* stickiness */\r\n\r\n}\r\n.fc .fc-scrollgrid-section-sticky > * {\r\n    background: #fff;\r\n    background: var(--fc-page-bg-color, #fff);\r\n    position: sticky;\r\n    z-index: 3; /* TODO: var */\r\n    /* TODO: box-shadow when sticking */\r\n  }\r\n.fc .fc-scrollgrid-section-header.fc-scrollgrid-section-sticky > * {\r\n    top: 0; /* because border-sharing causes a gap at the top */\r\n      /* TODO: give safari -1. has bug */\r\n  }\r\n.fc .fc-scrollgrid-section-footer.fc-scrollgrid-section-sticky > * {\r\n    bottom: 0; /* known bug: bottom-stickiness doesn't work in safari */\r\n  }\r\n.fc .fc-scrollgrid-sticky-shim { /* for horizontal scrollbar */\r\n    height: 1px; /* needs height to create scrollbars */\r\n    margin-bottom: -1px;\r\n  }\r\n.fc-sticky { /* no .fc wrap because used as child of body */\r\n  position: sticky;\r\n}\r\n.fc .fc-view-harness {\r\n    flex-grow: 1; /* because this harness is WITHIN the .fc's flexbox */\r\n    position: relative;\r\n  }\r\n.fc {\r\n\r\n  /* when the harness controls the height, make the view liquid */\r\n\r\n}\r\n.fc .fc-view-harness-active > .fc-view {\r\n    position: absolute;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n  }\r\n.fc .fc-col-header-cell-cushion {\r\n    display: inline-block; /* x-browser for when sticky (when multi-tier header) */\r\n    padding: 2px 4px;\r\n  }\r\n.fc .fc-bg-event,\r\n  .fc .fc-non-business,\r\n  .fc .fc-highlight {\r\n    /* will always have a harness with position:relative/absolute, so absolutely expand */\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n  }\r\n.fc .fc-non-business {\r\n    background: rgba(215, 215, 215, 0.3);\r\n    background: var(--fc-non-business-color, rgba(215, 215, 215, 0.3));\r\n  }\r\n.fc .fc-bg-event {\r\n    background: rgb(143, 223, 130);\r\n    background: var(--fc-bg-event-color, rgb(143, 223, 130));\r\n    opacity: 0.3;\r\n    opacity: var(--fc-bg-event-opacity, 0.3)\r\n  }\r\n.fc .fc-bg-event .fc-event-title {\r\n      margin: .5em;\r\n      font-size: .85em;\r\n      font-size: var(--fc-small-font-size, .85em);\r\n      font-style: italic;\r\n    }\r\n.fc .fc-highlight {\r\n    background: rgba(188, 232, 241, 0.3);\r\n    background: var(--fc-highlight-color, rgba(188, 232, 241, 0.3));\r\n  }\r\n.fc .fc-cell-shaded,\r\n  .fc .fc-day-disabled {\r\n    background: rgba(208, 208, 208, 0.3);\r\n    background: var(--fc-neutral-bg-color, rgba(208, 208, 208, 0.3));\r\n  }\r\n/* link resets */\r\n/* ---------------------------------------------------------------------------------------------------- */\r\na.fc-event,\r\na.fc-event:hover {\r\n  text-decoration: none;\r\n}\r\n/* cursor */\r\n.fc-event[href],\r\n.fc-event.fc-event-draggable {\r\n  cursor: pointer;\r\n}\r\n/* event text content */\r\n/* ---------------------------------------------------------------------------------------------------- */\r\n.fc-event .fc-event-main {\r\n    position: relative;\r\n    z-index: 2;\r\n  }\r\n/* dragging */\r\n/* ---------------------------------------------------------------------------------------------------- */\r\n.fc-event-dragging:not(.fc-event-selected) { /* MOUSE */\r\n    opacity: 0.75;\r\n  }\r\n.fc-event-dragging.fc-event-selected { /* TOUCH */\r\n    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);\r\n  }\r\n/* resizing */\r\n/* ---------------------------------------------------------------------------------------------------- */\r\n/* (subclasses should hone positioning for touch and non-touch) */\r\n.fc-event .fc-event-resizer {\r\n    display: none;\r\n    position: absolute;\r\n    z-index: 4;\r\n  }\r\n.fc-event:hover, /* MOUSE */\r\n.fc-event-selected { /* TOUCH */\r\n\r\n}\r\n.fc-event:hover .fc-event-resizer, .fc-event-selected .fc-event-resizer {\r\n    display: block;\r\n  }\r\n.fc-event-selected .fc-event-resizer {\r\n    border-radius: 4px;\r\n    border-radius: calc(var(--fc-event-resizer-dot-total-width, 8px) / 2);\r\n    border-width: 1px;\r\n    border-width: var(--fc-event-resizer-dot-border-width, 1px);\r\n    width: 8px;\r\n    width: var(--fc-event-resizer-dot-total-width, 8px);\r\n    height: 8px;\r\n    height: var(--fc-event-resizer-dot-total-width, 8px);\r\n    border-style: solid;\r\n    border-color: inherit;\r\n    background: #fff;\r\n    background: var(--fc-page-bg-color, #fff)\r\n\r\n    /* expand hit area */\r\n\r\n  }\r\n.fc-event-selected .fc-event-resizer:before {\r\n      content: '';\r\n      position: absolute;\r\n      top: -20px;\r\n      left: -20px;\r\n      right: -20px;\r\n      bottom: -20px;\r\n    }\r\n/* selecting (always TOUCH) */\r\n/* ---------------------------------------------------------------------------------------------------- */\r\n.fc-event-selected {\r\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)\r\n\r\n  /* expand hit area (subclasses should expand) */\r\n\r\n}\r\n.fc-event-selected:before {\r\n    content: \"\";\r\n    position: absolute;\r\n    z-index: 3;\r\n    top: 0;\r\n    left: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n  }\r\n.fc-event-selected {\r\n\r\n  /* dimmer effect */\r\n\r\n}\r\n.fc-event-selected:after {\r\n    content: \"\";\r\n    background: rgba(0, 0, 0, 0.25);\r\n    background: var(--fc-event-selected-overlay-color, rgba(0, 0, 0, 0.25));\r\n    position: absolute;\r\n    z-index: 1;\r\n\r\n    /* assume there's a border on all sides. overcome it. */\r\n    /* sometimes there's NOT a border, in which case the dimmer will go over */\r\n    /* an adjacent border, which looks fine. */\r\n    top: -1px;\r\n    left: -1px;\r\n    right: -1px;\r\n    bottom: -1px;\r\n  }\r\n/*\r\nA HORIZONTAL event\r\n*/\r\n.fc-h-event { /* allowed to be top-level */\r\n  display: block;\r\n  border: 1px solid #3788d8;\r\n  border: 1px solid var(--fc-event-border-color, #3788d8);\r\n  background-color: #3788d8;\r\n  background-color: var(--fc-event-bg-color, #3788d8)\r\n\r\n}\r\n.fc-h-event .fc-event-main {\r\n    color: #fff;\r\n    color: var(--fc-event-text-color, #fff);\r\n  }\r\n.fc-h-event .fc-event-main-frame {\r\n    display: flex; /* for make fc-event-title-container expand */\r\n  }\r\n.fc-h-event .fc-event-time {\r\n    max-width: 100%; /* clip overflow on this element */\r\n    overflow: hidden;\r\n  }\r\n.fc-h-event .fc-event-title-container { /* serves as a container for the sticky cushion */\r\n    flex-grow: 1;\r\n    flex-shrink: 1;\r\n    min-width: 0; /* important for allowing to shrink all the way */\r\n  }\r\n.fc-h-event .fc-event-title {\r\n    display: inline-block; /* need this to be sticky cross-browser */\r\n    vertical-align: top; /* for not messing up line-height */\r\n    left: 0;  /* for sticky */\r\n    right: 0; /* for sticky */\r\n    max-width: 100%; /* clip overflow on this element */\r\n    overflow: hidden;\r\n  }\r\n.fc-h-event.fc-event-selected:before {\r\n    /* expand hit area */\r\n    top: -10px;\r\n    bottom: -10px;\r\n  }\r\n/* adjust border and border-radius (if there is any) for non-start/end */\r\n.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start),\r\n.fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-end) {\r\n  border-top-left-radius: 0;\r\n  border-bottom-left-radius: 0;\r\n  border-left-width: 0;\r\n}\r\n.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-end),\r\n.fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-start) {\r\n  border-top-right-radius: 0;\r\n  border-bottom-right-radius: 0;\r\n  border-right-width: 0;\r\n}\r\n/* resizers */\r\n.fc-h-event:not(.fc-event-selected) .fc-event-resizer {\r\n  top: 0;\r\n  bottom: 0;\r\n  width: 8px;\r\n  width: var(--fc-event-resizer-thickness, 8px);\r\n}\r\n.fc-direction-ltr .fc-h-event:not(.fc-event-selected) .fc-event-resizer-start,\r\n.fc-direction-rtl .fc-h-event:not(.fc-event-selected) .fc-event-resizer-end {\r\n  cursor: w-resize;\r\n  left: -4px;\r\n  left: calc(var(--fc-event-resizer-thickness, 8px) / -2);\r\n}\r\n.fc-direction-ltr .fc-h-event:not(.fc-event-selected) .fc-event-resizer-end,\r\n.fc-direction-rtl .fc-h-event:not(.fc-event-selected) .fc-event-resizer-start {\r\n  cursor: e-resize;\r\n  right: -4px;\r\n  right: calc(var(--fc-event-resizer-thickness, 8px) / -2);\r\n}\r\n/* resizers for TOUCH */\r\n.fc-h-event.fc-event-selected .fc-event-resizer {\r\n  top: 50%;\r\n  margin-top: -4px;\r\n  margin-top: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\r\n}\r\n.fc-direction-ltr .fc-h-event.fc-event-selected .fc-event-resizer-start,\r\n.fc-direction-rtl .fc-h-event.fc-event-selected .fc-event-resizer-end {\r\n  left: -4px;\r\n  left: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\r\n}\r\n.fc-direction-ltr .fc-h-event.fc-event-selected .fc-event-resizer-end,\r\n.fc-direction-rtl .fc-h-event.fc-event-selected .fc-event-resizer-start {\r\n  right: -4px;\r\n  right: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\r\n}\r\n.fc .fc-popover {\r\n    position: absolute;\r\n    z-index: 9999;\r\n    box-shadow: 0 2px 6px rgba(0,0,0,.15);\r\n  }\r\n.fc .fc-popover-header {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n    padding: 3px 4px;\r\n  }\r\n.fc .fc-popover-title {\r\n    margin: 0 2px;\r\n  }\r\n.fc .fc-popover-close {\r\n    cursor: pointer;\r\n    opacity: 0.65;\r\n    font-size: 1.1em;\r\n  }\r\n.fc-theme-standard .fc-popover {\r\n    border: 1px solid #ddd;\r\n    border: 1px solid var(--fc-border-color, #ddd);\r\n    background: #fff;\r\n    background: var(--fc-page-bg-color, #fff);\r\n  }\r\n.fc-theme-standard .fc-popover-header {\r\n    background: rgba(208, 208, 208, 0.3);\r\n    background: var(--fc-neutral-bg-color, rgba(208, 208, 208, 0.3));\r\n  }\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20481,7 +21807,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n:root {\n  --fc-daygrid-event-dot-width: 8px;\n}\n/* help things clear margins of inner content */\n.fc-daygrid-day-frame,\n.fc-daygrid-day-events,\n.fc-daygrid-event-harness { /* for event top/bottom margins */\n}\n.fc-daygrid-day-frame:before, .fc-daygrid-day-events:before, .fc-daygrid-event-harness:before {\n  content: \"\";\n  clear: both;\n  display: table; }\n.fc-daygrid-day-frame:after, .fc-daygrid-day-events:after, .fc-daygrid-event-harness:after {\n  content: \"\";\n  clear: both;\n  display: table; }\n.fc .fc-daygrid-body { /* a <div> that wraps the table */\n    position: relative;\n    z-index: 1; /* container inner z-index's because <tr>s can't do it */\n  }\n.fc .fc-daygrid-day.fc-day-today {\n      background-color: rgba(255, 220, 40, 0.15);\n      background-color: var(--fc-today-bg-color, rgba(255, 220, 40, 0.15));\n    }\n.fc .fc-daygrid-day-frame {\n    position: relative;\n    min-height: 100%; /* seems to work better than `height` because sets height after rows/cells naturally do it */\n  }\n.fc {\n\n  /* cell top */\n\n}\n.fc .fc-daygrid-day-top {\n    display: flex;\n    flex-direction: row-reverse;\n  }\n.fc .fc-day-other .fc-daygrid-day-top {\n    opacity: 0.3;\n  }\n.fc {\n\n  /* day number (within cell top) */\n\n}\n.fc .fc-daygrid-day-number {\n    position: relative;\n    z-index: 4;\n    padding: 4px;\n  }\n.fc {\n\n  /* event container */\n\n}\n.fc .fc-daygrid-day-events {\n    margin-top: 1px; /* needs to be margin, not padding, so that available cell height can be computed */\n  }\n.fc {\n\n  /* positioning for balanced vs natural */\n\n}\n.fc .fc-daygrid-body-balanced .fc-daygrid-day-events {\n      position: absolute;\n      left: 0;\n      right: 0;\n    }\n.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {\n      position: relative; /* for containing abs positioned event harnesses */\n      min-height: 2em; /* in addition to being a min-height during natural height, equalizes the heights a little bit */\n    }\n.fc .fc-daygrid-body-natural { /* can coexist with -unbalanced */\n  }\n.fc .fc-daygrid-body-natural .fc-daygrid-day-events {\n      margin-bottom: 1em;\n    }\n.fc {\n\n  /* event harness */\n\n}\n.fc .fc-daygrid-event-harness {\n    position: relative;\n  }\n.fc .fc-daygrid-event-harness-abs {\n    position: absolute;\n    top: 0; /* fallback coords for when cannot yet be computed */\n    left: 0; /* */\n    right: 0; /* */\n  }\n.fc .fc-daygrid-bg-harness {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n  }\n.fc {\n\n  /* bg content */\n\n}\n.fc .fc-daygrid-day-bg .fc-non-business { z-index: 1 }\n.fc .fc-daygrid-day-bg .fc-bg-event { z-index: 2 }\n.fc .fc-daygrid-day-bg .fc-highlight { z-index: 3 }\n.fc {\n\n  /* events */\n\n}\n.fc .fc-daygrid-event {\n    z-index: 6;\n    margin-top: 1px;\n  }\n.fc .fc-daygrid-event.fc-event-mirror {\n    z-index: 7;\n  }\n.fc {\n\n  /* cell bottom (within day-events) */\n\n}\n.fc .fc-daygrid-day-bottom {\n    font-size: .85em;\n    padding: 2px 3px 0\n  }\n.fc .fc-daygrid-day-bottom:before {\n  content: \"\";\n  clear: both;\n  display: table; }\n.fc .fc-daygrid-more-link {\n    position: relative;\n    z-index: 4;\n    cursor: pointer;\n  }\n.fc {\n\n  /* week number (within frame) */\n\n}\n.fc .fc-daygrid-week-number {\n    position: absolute;\n    z-index: 5;\n    top: 0;\n    padding: 2px;\n    min-width: 1.5em;\n    text-align: center;\n    background-color: rgba(208, 208, 208, 0.3);\n    background-color: var(--fc-neutral-bg-color, rgba(208, 208, 208, 0.3));\n    color: #808080;\n    color: var(--fc-neutral-text-color, #808080);\n  }\n.fc {\n\n  /* popover */\n\n}\n.fc .fc-more-popover .fc-popover-body {\n    min-width: 220px;\n    padding: 10px;\n  }\n.fc-direction-ltr .fc-daygrid-event.fc-event-start,\n.fc-direction-rtl .fc-daygrid-event.fc-event-end {\n  margin-left: 2px;\n}\n.fc-direction-ltr .fc-daygrid-event.fc-event-end,\n.fc-direction-rtl .fc-daygrid-event.fc-event-start {\n  margin-right: 2px;\n}\n.fc-direction-ltr .fc-daygrid-week-number {\n    left: 0;\n    border-radius: 0 0 3px 0;\n  }\n.fc-direction-rtl .fc-daygrid-week-number {\n    right: 0;\n    border-radius: 0 0 0 3px;\n  }\n.fc-liquid-hack .fc-daygrid-day-frame {\n    position: static; /* will cause inner absolute stuff to expand to <td> */\n  }\n.fc-daygrid-event { /* make root-level, because will be dragged-and-dropped outside of a component root */\n  position: relative; /* for z-indexes assigned later */\n  white-space: nowrap;\n  border-radius: 3px; /* dot event needs this to when selected */\n  font-size: .85em;\n  font-size: var(--fc-small-font-size, .85em);\n}\n/* --- the rectangle (\"block\") style of event --- */\n.fc-daygrid-block-event .fc-event-time {\n    font-weight: bold;\n  }\n.fc-daygrid-block-event .fc-event-time,\n  .fc-daygrid-block-event .fc-event-title {\n    padding: 1px;\n  }\n/* --- the dot style of event --- */\n.fc-daygrid-dot-event {\n  display: flex;\n  align-items: center;\n  padding: 2px 0\n\n}\n.fc-daygrid-dot-event .fc-event-title {\n    flex-grow: 1;\n    flex-shrink: 1;\n    min-width: 0; /* important for allowing to shrink all the way */\n    overflow: hidden;\n    font-weight: bold;\n  }\n.fc-daygrid-dot-event:hover,\n  .fc-daygrid-dot-event.fc-event-mirror {\n    background: rgba(0, 0, 0, 0.1);\n  }\n.fc-daygrid-dot-event.fc-event-selected:before {\n    /* expand hit area */\n    top: -10px;\n    bottom: -10px;\n  }\n.fc-daygrid-event-dot { /* the actual dot */\n  margin: 0 4px;\n  box-sizing: content-box;\n  width: 0;\n  height: 0;\n  border: 4px solid #3788d8;\n  border: calc(var(--fc-daygrid-event-dot-width, 8px) / 2) solid var(--fc-event-border-color, #3788d8);\n  border-radius: 4px;\n  border-radius: calc(var(--fc-daygrid-event-dot-width, 8px) / 2);\n}\n/* --- spacing between time and title --- */\n.fc-direction-ltr .fc-daygrid-event .fc-event-time {\n    margin-right: 3px;\n  }\n.fc-direction-rtl .fc-daygrid-event .fc-event-time {\n    margin-left: 3px;\n  }\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n:root {\r\n  --fc-daygrid-event-dot-width: 8px;\r\n}\r\n/* help things clear margins of inner content */\r\n.fc-daygrid-day-frame,\r\n.fc-daygrid-day-events,\r\n.fc-daygrid-event-harness { /* for event top/bottom margins */\r\n}\r\n.fc-daygrid-day-frame:before, .fc-daygrid-day-events:before, .fc-daygrid-event-harness:before {\r\n  content: \"\";\r\n  clear: both;\r\n  display: table; }\r\n.fc-daygrid-day-frame:after, .fc-daygrid-day-events:after, .fc-daygrid-event-harness:after {\r\n  content: \"\";\r\n  clear: both;\r\n  display: table; }\r\n.fc .fc-daygrid-body { /* a <div> that wraps the table */\r\n    position: relative;\r\n    z-index: 1; /* container inner z-index's because <tr>s can't do it */\r\n  }\r\n.fc .fc-daygrid-day.fc-day-today {\r\n      background-color: rgba(255, 220, 40, 0.15);\r\n      background-color: var(--fc-today-bg-color, rgba(255, 220, 40, 0.15));\r\n    }\r\n.fc .fc-daygrid-day-frame {\r\n    position: relative;\r\n    min-height: 100%; /* seems to work better than `height` because sets height after rows/cells naturally do it */\r\n  }\r\n.fc {\r\n\r\n  /* cell top */\r\n\r\n}\r\n.fc .fc-daygrid-day-top {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n  }\r\n.fc .fc-day-other .fc-daygrid-day-top {\r\n    opacity: 0.3;\r\n  }\r\n.fc {\r\n\r\n  /* day number (within cell top) */\r\n\r\n}\r\n.fc .fc-daygrid-day-number {\r\n    position: relative;\r\n    z-index: 4;\r\n    padding: 4px;\r\n  }\r\n.fc {\r\n\r\n  /* event container */\r\n\r\n}\r\n.fc .fc-daygrid-day-events {\r\n    margin-top: 1px; /* needs to be margin, not padding, so that available cell height can be computed */\r\n  }\r\n.fc {\r\n\r\n  /* positioning for balanced vs natural */\r\n\r\n}\r\n.fc .fc-daygrid-body-balanced .fc-daygrid-day-events {\r\n      position: absolute;\r\n      left: 0;\r\n      right: 0;\r\n    }\r\n.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {\r\n      position: relative; /* for containing abs positioned event harnesses */\r\n      min-height: 2em; /* in addition to being a min-height during natural height, equalizes the heights a little bit */\r\n    }\r\n.fc .fc-daygrid-body-natural { /* can coexist with -unbalanced */\r\n  }\r\n.fc .fc-daygrid-body-natural .fc-daygrid-day-events {\r\n      margin-bottom: 1em;\r\n    }\r\n.fc {\r\n\r\n  /* event harness */\r\n\r\n}\r\n.fc .fc-daygrid-event-harness {\r\n    position: relative;\r\n  }\r\n.fc .fc-daygrid-event-harness-abs {\r\n    position: absolute;\r\n    top: 0; /* fallback coords for when cannot yet be computed */\r\n    left: 0; /* */\r\n    right: 0; /* */\r\n  }\r\n.fc .fc-daygrid-bg-harness {\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n  }\r\n.fc {\r\n\r\n  /* bg content */\r\n\r\n}\r\n.fc .fc-daygrid-day-bg .fc-non-business { z-index: 1 }\r\n.fc .fc-daygrid-day-bg .fc-bg-event { z-index: 2 }\r\n.fc .fc-daygrid-day-bg .fc-highlight { z-index: 3 }\r\n.fc {\r\n\r\n  /* events */\r\n\r\n}\r\n.fc .fc-daygrid-event {\r\n    z-index: 6;\r\n    margin-top: 1px;\r\n  }\r\n.fc .fc-daygrid-event.fc-event-mirror {\r\n    z-index: 7;\r\n  }\r\n.fc {\r\n\r\n  /* cell bottom (within day-events) */\r\n\r\n}\r\n.fc .fc-daygrid-day-bottom {\r\n    font-size: .85em;\r\n    padding: 2px 3px 0\r\n  }\r\n.fc .fc-daygrid-day-bottom:before {\r\n  content: \"\";\r\n  clear: both;\r\n  display: table; }\r\n.fc .fc-daygrid-more-link {\r\n    position: relative;\r\n    z-index: 4;\r\n    cursor: pointer;\r\n  }\r\n.fc {\r\n\r\n  /* week number (within frame) */\r\n\r\n}\r\n.fc .fc-daygrid-week-number {\r\n    position: absolute;\r\n    z-index: 5;\r\n    top: 0;\r\n    padding: 2px;\r\n    min-width: 1.5em;\r\n    text-align: center;\r\n    background-color: rgba(208, 208, 208, 0.3);\r\n    background-color: var(--fc-neutral-bg-color, rgba(208, 208, 208, 0.3));\r\n    color: #808080;\r\n    color: var(--fc-neutral-text-color, #808080);\r\n  }\r\n.fc {\r\n\r\n  /* popover */\r\n\r\n}\r\n.fc .fc-more-popover .fc-popover-body {\r\n    min-width: 220px;\r\n    padding: 10px;\r\n  }\r\n.fc-direction-ltr .fc-daygrid-event.fc-event-start,\r\n.fc-direction-rtl .fc-daygrid-event.fc-event-end {\r\n  margin-left: 2px;\r\n}\r\n.fc-direction-ltr .fc-daygrid-event.fc-event-end,\r\n.fc-direction-rtl .fc-daygrid-event.fc-event-start {\r\n  margin-right: 2px;\r\n}\r\n.fc-direction-ltr .fc-daygrid-week-number {\r\n    left: 0;\r\n    border-radius: 0 0 3px 0;\r\n  }\r\n.fc-direction-rtl .fc-daygrid-week-number {\r\n    right: 0;\r\n    border-radius: 0 0 0 3px;\r\n  }\r\n.fc-liquid-hack .fc-daygrid-day-frame {\r\n    position: static; /* will cause inner absolute stuff to expand to <td> */\r\n  }\r\n.fc-daygrid-event { /* make root-level, because will be dragged-and-dropped outside of a component root */\r\n  position: relative; /* for z-indexes assigned later */\r\n  white-space: nowrap;\r\n  border-radius: 3px; /* dot event needs this to when selected */\r\n  font-size: .85em;\r\n  font-size: var(--fc-small-font-size, .85em);\r\n}\r\n/* --- the rectangle (\"block\") style of event --- */\r\n.fc-daygrid-block-event .fc-event-time {\r\n    font-weight: bold;\r\n  }\r\n.fc-daygrid-block-event .fc-event-time,\r\n  .fc-daygrid-block-event .fc-event-title {\r\n    padding: 1px;\r\n  }\r\n/* --- the dot style of event --- */\r\n.fc-daygrid-dot-event {\r\n  display: flex;\r\n  align-items: center;\r\n  padding: 2px 0\r\n\r\n}\r\n.fc-daygrid-dot-event .fc-event-title {\r\n    flex-grow: 1;\r\n    flex-shrink: 1;\r\n    min-width: 0; /* important for allowing to shrink all the way */\r\n    overflow: hidden;\r\n    font-weight: bold;\r\n  }\r\n.fc-daygrid-dot-event:hover,\r\n  .fc-daygrid-dot-event.fc-event-mirror {\r\n    background: rgba(0, 0, 0, 0.1);\r\n  }\r\n.fc-daygrid-dot-event.fc-event-selected:before {\r\n    /* expand hit area */\r\n    top: -10px;\r\n    bottom: -10px;\r\n  }\r\n.fc-daygrid-event-dot { /* the actual dot */\r\n  margin: 0 4px;\r\n  box-sizing: content-box;\r\n  width: 0;\r\n  height: 0;\r\n  border: 4px solid #3788d8;\r\n  border: calc(var(--fc-daygrid-event-dot-width, 8px) / 2) solid var(--fc-event-border-color, #3788d8);\r\n  border-radius: 4px;\r\n  border-radius: calc(var(--fc-daygrid-event-dot-width, 8px) / 2);\r\n}\r\n/* --- spacing between time and title --- */\r\n.fc-direction-ltr .fc-daygrid-event .fc-event-time {\r\n    margin-right: 3px;\r\n  }\r\n.fc-direction-rtl .fc-daygrid-event .fc-event-time {\r\n    margin-left: 3px;\r\n  }\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/@fullcalendar/timegrid/main.css":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/@fullcalendar/timegrid/main.css ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n/*\nA VERTICAL event\n*/\n\n.fc-v-event { /* allowed to be top-level */\n  display: block;\n  border: 1px solid #3788d8;\n  border: 1px solid var(--fc-event-border-color, #3788d8);\n  background-color: #3788d8;\n  background-color: var(--fc-event-bg-color, #3788d8)\n\n}\n\n.fc-v-event .fc-event-main {\n    color: #fff;\n    color: var(--fc-event-text-color, #fff);\n    height: 100%;\n  }\n\n.fc-v-event .fc-event-main-frame {\n    height: 100%;\n    display: flex;\n    flex-direction: column;\n  }\n\n.fc-v-event .fc-event-time {\n    flex-grow: 0;\n    flex-shrink: 0;\n    max-height: 100%;\n    overflow: hidden;\n  }\n\n.fc-v-event .fc-event-title-container { /* a container for the sticky cushion */\n    flex-grow: 1;\n    flex-shrink: 1;\n    min-height: 0; /* important for allowing to shrink all the way */\n  }\n\n.fc-v-event .fc-event-title { /* will have fc-sticky on it */\n    top: 0;\n    bottom: 0;\n    max-height: 100%; /* clip overflow */\n    overflow: hidden;\n  }\n\n.fc-v-event:not(.fc-event-start) {\n    border-top-width: 0;\n    border-top-left-radius: 0;\n    border-top-right-radius: 0;\n  }\n\n.fc-v-event:not(.fc-event-end) {\n    border-bottom-width: 0;\n    border-bottom-left-radius: 0;\n    border-bottom-right-radius: 0;\n  }\n\n.fc-v-event.fc-event-selected:before {\n    /* expand hit area */\n    left: -10px;\n    right: -10px;\n  }\n\n.fc-v-event {\n\n  /* resizer (mouse AND touch) */\n\n}\n\n.fc-v-event .fc-event-resizer-start {\n    cursor: n-resize;\n  }\n\n.fc-v-event .fc-event-resizer-end {\n    cursor: s-resize;\n  }\n\n.fc-v-event {\n\n  /* resizer for MOUSE */\n\n}\n\n.fc-v-event:not(.fc-event-selected) .fc-event-resizer {\n      height: 8px;\n      height: var(--fc-event-resizer-thickness, 8px);\n      left: 0;\n      right: 0;\n    }\n\n.fc-v-event:not(.fc-event-selected) .fc-event-resizer-start {\n      top: -4px;\n      top: calc(var(--fc-event-resizer-thickness, 8px) / -2);\n    }\n\n.fc-v-event:not(.fc-event-selected) .fc-event-resizer-end {\n      bottom: -4px;\n      bottom: calc(var(--fc-event-resizer-thickness, 8px) / -2);\n    }\n\n.fc-v-event {\n\n  /* resizer for TOUCH (when event is \"selected\") */\n\n}\n\n.fc-v-event.fc-event-selected .fc-event-resizer {\n      left: 50%;\n      margin-left: -4px;\n      margin-left: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\n    }\n\n.fc-v-event.fc-event-selected .fc-event-resizer-start {\n      top: -4px;\n      top: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\n    }\n\n.fc-v-event.fc-event-selected .fc-event-resizer-end {\n      bottom: -4px;\n      bottom: calc(var(--fc-event-resizer-dot-total-width, 8px) / -2);\n    }\n.fc .fc-timegrid .fc-daygrid-body { /* the all-day daygrid within the timegrid view */\n    z-index: 2; /* put above the timegrid-body so that more-popover is above everything. TODO: better solution */\n  }\n.fc .fc-timegrid-divider {\n    padding: 0 0 2px; /* browsers get confused when you set height. use padding instead */\n  }\n.fc .fc-timegrid-body {\n    position: relative;\n    z-index: 1; /* scope the z-indexes of slots and cols */\n    min-height: 100%; /* fill height always, even when slat table doesn't grow */\n  }\n.fc .fc-timegrid-axis-chunk { /* for advanced ScrollGrid */\n    position: relative /* offset parent for now-indicator-container */\n\n  }\n.fc .fc-timegrid-axis-chunk > table {\n      position: relative;\n      z-index: 1; /* above the now-indicator-container */\n    }\n.fc .fc-timegrid-slots {\n    position: relative;\n    z-index: 1;\n  }\n.fc .fc-timegrid-slot { /* a <td> */\n    height: 1.5em;\n    border-bottom: 0 /* each cell owns its top border */\n  }\n.fc .fc-timegrid-slot:empty:before {\n      content: '\\00a0'; /* make sure there's at least an empty space to create height for height syncing */\n    }\n.fc .fc-timegrid-slot-minor {\n    border-top-style: dotted;\n  }\n.fc .fc-timegrid-slot-label-cushion {\n    display: inline-block;\n    white-space: nowrap;\n  }\n.fc .fc-timegrid-slot-label {\n    vertical-align: middle; /* vertical align the slots */\n  }\n.fc {\n\n\n  /* slots AND axis cells (top-left corner of view including the \"all-day\" text) */\n\n}\n.fc .fc-timegrid-axis-cushion,\n  .fc .fc-timegrid-slot-label-cushion {\n    padding: 0 4px;\n  }\n.fc {\n\n\n  /* axis cells (top-left corner of view including the \"all-day\" text) */\n  /* vertical align is more complicated, uses flexbox */\n\n}\n.fc .fc-timegrid-axis-frame-liquid {\n    height: 100%; /* will need liquid-hack in FF */\n  }\n.fc .fc-timegrid-axis-frame {\n    overflow: hidden;\n    display: flex;\n    align-items: center; /* vertical align */\n    justify-content: flex-end; /* horizontal align. matches text-align below */\n  }\n.fc .fc-timegrid-axis-cushion {\n    max-width: 60px; /* limits the width of the \"all-day\" text */\n    flex-shrink: 0; /* allows text to expand how it normally would, regardless of constrained width */\n  }\n.fc-direction-ltr .fc-timegrid-slot-label-frame {\n    text-align: right;\n  }\n.fc-direction-rtl .fc-timegrid-slot-label-frame {\n    text-align: left;\n  }\n.fc-liquid-hack .fc-timegrid-axis-frame-liquid {\n  height: auto;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  }\n.fc .fc-timegrid-col.fc-day-today {\n      background-color: rgba(255, 220, 40, 0.15);\n      background-color: var(--fc-today-bg-color, rgba(255, 220, 40, 0.15));\n    }\n.fc .fc-timegrid-col-frame {\n    min-height: 100%; /* liquid-hack is below */\n    position: relative;\n  }\n.fc-liquid-hack .fc-timegrid-col-frame {\n  height: auto;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  }\n.fc-media-screen .fc-timegrid-cols {\n    position: absolute; /* no z-index. children will decide and go above slots */\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0\n  }\n.fc-media-screen .fc-timegrid-cols > table {\n      height: 100%;\n    }\n.fc-media-screen .fc-timegrid-col-bg,\n  .fc-media-screen .fc-timegrid-col-events,\n  .fc-media-screen .fc-timegrid-now-indicator-container {\n    position: absolute;\n    top: 0;\n    left: 0;\n    right: 0;\n  }\n.fc {\n\n  /* bg */\n\n}\n.fc .fc-timegrid-col-bg {\n    z-index: 2; /* TODO: kill */\n  }\n.fc .fc-timegrid-col-bg .fc-non-business { z-index: 1 }\n.fc .fc-timegrid-col-bg .fc-bg-event { z-index: 2 }\n.fc .fc-timegrid-col-bg .fc-highlight { z-index: 3 }\n.fc .fc-timegrid-bg-harness {\n    position: absolute; /* top/bottom will be set by JS */\n    left: 0;\n    right: 0;\n  }\n.fc {\n\n  /* fg events */\n  /* (the mirror segs are put into a separate container with same classname, */\n  /* and they must be after the normal seg container to appear at a higher z-index) */\n\n}\n.fc .fc-timegrid-col-events {\n    z-index: 3;\n    /* child event segs have z-indexes that are scoped within this div */\n  }\n.fc {\n\n  /* now indicator */\n\n}\n.fc .fc-timegrid-now-indicator-container {\n    bottom: 0;\n    overflow: hidden; /* don't let overflow of lines/arrows cause unnecessary scrolling */\n    /* z-index is set on the individual elements */\n  }\n.fc-direction-ltr .fc-timegrid-col-events {\n    margin: 0 2.5% 0 2px;\n  }\n.fc-direction-rtl .fc-timegrid-col-events {\n    margin: 0 2px 0 2.5%;\n  }\n.fc-timegrid-event-harness {\n  position: absolute /* top/left/right/bottom will all be set by JS */\n}\n.fc-timegrid-event-harness > .fc-timegrid-event {\n    position: absolute; /* absolute WITHIN the harness */\n    top: 0; /* for when not yet positioned */\n    bottom: 0; /* \" */\n    left: 0;\n    right: 0;\n  }\n.fc-timegrid-event-harness-inset .fc-timegrid-event,\n.fc-timegrid-event.fc-event-mirror,\n.fc-timegrid-more-link {\n  box-shadow: 0px 0px 0px 1px #fff;\n  box-shadow: 0px 0px 0px 1px var(--fc-page-bg-color, #fff);\n}\n.fc-timegrid-event,\n.fc-timegrid-more-link { /* events need to be root */\n  font-size: .85em;\n  font-size: var(--fc-small-font-size, .85em);\n  border-radius: 3px;\n}\n.fc-timegrid-event { /* events need to be root */\n  margin-bottom: 1px /* give some space from bottom */\n}\n.fc-timegrid-event .fc-event-main {\n    padding: 1px 1px 0;\n  }\n.fc-timegrid-event .fc-event-time {\n    white-space: nowrap;\n    font-size: .85em;\n    font-size: var(--fc-small-font-size, .85em);\n    margin-bottom: 1px;\n  }\n.fc-timegrid-event-short .fc-event-main-frame {\n    flex-direction: row;\n    overflow: hidden;\n  }\n.fc-timegrid-event-short .fc-event-time:after {\n    content: '\\00a0-\\00a0'; /* dash surrounded by non-breaking spaces */\n  }\n.fc-timegrid-event-short .fc-event-title {\n    font-size: .85em;\n    font-size: var(--fc-small-font-size, .85em)\n  }\n.fc-timegrid-more-link { /* does NOT inherit from fc-timegrid-event */\n  position: absolute;\n  z-index: 9999; /* hack */\n  color: inherit;\n  color: var(--fc-more-link-text-color, inherit);\n  background: #d0d0d0;\n  background: var(--fc-more-link-bg-color, #d0d0d0);\n  cursor: pointer;\n  margin-bottom: 1px; /* match space below fc-timegrid-event */\n}\n.fc-timegrid-more-link-inner { /* has fc-sticky */\n  padding: 3px 2px;\n  top: 0;\n}\n.fc-direction-ltr .fc-timegrid-more-link {\n    right: 0;\n  }\n.fc-direction-rtl .fc-timegrid-more-link {\n    left: 0;\n  }\n.fc {\n\n  /* line */\n\n}\n.fc .fc-timegrid-now-indicator-line {\n    position: absolute;\n    z-index: 4;\n    left: 0;\n    right: 0;\n    border-style: solid;\n    border-color: red;\n    border-color: var(--fc-now-indicator-color, red);\n    border-width: 1px 0 0;\n  }\n.fc {\n\n  /* arrow */\n\n}\n.fc .fc-timegrid-now-indicator-arrow {\n    position: absolute;\n    z-index: 4;\n    margin-top: -5px; /* vertically center on top coordinate */\n    border-style: solid;\n    border-color: red;\n    border-color: var(--fc-now-indicator-color, red);\n  }\n.fc-direction-ltr .fc-timegrid-now-indicator-arrow {\n    left: 0;\n\n    /* triangle pointing right. TODO: mixin */\n    border-width: 5px 0 5px 6px;\n    border-top-color: transparent;\n    border-bottom-color: transparent;\n  }\n.fc-direction-rtl .fc-timegrid-now-indicator-arrow {\n    right: 0;\n\n    /* triangle pointing left. TODO: mixin */\n    border-width: 5px 6px 5px 0;\n    border-top-color: transparent;\n    border-bottom-color: transparent;\n  }\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55970,9 +57320,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("FullCalendar", { attrs: { options: _vm.calendarOptions } })
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+              }
+            }
+          },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6 mb-4" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-sm btn-primary",
+                    on: { click: _vm.addNewEvent }
+                  },
+                  [_vm._v("Save Event")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-md-8" },
+        [_c("FullCalendar", { attrs: { options: _vm.calendarOptions } })],
+        1
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "event_name" } }, [_vm._v("Event Name")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", id: "event_name" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "start_date" } }, [_vm._v("Start Date")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "date", id: "start_date" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "end_date" } }, [_vm._v("End Date")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "date", id: "end_date" }
+        })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -56235,6 +57671,27 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("17e803c6", content, false, {});
+// Hot Module Replacement
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/@fullcalendar/timegrid/main.css":
+/*!******************************************************!*\
+  !*** ./node_modules/@fullcalendar/timegrid/main.css ***!
+  \******************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./main.css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/@fullcalendar/timegrid/main.css");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("658e5082", content, false, {});
 // Hot Module Replacement
 if(false) {}
 
