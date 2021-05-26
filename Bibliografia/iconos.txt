@@ -1,6 +1,0 @@
-Bibliografía:
-// Iconos
-https://dev.to/dendihandian/adding-font-awesome-to-laravel-the-laravel-mix-way-4ndj
-npm install @fortawesome/fontawesome-free --save-dev
-// Fuente Login
-https://fonts.google.com/specimen/Bree+Serif#standard-styles
