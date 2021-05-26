@@ -28,8 +28,8 @@ $(function(){
 
     $("table").on("click", ".deleteRow", function () {
         $(this).closest("tr").remove();
-        $("#nRows").val(counter);
         counter -= 1
+        $("#nRows").val(counter);
         $('#addrow').attr('disabled', false).prop('value', "Afegir àmbit");
     });
 });

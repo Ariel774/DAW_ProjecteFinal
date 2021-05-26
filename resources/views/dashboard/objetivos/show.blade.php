@@ -15,9 +15,9 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-10">
-                <h5 class="card-title h3">Sub Objectiu: {{ $objetivo->nombre }}</h5>
+                <h5 class="card-title h3">Objectiu: {{ $objetivo->nombre }}</h5>
                 {{-- <eliminar-ambito ambito-slug={{ $subObjetivos->id }}></eliminar-ambito> Componente Vue --}}
-                <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-primary">Editar Sub Objectiu</a>
+                <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-primary">Editar Objectiu</a>
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $objetivo->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">
@@ -34,7 +34,7 @@
                 <div class="col-md-10">Sub Objectiu - {{$loop->index+1}}</div>
                 <div class="col-md-2"> 
                     <eliminar-sub-objetivo sub-objetivo-id={{ $subObjetivo->id }}></eliminar-sub-objetivo> {{-- Componente Vue --}}
-                    <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-info">Editar</a>
+                    <a href="{{ route('dashboard.sub-objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug, 'subObjetivo' => $subObjetivo->id])}}" type="button" class="btn btn-info">Editar</a>
                 </div>
             </div>    
         </div>

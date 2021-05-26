@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Ambito;
 use App\Models\Objetivo;
+use App\Models\Calendario;
 use App\Models\SubObjetivo;
 use Illuminate\Http\Request;
 
@@ -41,11 +42,17 @@ class SubObjetivoController extends Controller
      */
     public function store(Request $request, Ambito $ambito, Objetivo $objetivo)
     {
+        if(($request['hora_inicio'] && $request['hora_fin']) == NULL) {
+            $request['hora_inicio'] = '00:00'; 
+            $request['hora_fin'] = '00:00'; 
+        }
         request()->validate([ // Validaciones
             'nombre' => 'required|min:6',
             'unidades_realizar' => 'required',
             'dias' => 'required',
-            'color' => 'required'
+            'color' => 'required',
+            'hora_fin' => 'date_format:H:i|after_or_equal:hora_inicio',
+            'hora_inicio' => 'date_format:H:i|before_or_equal:hora_fin',
         ]);
         $dias = "";
         $arrayDay = $request['dias'];
@@ -53,6 +60,13 @@ class SubObjetivoController extends Controller
             $dias .= $dia.",";
         }
         $dias = substr($dias, 0, -1); // Borramos la coma final
+
+        // Si la hora es 00:00 lo dejamos en NULL
+        if($request['hora_inicio'] == '00:00' && $request['hora_fin'] == '00:00') {
+            $request['hora_inicio'] = NULL; 
+            $request['hora_fin'] = NULL; 
+        }
+
         SubObjetivo::create([ // Insertar los campos en la base de datos
             'nombre' => $request['nombre'],
             'descripcion' => $request['descripcion'] ?? '',
@@ -62,19 +76,20 @@ class SubObjetivoController extends Controller
             'dias' => $dias,
             'objetivo_id' => $objetivo->id,
         ]);
-        $SubObjetivo_id = SubObjetivo::latest()->first()->id; // Obtener el último ID creado
+        $SubObjetivo_id = SubObjetivo::latest()->first()->id; // Obtener el último ID creado 
         // Creamos el calendario
         auth()->user()->calendarios()->create([
             'title' => $request['nombre'],
             'start' => $objetivo->fecha_inicio,
             'end' => $objetivo->fecha_fin,
             'daysOfWeek' => $dias,
-            'startTime' => $request['hora_inicio'] ?? NULL,
-            'endTime' => $request['hora_fin'] ?? NULL,
+            'startTime' => $request['hora_inicio'],
+            'endTime' => $request['hora_fin'],
             'startRecur' => $objetivo->fecha_inicio,
             'endRecur' => $objetivo->fecha_fin,
             'color' => $request['color'],
-            'sub_objetivo_id' => $SubObjetivo_id
+            'sub_objetivo_id' => $SubObjetivo_id,
+            'objetivo_id' => $objetivo->id
         ]);
         return redirect('/dashboard/ambitos/'.$ambito->slug.'/objetivos/'.$objetivo->slug);
     }
@@ -96,9 +111,10 @@ class SubObjetivoController extends Controller
      * @param  \App\Models\SubObjetivo  $subObjetivo
      * @return \Illuminate\Http\Response
      */
-    public function edit(SubObjetivo $subObjetivo)
+    public function edit(Ambito $ambito, Objetivo $objetivo, SubObjetivo $subObjetivo)
     {
-        //
+        $calendario = Calendario::where('sub_objetivo_id', $subObjetivo->id)->first(); // Devolver un Objecto
+        return view('dashboard.sub-objetivos.edit', compact('objetivo', 'ambito', 'subObjetivo', 'calendario'));
     }
 
     /**

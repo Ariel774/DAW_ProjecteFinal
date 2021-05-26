@@ -47,10 +47,9 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     /** Objetivos */
     /** SubObjetivos */
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/create', [SubObjetivoController::class, 'create'])->name('sub-objetivos.create');
-    Route::post('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/', [SubObjetivoController::class, 'store'])->name('sub-objetivos.store');
+    Route::post('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos', [SubObjetivoController::class, 'store'])->name('sub-objetivos.store');
     Route::delete('/sub-objetivos/{subObjetivo}', [SubObjetivoController::class, 'destroy'])->name('sub-objetivos.destroy');
-
-    ///Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/sub-objetivos/create', [SubObjetivo::class, 'show'])->name('sub-objetivos.create');
+    Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/sub-objetivos/{subObjetivo}/edit', [SubObjetivoController::class, 'edit'])->name('sub-objetivos.edit');
     /** SubObjetivos */
 
     /** Calendario */
@@ -59,8 +58,6 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::get('/calendario/show', [CalendarioController::class, 'show'])->name('calendario.show');
     // Route::put('/calendario/{calendario}', [CalendarioController::class, 'update'])->name('calendario.update');
     // Route::delete('/calendario/{calendario}', [CalendarioController::class, 'destroy'])->name('calendario.destroy');
-
-
     /** Calendario */
 });
 
