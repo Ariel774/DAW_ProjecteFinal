@@ -15,9 +15,16 @@ class CreateCalendariosTable extends Migration
     {
         Schema::create('calendarios', function (Blueprint $table) {
             $table->id()->autoIncrement();
-            $table->string('event_name');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->date('start');
+            $table->date('end');
+            $table->date('startRecur');
+            $table->date('endRecur');
+            $table->string('daysOfWeek');
+            $table->time('startTime')->nullable();
+            $table->time('endTime')->nullable();
+            $table->string('color');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class SubObjetivo extends Model
         'unidades_realizar',
         'hora_inicio',
         'hora_fin',
-        'dia_id',
+        'dias',
         'objetivo_id',
     ];
     use HasFactory;

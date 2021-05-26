@@ -40,23 +40,38 @@ class SubObjetivoController extends Controller
     {
         request()->validate([ // Validaciones
             'nombre' => 'required|min:6',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required',
             'unidades_realizar' => 'required',
-            'dia' => 'required',
+            'dias' => 'required',
+            'color' => 'required'
         ]);
-        $arrayDay = $request['dia'];
-        foreach ($arrayDay as $dia_id) {
-            SubObjetivo::create([ // Insertar los campos en la base de datos
-                'nombre' => $request['nombre'],
-                'descripcion' => $request['descripcion'] ?? '',
-                'unidades_realizar' =>  $request['unidades_realizar'],
-                'hora_inicio' => $request['hora_inicio'],
-                'hora_fin' => $request['hora_fin'],
-                'dia_id' => $dia_id,
-                'objetivo_id' => $objetivo->id,
-            ]);
-        }    
+        $dias = "";
+        $arrayDay = $request['dias'];
+        foreach ($arrayDay as $dia) {
+            $dias .= $dia.",";
+        }
+        $dias = substr($dias, 0, -1); // Borramos la coma final
+        SubObjetivo::create([ // Insertar los campos en la base de datos
+            'nombre' => $request['nombre'],
+            'descripcion' => $request['descripcion'] ?? '',
+            'unidades_realizar' =>  $request['unidades_realizar'],
+            'hora_inicio' => $request['hora_inicio'] ?? NULL,
+            'hora_fin' => $request['hora_fin'] ?? NULL,
+            'dias' => $dias,
+            'objetivo_id' => $objetivo->id,
+        ]);
+        // Creamos el calendario
+        auth()->user()->calendarios()->create([
+            'title' => $request['nombre'],
+            'start' => $objetivo->fecha_inicio,
+            'end' => $objetivo->fecha_fin,
+            'daysOfWeek' => $dias,
+            'startTime' => $request['hora_inicio'] ?? NULL,
+            'endTime' => $request['hora_fin'] ?? NULL,
+            'startRecur' => $objetivo->fecha_inicio,
+            'endRecur' => $objetivo->fecha_fin,
+            'color' => $request['color']
+        ]);
+        return redirect('/dashboard/ambitos/'.$ambito->slug.'/objetivos/'.$objetivo->slug);
     }
 
     /**

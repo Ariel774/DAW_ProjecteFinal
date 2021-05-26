@@ -74,9 +74,8 @@ class ObjetivoController extends Controller
      */
     public function show(Ambito $ambito, Objetivo $objetivo)
     {
-        $subObjetivo = SubObjetivo::where('objetivo_id', $objetivo->id);
         $subObjetivos = SubObjetivo::where('objetivo_id', $objetivo->id)->paginate(3);
-        return view('dashboard.objetivos.show', compact('subObjetivo', 'subObjetivos', 'objetivo'));
+        return view('dashboard.objetivos.show', compact('subObjetivos', 'objetivo', 'ambito'));
     }
 
     /**
@@ -100,7 +99,7 @@ class ObjetivoController extends Controller
     public function update(Request $request, Ambito $ambito, Objetivo $objetivo)
     {
         request()->validate([ // Validaciones
-            'nombre' => 'required|min:6|unique:slug',
+            'nombre' => 'required|min:6',
             'descripcion' => 'required|min:10',
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required',
@@ -108,12 +107,12 @@ class ObjetivoController extends Controller
         ]);
         $objetivo->nombre = $request['nombre'];
         $objetivo->descripcion = $request['descripcion'];
-        $objetivo->slug = Str::slug($request['nombre']);
+        $objetivo->slug = $this->createSlug($request['nombre']);
         $objetivo->unidades_fin = $request['unidades_fin'];
         $objetivo->fecha_inicio = $request['fecha_inicio'];
         $objetivo->fecha_fin = $request['fecha_fin'];
         $objetivo->save();
-        return redirect('/dashboard/ambitos/'.$ambito->id);
+        return redirect('/dashboard/ambitos/'.$ambito->slug);
     }
 
     /**
@@ -133,7 +132,6 @@ class ObjetivoController extends Controller
         if (! $allSlugs->contains('slug', $slug)){
             return $slug;
         }
-
         $i = 1;
         $is_contain = true;
         do {

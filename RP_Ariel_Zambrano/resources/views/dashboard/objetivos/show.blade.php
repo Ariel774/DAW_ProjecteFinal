@@ -15,10 +15,9 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-10">
-                <h5 class="card-title h3">Objectiu: {{ $objetivo->nombre }}</h5>
+                <h5 class="card-title h3">Sub Objectiu: {{ $objetivo->nombre }}</h5>
                 {{-- <eliminar-ambito ambito-slug={{ $subObjetivos->id }}></eliminar-ambito> Componente Vue --}}
-                <button class="btn btn-primary show-modal" data-toggle="modal" data-target="#ambitModal">Editar</button>
-                <p class="card-text">{{ $objetivo->descripcion }}</p>
+                <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-primary">Editar Sub Objectiu</a>
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $objetivo->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">
@@ -28,9 +27,32 @@
         </div>
     </div>
     <!-- Objetivos -->
-    @foreach ($subObjetivo as $sub) 
-
-
+    @foreach ($subObjetivos as $subObjetivo) 
+    <div class="card-ambito card text-black bg-muted ml-3 mb-4">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-10">Sub Objectiu - {{$loop->index+1}}</div>
+                <div class="col-md-2"> 
+                    <eliminar-objetivo objetivo-id={{ $subObjetivo->slug }}></eliminar-objetivo> {{-- Componente Vue --}}
+                    <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-info">Editar</a>
+                </div>
+            </div>    
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="button-ambito">
+                        <a class="btn-a" href="{{ route('dashboard.objetivos.show', 
+                        ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}">Més Informació</a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <h5 class="card-title">{{ $subObjetivo->nombre }}</h5>
+                    <p class="card-text">{{ $subObjetivo->descripcion}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
     @endforeach
     <!-- Fin Objetivos -->
 

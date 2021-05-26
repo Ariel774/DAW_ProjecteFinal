@@ -81,15 +81,10 @@ export default {
             title: 'Programar', 
             start: '2021-05-23', 
             end: '2021-06-24',
-            daysOfWeek: ['4'],
+            daysOfWeek: ['4','5'],
             startTime: '18:00', endTime: '21:00',
             color: 'green'
           },
-          // {
-          // title: 'event with URL',
-          // url: 'https://www.google.com/',
-          // start: '2021-05-29'
-          // },
         ],
         dayMaxEvents: true,
         weekends: true, 

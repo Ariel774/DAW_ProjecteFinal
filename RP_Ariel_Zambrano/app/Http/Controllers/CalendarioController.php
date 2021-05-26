@@ -18,8 +18,6 @@ class CalendarioController extends Controller
     public function index()
     {
         return view('dashboard.calendario.index');
-        //return CalendarioResource::collection(Calendario::all());
-
     }
 
     /**
@@ -40,12 +38,8 @@ class CalendarioController extends Controller
      */
     public function store(Request $request)
     {
-        $new_calendar = Calendario::create($request->all());
-        return response()->json([
-            'data' => new CalendarioResource($new_calendar),
-            'message' => 'Evento añadido al calendario!',
-            'status' => Response::HTTP_CREATED
-        ]);
+        Calendario::create($request->all());
+        return view('dashboard.calendario.index');
     }
 
     /**
@@ -56,7 +50,8 @@ class CalendarioController extends Controller
      */
     public function show(Calendario $calendario)
     {
-        return response($calendario, Response::HTTP_OK);
+        $calendario = Calendario::all();
+        return response()->json($calendario);
     }
 
     /**

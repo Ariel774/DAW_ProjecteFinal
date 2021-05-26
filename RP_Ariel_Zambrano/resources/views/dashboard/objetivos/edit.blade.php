@@ -9,13 +9,13 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->slug }}">{{ $ambito->slug }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Crear Objectiu</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Objectiu</li>
     </ol>
 </nav>
 <!-- Navegador -->
 <div class="form">
     <h2>Editar Objectiu</h2>
-    <form  method="POST" action="{{ route('dashboard.objetivos.update', ['ambito' => $ambito->id, 'objetivo' => $objetivo->id ] ) }}" enctype="multipart/form-data" novalidate>
+    <form  method="POST" action="{{ route('dashboard.objetivos.update', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug ] ) }}" enctype="multipart/form-data" novalidate>
         @csrf
         @method('put')
         <div class="form-group row mt-1">

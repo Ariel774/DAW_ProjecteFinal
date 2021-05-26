@@ -55,7 +55,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     /** Calendario */
     Route::get('/calendario', [CalendarioController::class, 'index'])->name('calendario.index');
     Route::post('/calendario', [CalendarioController::class, 'store'])->name('calendario.store');
-    // Route::get('/calendario/{calendario}', [CalendarioController::class, 'show'])->name('calendario.show');
+    Route::get('/calendario/show', [CalendarioController::class, 'show'])->name('calendario.show');
     // Route::put('/calendario/{calendario}', [CalendarioController::class, 'update'])->name('calendario.update');
     // Route::delete('/calendario/{calendario}', [CalendarioController::class, 'destroy'])->name('calendario.destroy');
 

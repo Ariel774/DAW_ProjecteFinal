@@ -34,7 +34,7 @@
                 </span>
                 @enderror
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label for="unidades_realizar">Unitats diaries:</label>
                 <div class="input-group">
                     <input 
@@ -42,7 +42,7 @@
                     name="unidades_realizar" 
                     value = "{{ old('unidades_realizar') }}" 
                     class="form-control @error('unidades_realizar') is-invalid @enderror" type="number"
-                    placeholder="Unitats diaries a fer"
+                    placeholder="Unitats"
                     style="margin-right: 0px"
                     >
                     <div class="input-group-prepend">
@@ -55,25 +55,34 @@
                 </span>
                 @enderror
             </div>
+            <div class="col-md-2">
+                <label for="unidades_realizar">Color:</label>
+                <input type="color" id="color" name="color" value="#ff0000" class="form-control @error('unidades_realizar') is-invalid @enderror">
+                @error('color')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                @enderror
+            </div>
             <div class="form-group row mt-1">
                 <label for="nombre">Escull un o més dies: </label>
                 <div class="weekDays-selector">
-                    <input type="checkbox" name="dia[]" value=1 id="weekday-mon" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=1 id="weekday-mon" class="weekday" />
                     <label for="weekday-mon">Dilluns</label>
-                    <input type="checkbox" name="dia[]" value=2 id="weekday-tue" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=2 id="weekday-tue" class="weekday" />
                     <label for="weekday-tue">Dimarts</label>
-                    <input type="checkbox" name="dia[]" value=3 id="weekday-wed" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=3 id="weekday-wed" class="weekday" />
                     <label for="weekday-wed">Dimecres</label>
-                    <input type="checkbox" name="dia[]" value=4 id="weekday-thu" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=4 id="weekday-thu" class="weekday" />
                     <label for="weekday-thu">Dijous</label>
-                    <input type="checkbox" name="dia[]" value=5 id="weekday-fri" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=5 id="weekday-fri" class="weekday" />
                     <label for="weekday-fri">Divendres</label>
-                    <input type="checkbox" name="dia[]" value=6 id="weekday-sat" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=6 id="weekday-sat" class="weekday" />
                     <label for="weekday-sat">Dissabte</label>
-                    <input type="checkbox" name="dia[]" value=7 id="weekday-sun" class="weekday" />
+                    <input type="checkbox" name="dias[]" value=0 id="weekday-sun" class="weekday" />
                     <label for="weekday-sun">Diumenge</label>
                 </div>
-                @error('dia')
+                @error('dias')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
                 </span>
