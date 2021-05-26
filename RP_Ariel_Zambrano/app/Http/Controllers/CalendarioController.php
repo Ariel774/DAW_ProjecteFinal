@@ -50,7 +50,9 @@ class CalendarioController extends Controller
      */
     public function show(Calendario $calendario)
     {
-        $calendario = Calendario::all();
+        // Obtenemos el id del usuario para retornarle su calendario
+        $usuario = auth()->user()->id;
+        $calendario = Calendario::where('user_id',"=", $usuario)->get();
         return response()->json($calendario);
     }
 

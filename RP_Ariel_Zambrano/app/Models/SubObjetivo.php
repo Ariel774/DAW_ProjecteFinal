@@ -21,4 +21,8 @@ class SubObjetivo extends Model
     {
         return $this->belongsTo(Objetivo::class, 'objetivo_id');
     }
+    public function calendarios() 
+    {
+        return $this->hasMany(Calendario::class, 'sub_objetivo_id');
+    }
 }

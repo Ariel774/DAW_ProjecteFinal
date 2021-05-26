@@ -9,3 +9,6 @@ https://developer.mozilla.org/es/
 https://www.w3schools.com/
 https://www.php.net/manual/es/
 https://www.udemy.com/course/curso-laravel-crea-aplicaciones-y-sitios-web-con-php-y-mvc/
+https://www.itsolutionstuff.com/post/laravel-carbon-get-current-date-time-exampleexample.html
+Laravel Date Validation:
+https://www.magutti.com/blog/lavavel-date-validation

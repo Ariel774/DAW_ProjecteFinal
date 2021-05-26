@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-md-10">Sub Objectiu - {{$loop->index+1}}</div>
                 <div class="col-md-2"> 
-                    <eliminar-objetivo objetivo-id={{ $subObjetivo->slug }}></eliminar-objetivo> {{-- Componente Vue --}}
+                    <eliminar-sub-objetivo sub-objetivo-id={{ $subObjetivo->id }}></eliminar-sub-objetivo> {{-- Componente Vue --}}
                     <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-info">Editar</a>
                 </div>
             </div>    

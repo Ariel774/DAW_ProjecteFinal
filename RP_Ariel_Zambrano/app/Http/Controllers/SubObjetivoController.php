@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Ambito;
 use App\Models\Objetivo;
 use App\Models\SubObjetivo;
@@ -26,7 +27,9 @@ class SubObjetivoController extends Controller
      */
     public function create(Ambito $ambito, Objetivo $objetivo)
     {
-        return view('dashboard.sub-objetivos.create', compact('ambito', 'objetivo'));
+        $todayHour = Carbon::now()->format('H:i:m');
+
+        return view('dashboard.sub-objetivos.create', compact('ambito', 'objetivo', 'todayHour'));
 
     }
 
@@ -59,6 +62,7 @@ class SubObjetivoController extends Controller
             'dias' => $dias,
             'objetivo_id' => $objetivo->id,
         ]);
+        $SubObjetivo_id = SubObjetivo::latest()->first()->id; // Obtener el último ID creado
         // Creamos el calendario
         auth()->user()->calendarios()->create([
             'title' => $request['nombre'],
@@ -69,7 +73,8 @@ class SubObjetivoController extends Controller
             'endTime' => $request['hora_fin'] ?? NULL,
             'startRecur' => $objetivo->fecha_inicio,
             'endRecur' => $objetivo->fecha_fin,
-            'color' => $request['color']
+            'color' => $request['color'],
+            'sub_objetivo_id' => $SubObjetivo_id
         ]);
         return redirect('/dashboard/ambitos/'.$ambito->slug.'/objetivos/'.$objetivo->slug);
     }
@@ -116,6 +121,6 @@ class SubObjetivoController extends Controller
      */
     public function destroy(SubObjetivo $subObjetivo)
     {
-        //
+        $subObjetivo->delete();
     }
 }

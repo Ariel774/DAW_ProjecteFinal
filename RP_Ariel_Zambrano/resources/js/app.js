@@ -29,8 +29,8 @@ Vue.use(VueSweetalert2); // Agregamos nuestro componente SweetAlert
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('eliminar-ambito', require('./components/EliminarAmbito.vue').default);
 Vue.component('actualizar-ambito', require('./components/ActualizarAmbito.vue').default)
-
 Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').default);
+Vue.component('eliminar-sub-objetivo', require('./components/EliminarSubObjetivo.vue').default);
 Vue.component('calendario-component', require('./components/CalendarioComponent.vue').default);
 
 

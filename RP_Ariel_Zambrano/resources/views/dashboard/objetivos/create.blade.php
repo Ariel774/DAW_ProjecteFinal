@@ -70,7 +70,7 @@
             <div class="col-md-4">
               <input 
               class="form-control @error('fecha_inicio') is-invalid @enderror" 
-              name="fecha_inicio" type="date" value="2011-08-19" id="fecha_inicio">
+              name="fecha_inicio" type="date" value="{{ $todayDate }}" id="fecha_inicio">
               @error('fecha_inicio')
               <span class="invalid-feedback d-block" role="alert">
                   <strong>{{$message}}</strong>
@@ -80,7 +80,7 @@
             <label for="fecha_fin" class="col-2 col-form-label">Data Fi: </label>
             <div class="col-md-4">
                 <input class="form-control @error('fecha_fin') is-invalid @enderror" 
-                type="date" name="fecha_fin" id="fecha_fin" value="2011-08-20">
+                type="date" name="fecha_fin" id="fecha_fin" value="{{ $todayDate }}" min="{{ $todayDate }}">
                 @error('fecha_fin')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>

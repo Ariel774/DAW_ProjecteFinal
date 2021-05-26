@@ -8,7 +8,7 @@
 </template>
 <script>
     export default {
-        props: ['objetivoId'], /* Si el atributo es "receta-id" el prop deberá de llamarse "RecetaId" */
+        props: ['objetivoId'], 
         methods: {
             eliminarObjetivo() {
                 this.$swal({
@@ -31,18 +31,15 @@
                                 .then(respuesta => {
                                     //console.log(respuesta) // La respuesta será lo que tengamos en nuestro controlador (el return..)
                                     this.$swal({ // Mensaje de success conforme se ha eliminado
-                                    title: 'Àmbit eliminat',
-                                    text: 'Se ha esborrar el àmbit',
+                                    title: 'Objectiu eliminat',
+                                    text: "Se ha esborrar l'objectiu",
                                     icon: 'success'
                                     });
                                     this.$el.parentElement.parentElement.parentElement.parentElement.remove();
-                                    this.$el.child
-                                    //this.$el.parentNode.parentNode.parentNode.parentNode.remove();
                                 })
                                 .catch(error => {
                                     console.log(error)
                                 })
-                        //this.$el.parentElement.parentElement.parentElement.parentElement.remove();
                         }
                 })
             }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Ambito;
 use App\Models\Objetivo;
 use App\Models\SubObjetivo;
@@ -27,7 +28,8 @@ class ObjetivoController extends Controller
      */
     public function create(Ambito $ambito, Objetivo $objetivo)
     {
-        return view('dashboard.objetivos.create', compact('ambito', 'objetivo'));
+        $todayDate = Carbon::now()->format('Y-m-d'); // Obtener la fecha actual
+        return view('dashboard.objetivos.create', compact('ambito', 'objetivo', 'todayDate'));
     }
 
     /**
@@ -42,8 +44,8 @@ class ObjetivoController extends Controller
             'nombre' => 'required|min:6',
             'descripcion' => 'required|min:10',
             'imagen' => 'required|image',
-            'fecha_inicio' => 'required',
-            'fecha_fin' => 'required',
+            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+            'fecha_inicio' => 'required|date|before_or_equal:fecha_fin',
             'unidades_fin' => 'required',
             'unidad' => 'required'
         ]);

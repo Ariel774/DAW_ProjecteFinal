@@ -17,10 +17,15 @@ class Calendario extends Model
         'endTime',
         'startRecur',
         'endRecur',
-        'color'
+        'color',
+        'sub_objetivo_id'
     ];
     public function usuario() 
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function subObjetivos() 
+    {
+        return $this->belongsTo(SubObjetivo::class, 'sub_objetivo_id');
     }
 }

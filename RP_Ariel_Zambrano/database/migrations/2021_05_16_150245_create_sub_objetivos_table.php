@@ -21,7 +21,7 @@ class CreateSubObjetivosTable extends Migration
             $table->time('hora_inicio')->nullable();
             $table->time('hora_fin')->nullable();
             $table->string('dias');
-            $table->foreignId('objetivo_id')->constrained(); // Llave foranea
+            $table->foreignId('objetivo_id')->constrained()->cascadeOnDelete()->cascadeOnDelete(); // Llave foranea
             $table->timestamps();
         });
     }
