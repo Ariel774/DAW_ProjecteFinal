@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header">{{ __('Reset Contrasenya') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -18,9 +18,9 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-2 col-form-label text-md-right">{{ __('Correu') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
@@ -32,15 +32,21 @@
                         </div>
 
                         <div class="form-group row mb-0">
+
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
+                                    {{ __('Enviar link') }}
+                                    <i class="far fa-paper-plane"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+            <a class="text-dark" href="{{ route('login') }}">
+                <i class="fas fa-arrow-left"></i>        
+                Tornar al Login
+            </a>
         </div>
     </div>
 </div>

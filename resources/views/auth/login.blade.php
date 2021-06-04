@@ -43,7 +43,7 @@
     </div>
 
     <div class="text-center w-full">
-        <a href="#" class="txt1">
+        <a class="txt1" href="{{ route('password.request') }}">
             T'has oblidat de la contrasenya?
         </a>
     </div>

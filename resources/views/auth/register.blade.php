@@ -66,7 +66,10 @@
             Regisrar-se
         </button>
     </div>
-
+    <a class="txt1" href="{{ route('login') }}">
+        <i class="fas fa-arrow-left"></i>        
+        Tornar al Login
+    </a>
 </form>
 @endsection
 @section('scripts')
