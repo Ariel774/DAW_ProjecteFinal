@@ -7,7 +7,6 @@
     >
 </template>
 <script>
-
     export default {
         props: ['ambitoSlug'], /* Si el atributo es "receta-id" el prop deberá de llamarse "RecetaId" */
         methods: {

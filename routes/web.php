@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AmbitoController;
-use App\Http\Controllers\CalendarioController;
+use App\Models\SubObjetivo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AmbitoController;
 use App\Http\Controllers\ObjetivoController;
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\SubObjetivoController;
-use App\Models\SubObjetivo;
+use App\Http\Controllers\EstadisticasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,5 +60,9 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     // Route::put('/calendario/{calendario}', [CalendarioController::class, 'update'])->name('calendario.update');
     // Route::delete('/calendario/{calendario}', [CalendarioController::class, 'destroy'])->name('calendario.destroy');
     /** Calendario */
+
+    /** Estadísticas */
+    Route::get('/estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index');
+
 });
 

@@ -5,12 +5,20 @@
 @endsection
 @section('content')
 <!-- Modal Boostrap -->
-<a href="#" class="btn btn-outline-info show-modal font-weight-bold" data-toggle="modal" data-target="#ambitModal"></span> Crear Àmbits</a>
+<div class="row mb-4">
+    <div class="col-4">
+        <a href="#" class="btn btn-outline-info show-modal font-weight-bold" data-toggle="modal" data-target="#ambitModal"></span> Crear Àmbits</a>
+    </div>
+    <div class="col-8">
+        <h1 class="text-start">Menu Àmbits</h1>
+    </div>
+  </div>
 <div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h2 class="modal-title text-primary" id="ambitModalLabel">Crear Àmbits</h2>
+            
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -93,24 +101,26 @@
     </div>
     </div>
 <!-- Fi Modal Boostrap -->
-<div class="container">
-    <h1 align="center" class="mt-3">Menu Àmbits</h1>
-<div class='selector'>
-    <ul>
-        @foreach($ambitos as $ambito)
-        <li>
-            <a class="menuOption" href="{{ route('dashboard.ambitos.show', ['ambito' => $ambito->slug]) }}">
-                <p id="option-{{ $loop->index }}" class="text-uppercase">{{ $ambito->nombre}} </p>
-            </a>
-        </li>
-        @php
-        $nNumber = $loop->index;
-        @endphp
-        @endforeach
-    </ul>
-    <input type="hidden" value="{{ $nNumber }}" id="nOptions">
-    <button>Àmbits</button>
+<div class="container mt-4">
+<div class="row align-items-end">
+    <div class='selector'>
+        <ul>
+            @foreach($ambitos as $ambito)
+            <li>
+                <a class="menuOption" href="{{ route('dashboard.ambitos.show', ['ambito' => $ambito->slug]) }}">
+                    <p id="option-{{ $loop->index }}" class="text-uppercase">{{ $ambito->nombre}} </p>
+                </a>
+            </li>
+            @php
+            $nNumber = $loop->index;
+            @endphp
+            @endforeach
+        </ul>
+        <input type="hidden" value="{{ $nNumber }}" id="nOptions">
+        <button style="font-family: 'Zen Dots', cursive;">ÀMBITS</button>
+    </div>
 </div>
+
 </div>
 
 @endsection

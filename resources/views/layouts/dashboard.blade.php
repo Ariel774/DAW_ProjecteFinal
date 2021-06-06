@@ -9,7 +9,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         @yield('styles')
         <!-- JavaScript dependencies de Booststrap -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>        <script src="{{ asset('js/app.js') }}" defer></script>
         <script defer src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -121,7 +121,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-secondary">
+                                <a href="{{ route('dashboard.estadisticas.index') }}" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
                                             <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"/>
@@ -151,7 +151,7 @@
                     
                     <!-- Inici Footer -->
                     <footer class="pt-5 d-flex justify-content-between">
-                        <span>Copyright © 2021 Ariel Zambrano</span>
+                        <p style="margin-top:16px">Copyright © 2021 Ariel Zambrano <p>
                         <ul class="nav m-0">
                             <li class="nav-item">
                                 <a class="nav-link text-secondary" aria-current="page" href="#">Termes de privacitat</a>

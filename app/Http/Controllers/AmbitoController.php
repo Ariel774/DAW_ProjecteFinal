@@ -56,7 +56,7 @@ class AmbitoController extends Controller
             "descripcion.*"  => 'required',
         ]);
         if($curRowsDB > 0) { // Comprobamos si existen registros al respecto.
-            for ($i = $curRowsDB; $i <= $nRows; $i++) {
+            for ($i = $curRowsDB; $i < $nRows; $i++) {
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
                     'nombre'=> filter_var($data['ambitos'][$i], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH),
                     'descripcion'=> $data['descripcion'][$i],
@@ -65,7 +65,7 @@ class AmbitoController extends Controller
             }
             
         } else { // Si no existen los creamos todos 
-            for ($i = 0; $i <= $nRows; $i++) {
+            for ($i = 0; $i < $nRows; $i++) {
                 auth()->user()->ambitos()->create([ // Insertar los campos en la base de datos
                     'nombre'=> filter_var($data['ambitos'][$i], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH),
                     'descripcion'=> $data['descripcion'][$i],
