@@ -55,4 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Calendario::class, 'user_id');
     }
+    public function tareas() 
+    {
+        return $this->hasMany(Tarea::class, 'user_id');
+    }
 }

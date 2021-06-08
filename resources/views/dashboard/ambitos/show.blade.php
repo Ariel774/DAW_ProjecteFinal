@@ -28,6 +28,7 @@
         </div>
     </div>
     <!-- Objetivos -->
+    @if($objetivos->count() > 0)
     @foreach ($objetivos as $objetivo) 
         <div class="card-ambito card text-white bg-primary ml-3 mb-4">
             <div class="card-header">
@@ -59,6 +60,9 @@
         </div>
 
     @endforeach
+    @else
+    <h2 class="text-center mb-4">NO N'HI HAN OBJECTIUS</h2>
+    @endif
     <!-- Fin Objetivos -->
 </div>
 <div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">

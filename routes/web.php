@@ -8,6 +8,8 @@ use App\Http\Controllers\ObjetivoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\SubObjetivoController;
 use App\Http\Controllers\EstadisticasController;
+use App\Http\Controllers\TareaController;
+use App\Models\Tarea;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +62,10 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     // Route::put('/calendario/{calendario}', [CalendarioController::class, 'update'])->name('calendario.update');
     // Route::delete('/calendario/{calendario}', [CalendarioController::class, 'destroy'])->name('calendario.destroy');
     /** Calendario */
+
+    /** Tareas */
+    Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
+    Route::delete('/tareas/{tarea}', [TareaController::class, 'destroy'])->name('tareas.destroy');
 
     /** Estadísticas */
     Route::get('/estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index');

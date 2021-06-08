@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Ambito;
 use App\Models\Objetivo;
+use Carbon\CarbonPeriod;
 use App\Models\Calendario;
 use App\Models\SubObjetivo;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class SubObjetivoController extends Controller
             $request['hora_fin'] = '00:00'; 
         }
         request()->validate([ // Validaciones
-            'nombre' => 'required|min:6',
+            'nombre' => 'required',
             'unidades_realizar' => 'required',
             'dias' => 'required',
             'color' => 'required',
@@ -91,6 +92,28 @@ class SubObjetivoController extends Controller
             'sub_objetivo_id' => $SubObjetivo_id,
             'objetivo_id' => $objetivo->id
         ]);
+        // Método para crear las tareas
+        $startDate=$objetivo->fecha_inicio;
+        $endDate=$objetivo->fecha_fin;
+        // Función para guardar los días de la semana segun la fecha inicio y fin
+        $period = CarbonPeriod::create($startDate, $endDate)->filter(
+            fn ($date) => in_array($date->dayOfWeek, $request['dias']),
+        );
+        foreach ($period as $date) {
+            auth()->user()->tareas()->create([
+                'titulo' => $objetivo->nombre,
+                'subtitulo' => $request['nombre'],
+                'unidades_hechas' => 0,
+                'unidades_realizar' => $request['unidades_realizar'],
+                'fecha_inicio' => $objetivo->fecha_inicio,
+                'fecha_fin' => $objetivo->fecha_fin,
+                'fecha_tarea' => $date->format('Y-m-d'),
+                'hora_inicio' => $request['hora_inicio'],
+                'hora_fin' => $request['hora_inicio'],
+                'sub_objetivo_id' => $SubObjetivo_id,
+                'objetivo_id' => $objetivo->id,
+            ]);    
+        }
         return redirect('/dashboard/ambitos/'.$ambito->slug.'/objetivos/'.$objetivo->slug);
     }
 

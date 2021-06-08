@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Objetivo;
+use Carbon\Carbon;
 use App\Models\Tarea;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -14,7 +17,10 @@ class TareaController extends Controller
      */
     public function index()
     {
-        //
+        $todayDate = Carbon::now()->format('d-m-Y'); // Obtener la fecha actual
+        $usuario = auth()->user()->id;
+        $tareas = Tarea::where('user_id', $usuario)->where('fecha_tarea', Carbon::now()->format('Y-m-d') )->paginate(4);
+        return view('dashboard.tareas.index', compact('tareas', 'todayDate'));
     }
 
     /**
@@ -24,7 +30,6 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -35,7 +40,6 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -80,6 +84,10 @@ class TareaController extends Controller
      */
     public function destroy(Tarea $tarea)
     {
-        //
+        $objetivo = Objetivo::where('id', $tarea->objetivo_id)->first();
+        $objetivo->increment('unidades_actuales', $tarea->unidades_realizar);
+        //$objetivo->unidades_actuales = $tarea->unidades_realizar;
+        $objetivo->save();
+        $tarea->delete();
     }
 }

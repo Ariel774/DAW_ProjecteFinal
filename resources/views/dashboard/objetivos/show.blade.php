@@ -27,6 +27,7 @@
         </div>
     </div>
     <!-- Objetivos -->
+    @if($subObjetivos->count() > 0)
     @foreach ($subObjetivos as $subObjetivo) 
     <div class="card-ambito card text-black bg-muted ml-3 mb-4">
         <div class="card-header">
@@ -54,8 +55,11 @@
         </div>
     </div>
     @endforeach
+    @else
+    <h2 class="text-center mb-4">NO N'HI HAN SUB-OBJECTIUS</h2>
+    @endif
     <!-- Fin Objetivos -->
-
+</div>
 <!-- Fi Modal Boostrap -->
 {{ $subObjetivos->links() }}
 @endsection
