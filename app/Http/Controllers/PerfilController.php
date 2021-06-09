@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Perfil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PerfilController extends Controller
 {
@@ -14,7 +16,8 @@ class PerfilController extends Controller
      */
     public function index()
     {
-        //
+        $perfil = auth()->user()->perfil()->first();
+        return view('dashboard.perfil.index', compact('perfil'));                     
     }
 
     /**
@@ -69,7 +72,38 @@ class PerfilController extends Controller
      */
     public function update(Request $request, Perfil $perfil)
     {
-        //
+        // Validar
+        // dd($request->all());
+        $data = request()->validate([
+            'nombre' => 'required',
+            'biografia' => 'required'
+        ]);
+
+        // Si el usuario sube una imagen
+
+        if($request['imagen']) {
+            $ruta_imagen = $request['imagen']->store('upload-perfiles', 'public');
+            $imagen = '/public/'.$perfil->imagen;   
+            Storage::delete($imagen);
+            auth()->user()->perfil()->update([
+                'biografia' => $data['biografia'],
+                'imagen' => $ruta_imagen 
+            ]);
+        }
+
+        auth()->user()->name = $data['nombre']; // Campo nombre guardado
+        auth()->user()->save(); 
+ 
+        // --- Eliminamos información adicional
+        unset($data['nombre']);
+        // --- Fin información 
+        
+        // Array_Merge junta dos arrays o más
+        auth()->user()->perfil()->update([
+            'biografia' => $data['biografia'],
+        ]);
+        return redirect()->action([PerfilController::class, 'index']);
+
     }
 
     /**

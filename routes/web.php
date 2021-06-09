@@ -8,6 +8,7 @@ use App\Http\Controllers\ObjetivoController;
 use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\SubObjetivoController;
 use App\Http\Controllers\EstadisticasController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\TareaController;
 use App\Models\Tarea;
 
@@ -51,6 +52,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     /** Objetivos */
     /** SubObjetivos */
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/create', [SubObjetivoController::class, 'create'])->name('sub-objetivos.create');
+    Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/{subObjetivo}', [SubObjetivoController::class, 'show'])->name('sub-objetivos.show');
     Route::post('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos', [SubObjetivoController::class, 'store'])->name('sub-objetivos.store');
     Route::delete('/sub-objetivos/{subObjetivo}', [SubObjetivoController::class, 'destroy'])->name('sub-objetivos.destroy');
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/sub-objetivos/{subObjetivo}/edit', [SubObjetivoController::class, 'edit'])->name('sub-objetivos.edit');
@@ -70,6 +72,12 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
 
     /** Estadísticas */
     Route::get('/estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index');
+
+    /** Perfil */
+    Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil.index');
+    Route::put('/perfil/{perfil}', [PerfilController::class, 'update'])->name('perfil.update');
+
+
 
 });
 

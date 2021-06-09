@@ -18894,6 +18894,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_0__.default); // Agregamos nuestro componente SweetAlert
 
+vue__WEBPACK_IMPORTED_MODULE_2__.default.config.ignoredElements = ['trix-editor', 'trix-toolbar'];
 vue__WEBPACK_IMPORTED_MODULE_2__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_2__.default.component('eliminar-ambito', __webpack_require__(/*! ./components/EliminarAmbito.vue */ "./resources/js/components/EliminarAmbito.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_2__.default.component('actualizar-ambito', __webpack_require__(/*! ./components/ActualizarAmbito.vue */ "./resources/js/components/ActualizarAmbito.vue").default);

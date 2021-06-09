@@ -123,9 +123,9 @@ class SubObjetivoController extends Controller
      * @param  \App\Models\SubObjetivo  $subObjetivo
      * @return \Illuminate\Http\Response
      */
-    public function show(SubObjetivo $subObjetivo)
+    public function show(Ambito $ambito, Objetivo $objetivo, SubObjetivo $subObjetivo)
     {
-        //
+        return view('dashboard.sub-objetivos.show', compact('objetivo', 'ambito', 'subObjetivo'));
     }
 
     /**

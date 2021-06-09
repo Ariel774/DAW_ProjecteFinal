@@ -40,6 +40,18 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    // Evento que se ejecuta cuando un usuario es creado
+
+    protected static function boot() {
+        parent::boot();
+
+        // Asignar un perfil una vez que se haya creado el usuario nuevo
+        static::created(function ($user) {
+            $user->perfil()->create([
+                'imagen' => 'upload-perfiles/ariel.jpg'
+            ]); // Creamos el perfil
+        });
+    }
     /** Relacion 1:n  de Usuario a Ambitos */
     public function ambitos() 
     {
@@ -58,5 +70,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tareas() 
     {
         return $this->hasMany(Tarea::class, 'user_id');
+    }
+    public function perfil() 
+    {
+        return $this->hasOne(Perfil::class, 'user_id');
     }
 }

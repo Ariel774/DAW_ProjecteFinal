@@ -35,7 +35,10 @@
                 <div class="col-md-10">Sub Objectiu - {{$loop->index+1}}</div>
                 <div class="col-md-2"> 
                     <eliminar-sub-objetivo sub-objetivo-id={{ $subObjetivo->id }}></eliminar-sub-objetivo> {{-- Componente Vue --}}
+                    @if($objetivo->finalizado == true) 
+                    @else
                     <a href="{{ route('dashboard.sub-objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug, 'subObjetivo' => $subObjetivo->id])}}" type="button" class="btn btn-info">Editar</a>
+                    @endif
                 </div>
             </div>    
         </div>
@@ -43,8 +46,8 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="button-ambito">
-                        <a class="btn-a" href="{{ route('dashboard.objetivos.show', 
-                        ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}">Més Informació</a>
+                        <a class="btn-a" href="{{ route('dashboard.sub-objetivos.show', 
+                        ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug, 'subObjetivo' => $subObjetivo->id])}}">Més Informació</a>
                     </div>
                 </div>
                 <div class="col-lg-8">

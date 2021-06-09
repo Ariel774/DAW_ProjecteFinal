@@ -25,7 +25,7 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.use(VueSweetalert2); // Agregamos nuestro componente SweetAlert
-
+Vue.config.ignoredElements = ['trix-editor', 'trix-toolbar'];
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('eliminar-ambito', require('./components/EliminarAmbito.vue').default);
 Vue.component('actualizar-ambito', require('./components/ActualizarAmbito.vue').default)

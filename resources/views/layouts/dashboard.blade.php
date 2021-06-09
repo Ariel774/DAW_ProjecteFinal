@@ -36,14 +36,14 @@
                         <div class="media d-flex align-items-center">
                             <img class="user-avatar md-avatar rounded-circle" 
                             alt="Image placeholder" 
-                            src="/storage/user-image/ariel.jpg">
+                            src="/storage/{{ Auth::user()->perfil->imagen }}">
                             <div class="media-body ml-2 text-white align-items-center d-none d-lg-block">
                             <span class="mb-0 font-small fw-bold">Bon dia, {{ Auth::user()->name }}</span>
                             </div>
                         </div>                       
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
+                      <li><a class="dropdown-item" href="{{ route('dashboard.perfil.index') }}">Editar Perfil</a></li>
                       <li><a class="dropdown-item" href="#">Configuració</a></li>
                       <a class="dropdown-item" href="{{ route('logout') }}"
                       onclick="event.preventDefault();
@@ -78,7 +78,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-secondary">
+                                <a href="{{ route('dashboard.perfil.index') }}" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>

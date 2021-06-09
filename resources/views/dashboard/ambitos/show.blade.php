@@ -33,10 +33,18 @@
         <div class="card-ambito card text-white bg-primary ml-3 mb-4">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-10 h3">Objectiu - {{$loop->index+1}}</div>
+                    <div class="col-md-10 h3">Objectiu - {{$loop->index+1}} 
+                        @if($objetivo->finalizado == true) 
+                        <i class="fas fa-check-square"></i> (Completat)
+                        @else
+                        <i class="fas fa-spinner"></i> (En procès)
+                        @endif
+                    </div>
                     <div class="col-md-2"> 
                         <eliminar-objetivo objetivo-id={{ $objetivo->slug }}></eliminar-objetivo> {{-- Componente Vue --}}
+                        @if($objetivo->finalizado == false) 
                         <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-info">Editar</a>
+                        @endif
                     </div>
                 </div>    
             </div>

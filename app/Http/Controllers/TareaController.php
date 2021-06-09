@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendario;
 use App\Models\Objetivo;
 use Carbon\Carbon;
 use App\Models\Tarea;
@@ -93,10 +94,19 @@ class TareaController extends Controller
     }
     public function checkObjetivo(Objetivo $objetivo)
     {
+        $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
+        $calendario = Calendario::where('objetivo_id', $objetivo->id)->first(); // Devolver un Objeto
         if($objetivo->unidades_actuales >= $objetivo->unidades_fin) {
             $objetivo->finalizado = true;
             $objetivo->save();
         }
+        if($objetivo == true) {
+            foreach ($tareasArray as $tarea) {
+                $tarea->delete();
+            }
+            $calendario->delete();
+        }
+
         return;
     }
 
