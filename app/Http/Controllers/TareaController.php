@@ -100,7 +100,7 @@ class TareaController extends Controller
             $objetivo->finalizado = true;
             $objetivo->save();
         }
-        if($objetivo == true) {
+        if($objetivo->finalizado == true) {
             foreach ($tareasArray as $tarea) {
                 $tarea->delete();
             }
