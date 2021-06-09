@@ -47,9 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         // Asignar un perfil una vez que se haya creado el usuario nuevo
         static::created(function ($user) {
-            $user->perfil()->create([
-                'imagen' => 'upload-perfiles/ariel.jpg'
-            ]); // Creamos el perfil
+            $user->perfil()->create(); // Creamos el perfil
         });
     }
     /** Relacion 1:n  de Usuario a Ambitos */

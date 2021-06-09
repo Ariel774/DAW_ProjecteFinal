@@ -15,7 +15,9 @@
         @method('put')
         <div class="form-group row mt-1">
             <div class="col-md-6">
-                <img src="/storage/{{ $perfil->imagen }}" class="w-75 rounded-circle">
+                @if(Auth::user()->perfil->imagen != null )<img class="w-75 rounded-circle" alt="Image placeholder" src="/storage/{{ Auth::user()->perfil->imagen }}">
+                @else <img class="w-75 rounded-circle" alt="Image placeholder" src="/storage/rp-default/default.jpg">
+                @endif
             </div>
                 <div class="col">
                     <label for="nombre">Nom: </label>

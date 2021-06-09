@@ -34,9 +34,9 @@
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown pt-1 px-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                         <div class="media d-flex align-items-center">
-                            <img class="user-avatar md-avatar rounded-circle" 
-                            alt="Image placeholder" 
-                            src="/storage/{{ Auth::user()->perfil->imagen }}">
+                            @if(Auth::user()->perfil->imagen != null )<img class="user-avatar md-avatar rounded-circle" alt="Image placeholder" src="/storage/{{ Auth::user()->perfil->imagen }}">
+                            @else <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder" src="/storage/rp-default/default.jpg">
+                            @endif
                             <div class="media-body ml-2 text-white align-items-center d-none d-lg-block">
                             <span class="mb-0 font-small fw-bold">Bon dia, {{ Auth::user()->name }}</span>
                             </div>
