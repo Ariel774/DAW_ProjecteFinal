@@ -1,0 +1,15 @@
+.form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    color: white;
+    max-width: 60%;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    border-radius: 25px;
+    background: linear-gradient(90deg, rgba(47,47,47,1) 10%, rgba(0,0,0,0.896796218487395) 50%, rgba(69,69,69,1) 90%);
+}
+label {
+    margin-bottom: 1%;
+}

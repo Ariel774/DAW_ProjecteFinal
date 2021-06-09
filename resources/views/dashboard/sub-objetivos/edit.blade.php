@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 @section('styles')
-<link href="{{ asset('css/sub-objetivo/forms.css') }}" rel="stylesheet">
+<link href="{{ asset('css/sub-objetivo/forms-edit.css') }}" rel="stylesheet">
 <link href="{{ asset('css/sub-objetivo/checkbuttons.css') }}" rel="stylesheet">
 @endsection
 @section('content')
@@ -140,7 +140,8 @@
             </span>
             @enderror
         </div>
-        <input type="submit" value="Crear Objectiu" class="btn btn-success">
+        <input type="submit" value="Actualitzar" class="btn btn-success">
+        <a class="btn btn-danger" href="{{ route('dashboard.objetivos.show', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}">Cancelar</a>
     </form>
 </div>
 @endsection

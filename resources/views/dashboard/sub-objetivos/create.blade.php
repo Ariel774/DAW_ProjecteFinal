@@ -127,7 +127,8 @@
             </span>
             @enderror
         </div>
-        <input type="submit" value="Crear Objectiu" class="btn btn-success">
+        <input type="submit" value="Crear Sub Objectiu" class="btn btn-success">
+        <a class="btn btn-danger" href="{{ route('dashboard.objetivos.show', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}">Cancelar</a>
     </form>
 </div>
 @endsection

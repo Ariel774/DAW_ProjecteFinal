@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Tarea;
 use App\Models\Ambito;
 use App\Models\Objetivo;
+use Carbon\CarbonPeriod;
 use App\Models\SubObjetivo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -107,6 +109,9 @@ class ObjetivoController extends Controller
             'fecha_fin' => 'required',
             'unidades_fin' => 'required',
         ]);
+        // Recuperamos las antiguas fechas //
+        $fechaInioOld = $objetivo->fecha_inicio;
+        $fechaFinOld = $objetivo->fecha_fin;
         $objetivo->nombre = $request['nombre'];
         $objetivo->descripcion = $request['descripcion'];
         $objetivo->slug = Str::slug($request['nombre']);
@@ -114,6 +119,60 @@ class ObjetivoController extends Controller
         $objetivo->fecha_inicio = $request['fecha_inicio'];
         $objetivo->fecha_fin = $request['fecha_fin'];
         $objetivo->save();
+        // Actualizar tareas
+        $objetivo->tareas()->update([
+            'titulo' => $request['nombre'],
+            'fecha_inicio' => $request['fecha_inicio'],
+            'fecha_fin' => $request['fecha_fin']
+        ]);
+        // Método para crear las tareas
+        $startDate=$request['fecha_inicio'];
+        $endDate=$request['fecha_fin'];
+        $tarea = Tarea::where('objetivo_id', $objetivo->id)->first(); // Devolver un Objecto
+        $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
+        $subObjetivo = SubObjetivo::where('objetivo_id', $objetivo->id)->first(); // Devolver un Sub Objecto
+
+        // Función para guardar los días de la semana segun la fecha inicio y fin
+        if($subObjetivo != null) {
+            $diasArray = explode(', ', $subObjetivo->dias); // Convertimos los días en Array
+            $period = CarbonPeriod::create($startDate, $endDate)->filter(
+                fn ($date) => in_array($date->dayOfWeek, $diasArray),
+            );
+            foreach ($period as $date) {
+                auth()->user()->tareas()->create([
+                    'titulo' => $objetivo->nombre,
+                    'subtitulo' => $subObjetivo->nombre,
+                    'unidades_hechas' => 0,
+                    'unidades_realizar' => $subObjetivo->unidades_realizar,
+                    'fecha_inicio' => $objetivo->fecha_inicio,
+                    'fecha_fin' => $objetivo->fecha_fin,
+                    'fecha_tarea' => $date->format('Y-m-d'),
+                    'hora_inicio' => $tarea->hora_inicio,
+                    'hora_fin' => $tarea->hora_fin,
+                    'sub_objetivo_id' => $subObjetivo->id,
+                    'objetivo_id' => $objetivo->id,
+                ]);    
+            }
+            // Eliminar días extras
+            foreach ($tareasArray as $tarea) {
+                if($startDate > $fechaInioOld || $endDate < $fechaFinOld) {
+                    $tarea->delete();
+                }
+            }
+            auth()->user()->calendario()->update([
+                'title' => $objetivo->nombre,
+                'start' => $objetivo->fecha_inicio,
+                'end' => $objetivo->fecha_fin,
+                'daysOfWeek' => $subObjetivo->dias,
+                'startTime' => $subObjetivo->hora_inicio,
+                'endTime' => $subObjetivo->hora_inicio,
+                'startRecur' => $objetivo->fecha_inicio,
+                'endRecur' => $objetivo->fecha_fin,
+                'sub_objetivo_id' => $subObjetivo->id,
+                'objetivo_id' => $objetivo->id
+            ]);  
+        }
+
         return redirect('/dashboard/ambitos/'.$ambito->slug);
     }
 

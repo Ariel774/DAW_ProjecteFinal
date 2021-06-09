@@ -116,6 +116,7 @@
             @enderror
         </div>
         <input type="submit" value="Crear Objectiu" class="btn btn-success">
+        <a class="btn btn-danger" href="/dashboard/ambitos/{{ $ambito->slug }}">Cancelar</a>
     </form>
 </div>
 <!-- Formulario -->

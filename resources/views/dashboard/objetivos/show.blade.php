@@ -17,7 +17,7 @@
             <div class="col-md-10">
                 <h5 class="card-title h3">Objectiu: {{ $objetivo->nombre }}</h5>
                 {{-- <eliminar-ambito ambito-slug={{ $subObjetivos->id }}></eliminar-ambito> Componente Vue --}}
-                <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-primary">Editar Objectiu</a>
+                <a href="{{ route('dashboard.objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}" type="button" class="btn btn-primary">Editar Objectiu <i class="fas fa-info-circle"></i></a>
                 <p class="card-text"><small class="text-muted">Última actualització: {{ $objetivo->updated_at }}</small></p>
             </div>
             <div class="col-sm-2">

@@ -79,7 +79,7 @@ class SubObjetivoController extends Controller
         ]);
         $SubObjetivo_id = SubObjetivo::latest()->first()->id; // Obtener el último ID creado 
         // Creamos el calendario
-        auth()->user()->calendarios()->create([
+        auth()->user()->calendario()->create([
             'title' => $request['nombre'],
             'start' => $objetivo->fecha_inicio,
             'end' => $objetivo->fecha_fin,

@@ -8,7 +8,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('dashboard.home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->slug }}">{{ $ambito->slug }}</a></li>
+        <li class="breadcrumb-item"><a href="/dashboard/ambitos/{{ $ambito->slug }}">{{ $ambito->nombre }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">Editar Objectiu</li>
     </ol>
 </nav>
@@ -134,6 +134,7 @@
         </div>
         <input type="hidden" name="ambito_id" value="">
         <input type="submit" value="Actualitzar Objectiu" class="btn btn-primary">
+        <a class="btn btn-danger" href="/dashboard/ambitos/{{ $ambito->slug }}">Cancelar</a>
     </form>
 </div>
 

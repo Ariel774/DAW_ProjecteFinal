@@ -43,4 +43,8 @@ class Objetivo extends Model
     {
         return $this->hasMany(SubObjetivo::class,'objetivo_id'); // FK de esta tabla
     }
+    public function Tareas() 
+    {
+        return $this->hasMany(Tarea::class,'objetivo_id'); // FK de esta tabla
+    }
 }

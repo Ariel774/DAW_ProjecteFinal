@@ -99,7 +99,7 @@ return [
     'prohibited'           => 'The :attribute field is prohibited.',
     'prohibited_if'        => 'The :attribute field is prohibited when :other is :value.',
     'prohibited_unless'    => 'The :attribute field is prohibited unless :other is in :values.',
-    'regex'                => 'El format de :attribute és invàlid.',
+    'regex'                => 'El format de :attribute és invàlid. Ha de tenir un carácter especial.',
     'relatable'            => 'This :attribute may not be associated with this resource.',
     'required'             => 'El camp :attribute és obligatori.',
     'required_if'          => 'El camp :attribute és obligatori quan :other és :value.',

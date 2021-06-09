@@ -17,9 +17,9 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $todayDate = Carbon::now()->format('d-m-Y'); // Obtener la fecha actual
+        $todayDate = Carbon::now('Europe/Madrid')->format('d-m-Y'); // Obtener la fecha actual
         $usuario = auth()->user()->id;
-        $tareas = Tarea::where('user_id', $usuario)->where('fecha_tarea', Carbon::now()->format('Y-m-d') )->paginate(4);
+        $tareas = Tarea::where('user_id', $usuario)->where('fecha_tarea', Carbon::now('Europe/Madrid')->format('Y-m-d') )->paginate(4);
         return view('dashboard.tareas.index', compact('tareas', 'todayDate'));
     }
 
@@ -88,6 +88,16 @@ class TareaController extends Controller
         $objetivo->increment('unidades_actuales', $tarea->unidades_realizar);
         //$objetivo->unidades_actuales = $tarea->unidades_realizar;
         $objetivo->save();
+        $this->checkObjetivo($objetivo); // Comprobamos si está completado
         $tarea->delete();
     }
+    public function checkObjetivo(Objetivo $objetivo)
+    {
+        if($objetivo->unidades_actuales >= $objetivo->unidades_fin) {
+            $objetivo->finalizado = true;
+            $objetivo->save();
+        }
+        return;
+    }
+
 }
