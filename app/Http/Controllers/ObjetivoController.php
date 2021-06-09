@@ -10,6 +10,7 @@ use Carbon\CarbonPeriod;
 use App\Models\SubObjetivo;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ObjetivoController extends Controller
 {
@@ -121,6 +122,13 @@ class ObjetivoController extends Controller
         $objetivo->fecha_inicio = $request['fecha_inicio'];
         $objetivo->fecha_fin = $request['fecha_fin'];
         $objetivo->save();
+        if($request['imagen']) {
+            $ruta_imagen = $request['imagen']->store('upload-objetivos', 'public');
+            $imagen = '/public/'.$objetivo->imagen;   
+            Storage::delete($imagen);
+            $objetivo->imagen = $ruta_imagen;
+            $objetivo->save();
+        }
         // Actualizar tareas
         $objetivo->tareas()->update([
             'titulo' => $request['nombre'],

@@ -16,8 +16,9 @@
 <!-- Navegador -->
 <div class="form">
     <h2>Editar Sub-Objectiu</h2>
-    <form  method="POST" action="{{ route('dashboard.sub-objetivos.store',['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug]) }}" enctype="multipart/form-data" novalidate>
+    <form  method="POST" action="{{ route('dashboard.sub-objetivos.update',['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug, 'subObjetivo' => $subObjetivo->id ])}}" enctype="multipart/form-data" novalidate>
         @csrf
+        @method('put')
         <div class="form-group row mt-1">
             <div class="col-md-6">
                 <label for="nombre">Nom: </label>

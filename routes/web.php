@@ -53,6 +53,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     /** SubObjetivos */
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/create', [SubObjetivoController::class, 'create'])->name('sub-objetivos.create');
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/{subObjetivo}', [SubObjetivoController::class, 'show'])->name('sub-objetivos.show');
+    Route::put('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos/{subObjetivo}', [SubObjetivoController::class, 'update'])->name('sub-objetivos.update');
     Route::post('/ambitos/{ambito?}/objetivos/{objetivo}/sub-objetivos', [SubObjetivoController::class, 'store'])->name('sub-objetivos.store');
     Route::delete('/sub-objetivos/{subObjetivo}', [SubObjetivoController::class, 'destroy'])->name('sub-objetivos.destroy');
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo?}/sub-objetivos/{subObjetivo}/edit', [SubObjetivoController::class, 'edit'])->name('sub-objetivos.edit');

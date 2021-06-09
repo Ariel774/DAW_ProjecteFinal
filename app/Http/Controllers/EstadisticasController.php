@@ -13,7 +13,7 @@ class EstadisticasController extends Controller
         $objetivosTotales = auth()->user()->objetivos()->count();
         $objetivosHechos = auth()->user()->objetivos()->where('finalizado', true)->count();
         $objetivosPendientes = auth()->user()->objetivos()->where('finalizado', false)->count();
-        $objetivos = Objetivo::where('user_id', auth()->user()->id)->paginate(5); // Obtener todos los objetivos
+        $objetivos = Objetivo::where('user_id', auth()->user()->id)->paginate(10); // Obtener todos los objetivos
         return view('dashboard.estadisticas.index',  compact('objetivos','objetivosTotales', 'objetivosHechos', 'objetivosPendientes'));
     }
 }
