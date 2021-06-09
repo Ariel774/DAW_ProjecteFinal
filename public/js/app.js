@@ -18524,12 +18524,12 @@ __webpack_require__.r(__webpack_exports__);
         weekends: true,
         selectable: true,
         editable: false,
+        allDay: true,
         eventTimeFormat: {
           // like '14:30:00'
           hour: '2-digit',
           minute: '2-digit',
           hour12: false,
-          allDay: false,
           expandRows: true
         },
         events: null,

@@ -164,6 +164,14 @@ class ObjetivoController extends Controller
                 ]);    
             }
             // Eliminar días extras
+            $tareasNow = Tarea::where('fecha_tarea', Carbon::now('Europe/Madrid')->format('Y-m-d'))->get();
+            foreach ($tareasNow as $tarea) { 
+                if($tareasNow->count() == 1 ) {
+                    break;
+                }
+                $tarea->delete();
+            } 
+
             foreach ($tareasArray as $tarea) {
                 if($startDate > $fechaInioOld || $endDate < $fechaFinOld) {
                     $tarea->delete();

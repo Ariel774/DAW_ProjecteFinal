@@ -31,13 +31,13 @@ export default {
         dayMaxEvents: true,
         weekends: true, 
         selectable: true,
-        editable: false,
+        editable: false,        
+        allDay:true,
         eventTimeFormat: { // like '14:30:00'
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        allDay:false,
-        expandRows: true
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false,
+          expandRows: true
         },
         events: null,
         eventDidMount: function(info) {
