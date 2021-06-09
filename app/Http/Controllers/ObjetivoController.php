@@ -30,7 +30,7 @@ class ObjetivoController extends Controller
      */
     public function create(Ambito $ambito, Objetivo $objetivo)
     {
-        $todayDate = Carbon::now()->format('Y-m-d'); // Obtener la fecha actual
+        $todayDate = Carbon::now('Europe/Madrid')->format('Y-m-d'); // Obtener la fecha actual
         return view('dashboard.objetivos.create', compact('ambito', 'objetivo', 'todayDate'));
     }
 
@@ -131,7 +131,7 @@ class ObjetivoController extends Controller
         $tarea = Tarea::where('objetivo_id', $objetivo->id)->first(); // Devolver un Objecto
         $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
         $subObjetivo = SubObjetivo::where('objetivo_id', $objetivo->id)->first(); // Devolver un Sub Objecto
-
+ 
         // Función para guardar los días de la semana segun la fecha inicio y fin
         if($subObjetivo != null) {
             $diasArray = explode(', ', $subObjetivo->dias); // Convertimos los días en Array

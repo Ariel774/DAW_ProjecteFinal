@@ -22,6 +22,9 @@ class Objetivo extends Model
         'unidad',
         'slug'
     ];
+    protected $dateStart = ['fecha_inicio'];
+    protected $dateEnd = ['fecha_fin'];
+
     use HasFactory;
     // Devolver Slug
     public function getRouteKeyName()

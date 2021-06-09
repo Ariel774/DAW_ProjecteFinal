@@ -70,7 +70,7 @@
             <div class="col-md-4">
               <input 
               class="form-control @error('fecha_inicio') is-invalid @enderror" 
-              name="fecha_inicio" type="date" value="{{ $todayDate }}" id="fecha_inicio">
+              name="fecha_inicio" type="date" value="{{ $todayDate }}" min="{{ $todayDate }}" id="fecha_inicio">
               @error('fecha_inicio')
               <span class="invalid-feedback d-block" role="alert">
                   <strong>{{$message}}</strong>

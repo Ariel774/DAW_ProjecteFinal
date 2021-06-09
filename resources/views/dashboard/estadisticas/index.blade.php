@@ -11,46 +11,56 @@
         <div class="col">
             <div class="counter">
                 <i class="fas fa-tasks fa-2x"></i>
-                <h2 class="timer count-title count-number" data-to="100" data-speed="1500">100</h2>
+                <h2 class="timer count-title count-number">{{ $objetivosTotales }}</h2>
                 <p class="count-text ">Objectius totals</p>
             </div>
         </div>
         <div class="col">
             <div class="counter">
                 <i class="fas fa-user-clock fa-2x"></i>
-                <h2 class="timer count-title count-number" data-to="1700" data-speed="1500">20</h2>
+                <h2 class="timer count-title count-number" data-to="1700" data-speed="1500">{{ $objetivosPendientes }}</h2>
                 <p class="count-text ">Objectius pendents</p>
             </div>
         </div>
         <div class="col">
             <div class="counter">
                 <i class="far fa-check-circle fa-2x"></i>
-                <h2 class="timer count-title count-number" data-to="11900" data-speed="1500">30</h2>
+                <h2 class="timer count-title count-number" data-to="11900" data-speed="1500">{{ $objetivosHechos }}</h2>
                 <p class="count-text ">Objectius completats</p>
             </div>
         </div>
     </div>
 </div>
-
-<div class="container">
-    <table class="table table-striped table-dark">
+<div class="container mt-2">
+    <table class="table table-hover table-striped table-dark">
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Nom Objectiu</th>
+                <th scope="col">Data Inici/fi</th>
+                <th scope="col">Data fi</th>
+                <th scope="col">Unitats Realitzades</th>
+                <th scope="col">Completat</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
+            @foreach ($objetivos as $objetivo)
+                <tr>
+                    <td>{{$loop->index+1}}</td>
+                    <td>{{ $objetivo->nombre }}</td>
+                    <td>{{ date('d-m-Y', strtotime($objetivo->fecha_inicio)) }}</td>
+                    <td>{{ date('d-m-Y', strtotime($objetivo->fecha_fin)) }}</td>
+
+                    <td>{{ $objetivo->unidades_actuales}}/{{ $objetivo->unidades_fin }}</td>
+                    <td>@if($objetivo->finalizado == true) 
+                        <i class='fas fa-check'></i>
+                        @else <i class="fas fa-times"></i>
+                        @endif
+                    </td>                        
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
-
+{{ $objetivos->links() }}
 @endsection
