@@ -1,10 +1,10 @@
 $(function(){
     // Abrir Modal por defecto
-    $('#ambitModal').modal({
-        show: true,
-        backdrop: 'static',
-        keyboard: false
-    })
+    // $('#ambitModal').modal({
+    //     show: true,
+    //     backdrop: 'static',
+    //     keyboard: false
+    // })
     
     $("#nRows").val(2); // Valor por defecto
 

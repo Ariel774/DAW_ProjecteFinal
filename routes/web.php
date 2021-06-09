@@ -41,6 +41,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::delete('/ambitos/{ambito}', [AmbitoController::class, 'destroy'])->name('ambitos.destroy');
     /** Ambitos */
     /** Objetivos */
+    Route::get('/objetivos', [ObjetivoController::class, 'index'])->name('objetivos.index');
     Route::get('/ambitos/{ambito}/objetivos/create', [ObjetivoController::class, 'create'])->name('objetivos.create');
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}', [ObjetivoController::class, 'show'])->name('objetivos.show');
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/edit', [ObjetivoController::class, 'edit'])->name('objetivos.edit'); // Editar

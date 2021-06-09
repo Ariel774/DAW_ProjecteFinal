@@ -20,7 +20,9 @@ class ObjetivoController extends Controller
      */
     public function index()
     {
-        return view('dashboard.home');
+        $usuario = auth()->user()->id;
+        $objetivos = Objetivo::where('user_id', $usuario)->paginate(5);
+        return view('dashboard.objetivos.index', compact('objetivos'));
     }
 
     /**

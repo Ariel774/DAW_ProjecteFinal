@@ -72,7 +72,9 @@
                                             <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
                                         </svg>
                                     </span>
-                                    <span class="sidebar-text">Dashboard</span>
+                                    @if(Auth::user()->ambitos->isEmpty())<span class="sidebar-text">Crear àmbits</span>
+                                    @else <span class="sidebar-text">Dashboard</span>
+                                    @endif                 
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
@@ -110,7 +112,7 @@
                                 </a>
                             </li>
                             <li class="nav-item mb-1">
-                                <a href="#" class="btn btn-block btn-secondary">
+                                <a href="{{ route('dashboard.objetivos.index') }}" class="btn btn-block btn-secondary">
                                     <span class="sidebar-icon float-left">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>

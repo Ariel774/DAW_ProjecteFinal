@@ -1,16 +1,25 @@
 @extends('layouts.dashboard')
 @section('content')
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary show-modal"  data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#ambitModal" hidden>
-    Launch demo modal
-</button>
-  
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1>CREAR ÀMBITS (Mínim 3)</h1>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary btn-lg btn-block show-modal mb-4"  data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#ambitModal">
+        CREAR ÀMBITS
+    </button>
+</div>
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="ambitModal" tabindex="-1" role="dialog" aria-labelledby="ambitModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
     <div class="modal-header">
         <h2 class="modal-title text-primary" id="ambitModalLabel">Crear Àmbits</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <!-- Contingut del Modal -->
@@ -103,6 +112,7 @@
                 </div>
             </div>  
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Guardar Àmbits</button>
             </div>
         </form>
