@@ -1,6 +1,7 @@
 @extends('layouts.dashboard')
 @section('styles')
 <link href="{{ asset('css/ambitos-show.css') }}" rel="stylesheet">
+<link href="{{ asset('css/spinner.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <nav aria-label="breadcrumb">
@@ -37,7 +38,7 @@
                         @if($objetivo->finalizado == true) 
                         <i class="fas fa-check-square"></i> (Completat)
                         @else
-                        <i class="fas fa-spinner"></i> (En procès)
+                        <i class="spinner fas fa-spinner"></i> (En procès)
                         @endif
                     </div>
                     <div class="col-md-2"> 

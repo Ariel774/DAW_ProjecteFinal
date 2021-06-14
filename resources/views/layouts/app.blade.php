@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="storage/img/rp-icon.png"/>
 <!--===============================================================================================-->
     <script src="{{ asset('js/app.js') }}" defer></script>
 <!--===============================================================================================-->
