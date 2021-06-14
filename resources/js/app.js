@@ -33,6 +33,7 @@ Vue.component('eliminar-objetivo', require('./components/EliminarObjetivo.vue').
 Vue.component('eliminar-sub-objetivo', require('./components/EliminarSubObjetivo.vue').default);
 Vue.component('completar-tarea', require('./components/CompletarTarea.vue').default);
 Vue.component('calendario-component', require('./components/CalendarioComponent.vue').default);
+Vue.component('livesearch-objetivo', require('./components/BuscarObjetivo.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

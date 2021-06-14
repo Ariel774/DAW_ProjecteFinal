@@ -22,7 +22,7 @@ class ObjetivoController extends Controller
     public function index()
     {
         $usuario = auth()->user()->id;
-        $objetivos = Objetivo::where('user_id', $usuario)->paginate(5);
+        $objetivos = Objetivo::where('user_id', $usuario)->paginate(1);
         return view('dashboard.objetivos.index', compact('objetivos'));
     }
 
@@ -60,6 +60,7 @@ class ObjetivoController extends Controller
             'nombre' => $request['nombre'],
             'descripcion' => $request['descripcion'],
             'slug' => $this->createSlug($request['nombre']),
+            'slug_ambito' => $ambito->slug,
             'imagen' => $ruta_imagen,
             'unidades_actuales' =>  0,
             'unidades_fin' =>  $request['unidades_fin'],
@@ -193,7 +194,11 @@ class ObjetivoController extends Controller
 
         return redirect('/dashboard/ambitos/'.$ambito->slug);
     }
-
+    public function getObjetivos(Request $request)
+    {
+        $data = Objetivo::where('nombre', 'LIKE','%'.$request->keyword.'%')->get();
+        return response()->json($data); 
+    }
     /**
      * Remove the specified resource from storage.
      *

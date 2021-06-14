@@ -20,7 +20,8 @@ class Objetivo extends Model
         'unidades_actuales',
         'unidades_fin',
         'unidad',
-        'slug'
+        'slug',
+        'slug_ambito'
     ];
     protected $dateStart = ['fecha_inicio'];
     protected $dateEnd = ['fecha_fin'];
