@@ -18537,6 +18537,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -18627,13 +18632,13 @@ __webpack_require__.r(__webpack_exports__);
         weekends: true,
         selectable: true,
         editable: false,
-        allDay: true,
         eventTimeFormat: {
           // like '14:30:00'
           hour: '2-digit',
           minute: '2-digit',
           hour12: false,
-          expandRows: true
+          expandRows: true,
+          allDay: false
         },
         events: null,
         eventDidMount: function eventDidMount(info) {
@@ -59353,99 +59358,107 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._l(_vm.objetivos, function(objetivo, index) {
-        return _c(
-          "div",
-          {
-            key: objetivo.id,
-            staticClass: "card-ambito card text-white bg-primary ml-3 mb-4"
-          },
-          [
-            _c("div", { staticClass: "card-header" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-10 h3" }, [
-                  _vm._v(
-                    "Objectiu - " + _vm._s(index + 1) + "\n                    "
-                  ),
-                  objetivo.finalizado == true
-                    ? _c("i", { staticClass: "fas fa-check-square" })
-                    : _c("i", { staticClass: "spinner fas fa-spinner" })
+      _vm.objetivos.length > 0
+        ? _vm._l(_vm.objetivos, function(objetivo, index) {
+            return _c(
+              "div",
+              {
+                key: objetivo.id,
+                staticClass: "card-ambito card text-white bg-primary ml-3 mb-4"
+              },
+              [
+                _c("div", { staticClass: "card-header" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-10 h3" }, [
+                      _vm._v(
+                        "Objectiu - " +
+                          _vm._s(index + 1) +
+                          "\n                    "
+                      ),
+                      objetivo.finalizado == true
+                        ? _c("i", { staticClass: "fas fa-check-square" })
+                        : _c("i", { staticClass: "spinner fas fa-spinner" })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-md-2" },
+                      [
+                        _c("eliminar-objetivo", {
+                          attrs: { "objetivo-id": objetivo.slug }
+                        }),
+                        _vm._v(" "),
+                        objetivo.finalizado == false
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "btn btn-info",
+                                attrs: {
+                                  href:
+                                    "ambitos/" +
+                                    objetivo.slug_ambito +
+                                    "/objetivos/" +
+                                    objetivo.slug +
+                                    "/edit",
+                                  type: "button"
+                                }
+                              },
+                              [_vm._v("Editar")]
+                            )
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ])
                 ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-md-2" },
-                  [
-                    _c("eliminar-objetivo", {
-                      attrs: { "objetivo-id": objetivo.slug }
-                    }),
-                    _vm._v(" "),
-                    objetivo.finalizado == false
-                      ? _c(
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-lg-2" }, [
+                      _c("div", { staticClass: "button-ambito" }, [
+                        _c(
                           "a",
                           {
-                            staticClass: "btn btn-info",
+                            staticClass: "btn-a",
                             attrs: {
                               href:
                                 "ambitos/" +
                                 objetivo.slug_ambito +
                                 "/objetivos/" +
-                                objetivo.slug +
-                                "/edit",
-                              type: "button"
+                                objetivo.slug
                             }
                           },
-                          [_vm._v("Editar")]
+                          [_vm._v("Sub Objectius")]
                         )
-                      : _vm._e()
-                  ],
-                  1
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-lg-2" }, [
-                  _c("div", { staticClass: "button-ambito" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn-a",
-                        attrs: {
-                          href:
-                            "ambitos/" +
-                            objetivo.slug_ambito +
-                            "/objetivos/" +
-                            objetivo.slug
-                        }
-                      },
-                      [_vm._v("Sub Objectius")]
-                    )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-8" }, [
+                      _c("h5", { staticClass: "card-title" }, [
+                        _vm._v(_vm._s(objetivo.nombre))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "card-text" }, [
+                        _vm._v(_vm._s(objetivo.descripcion))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-lg-2" }, [
+                      _c("img", {
+                        staticClass: "img-ambito rounded",
+                        attrs: { src: "/storage/" + objetivo.imagen }
+                      })
+                    ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-lg-8" }, [
-                  _c("h5", { staticClass: "card-title" }, [
-                    _vm._v(_vm._s(objetivo.nombre))
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "card-text" }, [
-                    _vm._v(_vm._s(objetivo.descripcion))
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-lg-2" }, [
-                  _c("img", {
-                    staticClass: "img-ambito rounded",
-                    attrs: { src: "/storage/" + objetivo.imagen }
-                  })
                 ])
-              ])
+              ]
+            )
+          })
+        : [
+            _c("h2", { staticClass: "text-center mb-4" }, [
+              _vm._v("NO N'HI HAN OBJECTIUS")
             ])
           ]
-        )
-      })
     ],
     2
   )

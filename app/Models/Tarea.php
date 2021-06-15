@@ -21,4 +21,12 @@ class Tarea extends Model
         'objetivo_id',
         'sub_objetivo_id',
     ];
+    public function objetivo() 
+    {
+        return $this->belongsTo(Objetivo::class, 'objetivo_id');
+    }
+    public function subobjetivo() 
+    {
+        return $this->belongsTo(SubObjetivo::class, 'sub_objetivo_id');
+    }
 }

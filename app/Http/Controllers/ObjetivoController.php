@@ -145,7 +145,7 @@ class ObjetivoController extends Controller
  
         // Función para guardar los días de la semana segun la fecha inicio y fin
         if($subObjetivo != null) {
-            $diasArray = explode(', ', $subObjetivo->dias); // Convertimos los días en Array
+            $diasArray = explode(',', $subObjetivo->dias); // Convertimos los días en Array
             $period = CarbonPeriod::create($startDate, $endDate)->filter(
                 fn ($date) => in_array($date->dayOfWeek, $diasArray),
             );
@@ -158,13 +158,13 @@ class ObjetivoController extends Controller
                     'fecha_inicio' => $objetivo->fecha_inicio,
                     'fecha_fin' => $objetivo->fecha_fin,
                     'fecha_tarea' => $date->format('Y-m-d'),
-                    'hora_inicio' => $tarea->hora_inicio,
-                    'hora_fin' => $tarea->hora_fin,
+                    'hora_inicio' => $tarea->hora_inicio ?? null,
+                    'hora_fin' => $tarea->hora_fin ?? null,
                     'sub_objetivo_id' => $subObjetivo->id,
                     'objetivo_id' => $objetivo->id,
                 ]);    
             }
-            // Eliminar días extras
+            // Eliminar días extras de la fecha actual
             $tareasNow = Tarea::where('fecha_tarea', Carbon::now('Europe/Madrid')->format('Y-m-d'))->get();
             foreach ($tareasNow as $tarea) { 
                 if($tareasNow->count() == 1 ) {
@@ -172,7 +172,7 @@ class ObjetivoController extends Controller
                 }
                 $tarea->delete();
             } 
-
+            // Eliminar días extras de las tareas (GENERAL)
             foreach ($tareasArray as $tarea) {
                 if($startDate > $fechaInioOld || $endDate < $fechaFinOld) {
                     $tarea->delete();

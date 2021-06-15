@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="button-ambito">
-                        <a class="btn-a" href="#"><i class="fas fa-info-circle"></i></a>
+                        <a class="btn-a" id="btn-info" href="#"><i class="fas fa-info-circle"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-2">
@@ -44,7 +44,11 @@
                 </div>
                 <div class="col-lg-8">
                     <h5 class="card-title">{{ $tarea->titulo }}</h5>
-                    <p class="card-text"> {{ $tarea->subtitulo }}, unitats a fer {{ $tarea->unidades_realizar}}</p>
+                    <p class="card-text"> {{ $tarea->subtitulo }}, unitats a fer {{ $tarea->unidades_realizar}} {{ $tarea->objetivo->unidad }}</p>
+                    <div id="tareaInfo" hidden>
+                        <p>Hora a realizar: {{ $tarea->subobjetivo->hora_inicio}} - {{ $tarea->subobjetivo->hora_fin }}</p>
+                        <p>Objetiu final: Fer {{ $tarea->objetivo->unidades_fin }}{{ $tarea->objetivo->unidad }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,4 +61,7 @@
 </div>
 <!-- Fi Modal Boostrap -->
 {{ $tareas->links() }}
+@endsection
+@section('scripts')
+    <script src="{{ asset('js/tareas/tarea.js') }}" defer></script>
 @endsection

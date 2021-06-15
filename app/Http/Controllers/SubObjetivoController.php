@@ -48,6 +48,11 @@ class SubObjetivoController extends Controller
             $request['hora_inicio'] = '00:00'; 
             $request['hora_fin'] = '00:00'; 
         }
+        // Si la hora es 00:00 lo dejamos en NULL
+        else if($request['hora_inicio'] == '00:00' && $request['hora_fin'] == '00:00') {
+            $request['hora_inicio'] = NULL; 
+            $request['hora_fin'] = NULL; 
+        }
         request()->validate([ // Validaciones
             'nombre' => 'required',
             'unidades_realizar' => 'required',
@@ -62,12 +67,6 @@ class SubObjetivoController extends Controller
             $dias .= $dia.",";
         }
         $dias = substr($dias, 0, -1); // Borramos la coma final
-
-        // Si la hora es 00:00 lo dejamos en NULL
-        if($request['hora_inicio'] == '00:00' && $request['hora_fin'] == '00:00') {
-            $request['hora_inicio'] = NULL; 
-            $request['hora_fin'] = NULL; 
-        }
 
         SubObjetivo::create([ // Insertar los campos en la base de datos
             'nombre' => $request['nombre'],

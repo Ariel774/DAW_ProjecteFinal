@@ -32,12 +32,12 @@ export default {
         weekends: true, 
         selectable: true,
         editable: false,        
-        allDay:true,
         eventTimeFormat: { // like '14:30:00'
           hour: '2-digit',
           minute: '2-digit',
           hour12: false,
-          expandRows: true
+          expandRows: true,
+          allDay:false,
         },
         events: null,
         eventDidMount: function(info) {

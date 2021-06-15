@@ -11,6 +11,7 @@
             </div>
 
         </div>
+        <template v-if="objetivos.length > 0">
         <div v-for="(objetivo, index) in objetivos" :key="objetivo.id" class="card-ambito card text-white bg-primary ml-3 mb-4">
             <div class="card-header">
                 <div class="row">
@@ -45,6 +46,10 @@
                 </div>
             </div>
         </div>
+        </template>
+        <template v-else>
+            <h2 class="text-center mb-4">NO N'HI HAN OBJECTIUS</h2>
+        </template>
 
     </div>
 
