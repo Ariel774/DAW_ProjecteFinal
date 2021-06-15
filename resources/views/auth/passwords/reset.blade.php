@@ -57,6 +57,10 @@
                             </div>
                         </div>
                     </form>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-dark"><i class="fas fa-arrow-left"></i>Tornar a l' inici</button>
+                    </form>
                 </div>
             </div>
         </div>

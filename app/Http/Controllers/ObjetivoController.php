@@ -113,9 +113,6 @@ class ObjetivoController extends Controller
             'fecha_fin' => 'required',
             'unidades_fin' => 'required',
         ]);
-        // Recuperamos las antiguas fechas //
-        $fechaInioOld = $objetivo->fecha_inicio;
-        $fechaFinOld = $objetivo->fecha_fin;
         $objetivo->nombre = $request['nombre'];
         $objetivo->descripcion = $request['descripcion'];
         $objetivo->slug = Str::slug($request['nombre']);
@@ -140,7 +137,7 @@ class ObjetivoController extends Controller
         $startDate=$request['fecha_inicio'];
         $endDate=$request['fecha_fin'];
         $tarea = Tarea::where('objetivo_id', $objetivo->id)->first(); // Devolver un Objecto
-        $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
+        $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
         $subObjetivo = SubObjetivo::where('objetivo_id', $objetivo->id)->first(); // Devolver un Sub Objecto
  
         // Función para guardar los días de la semana segun la fecha inicio y fin
@@ -149,6 +146,9 @@ class ObjetivoController extends Controller
             $period = CarbonPeriod::create($startDate, $endDate)->filter(
                 fn ($date) => in_array($date->dayOfWeek, $diasArray),
             );
+            foreach ($tareasArray as $tarea) {
+                $tarea->delete();
+            }
             foreach ($period as $date) {
                 auth()->user()->tareas()->create([
                     'titulo' => $objetivo->nombre,
@@ -163,20 +163,6 @@ class ObjetivoController extends Controller
                     'sub_objetivo_id' => $subObjetivo->id,
                     'objetivo_id' => $objetivo->id,
                 ]);    
-            }
-            // Eliminar días extras de la fecha actual
-            $tareasNow = Tarea::where('fecha_tarea', Carbon::now('Europe/Madrid')->format('Y-m-d'))->get();
-            foreach ($tareasNow as $tarea) { 
-                if($tareasNow->count() == 1 ) {
-                    break;
-                }
-                $tarea->delete();
-            } 
-            // Eliminar días extras de las tareas (GENERAL)
-            foreach ($tareasArray as $tarea) {
-                if($startDate > $fechaInioOld || $endDate < $fechaFinOld) {
-                    $tarea->delete();
-                }
             }
             auth()->user()->calendario()->update([
                 'title' => $objetivo->nombre,
@@ -196,7 +182,7 @@ class ObjetivoController extends Controller
     }
     public function getObjetivos(Request $request)
     {
-        $data = Objetivo::where('nombre', 'LIKE','%'.$request->keyword.'%')->get();
+        $data = Objetivo::where('nombre', 'LIKE','%'.$request->keyword.'%')->where('user_id', auth()->user()->id)->get();
         return response()->json($data); 
     }
     /**

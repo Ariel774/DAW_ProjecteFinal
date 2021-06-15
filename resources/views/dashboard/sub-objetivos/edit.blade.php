@@ -65,46 +65,47 @@
                 </span>
                 @enderror
             </div>
-            <div class="form-group row mt-1">
-                <label for="nombre">Escull un o més dies: </label>
-                <div class="weekDays-selector">
-                    <input type="checkbox" name="dias[]" value=1 id="weekday-mon" class="weekday"
-                    {{  Str::contains($calendario->daysOfWeek, 1) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-mon">Dilluns</label>
-                    <input type="checkbox" name="dias[]" value=2 id="weekday-tue" class="weekday" 
-                    {{  Str::contains($calendario->daysOfWeek, 2) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-tue">Dimarts</label>
-                    <input type="checkbox" name="dias[]" value=3 id="weekday-wed" class="weekday" 
-                    {{  Str::contains($calendario->daysOfWeek, 3) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-wed">Dimecres</label>
-                    <input type="checkbox" name="dias[]" value=4 id="weekday-thu" class="weekday" 
-                    {{  Str::contains($calendario->daysOfWeek, 4) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-thu">Dijous</label>
-                    <input type="checkbox" name="dias[]" value=5 id="weekday-fri" class="weekday" 
-                    {{  Str::contains($calendario->daysOfWeek, 5) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-fri">Divendres</label>
-                    <input type="checkbox" name="dias[]" value=6 id="weekday-sat" class="weekday" 
-                    {{  Str::contains($calendario->daysOfWeek, 6) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-sat">Dissabte</label>
-                    <input type="checkbox" name="dias[]" value=0 id="weekday-sun" class="weekday" 
-                    {{  Str::contains($calendario->daysOfWeek, 0) ? 'checked' : '' }}
-                    />
-                    <label for="weekday-sun">Diumenge</label>
-                </div>
-                @error('dias')
-                <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{$message}}</strong>
-                </span>
-                @enderror
-            </div>
         </div>
-        <div class="form-group row  mt-1">
+        <div class="form-group row mt-1">
+            <label for="nombre">Escull un o més dies: </label>
+            <div class="weekDays-selector">
+                <input type="checkbox" name="dias[]" value=1 id="weekday-mon" class="weekday"
+                {{  Str::contains($calendario->daysOfWeek, 1) ? 'checked' : '' }}
+                />
+                <label for="weekday-mon">Dilluns</label>
+                <input type="checkbox" name="dias[]" value=2 id="weekday-tue" class="weekday" 
+                {{  Str::contains($calendario->daysOfWeek, 2) ? 'checked' : '' }}
+                />
+                <label for="weekday-tue">Dimarts</label>
+                <input type="checkbox" name="dias[]" value=3 id="weekday-wed" class="weekday" 
+                {{  Str::contains($calendario->daysOfWeek, 3) ? 'checked' : '' }}
+                />
+                <label for="weekday-wed">Dimecres</label>
+                <input type="checkbox" name="dias[]" value=4 id="weekday-thu" class="weekday" 
+                {{  Str::contains($calendario->daysOfWeek, 4) ? 'checked' : '' }}
+                />
+                <label for="weekday-thu">Dijous</label>
+                <input type="checkbox" name="dias[]" value=5 id="weekday-fri" class="weekday" 
+                {{  Str::contains($calendario->daysOfWeek, 5) ? 'checked' : '' }}
+                />
+                <label for="weekday-fri">Divendres</label>
+                <input type="checkbox" name="dias[]" value=6 id="weekday-sat" class="weekday" 
+                {{  Str::contains($calendario->daysOfWeek, 6) ? 'checked' : '' }}
+                />
+                <label for="weekday-sat">Dissabte</label>
+                <input type="checkbox" name="dias[]" value=0 id="weekday-sun" class="weekday" 
+                {{  Str::contains($calendario->daysOfWeek, 0) ? 'checked' : '' }}
+                />
+                <label for="weekday-sun">Diumenge</label>
+            </div>
+            @error('dias')
+            <span class="invalid-feedback d-block" role="alert">
+                <strong>{{$message}}</strong>
+            </span>
+            @enderror
+        </div>
+        <button type="button" id="btn-hour" class="btn btn-primary btn-lg btn-block">Editar hora? <i class="fas fa-clock"></i></button>
+        <div class="form-group row  mt-2" id="btn-hour-info">
             <label for="hora_inicio" class="col-2 col-form-label">Hora Inici: </label>
             <div class="col-md-4">
               <input 
@@ -145,4 +146,7 @@
         <a class="btn btn-danger" href="{{ route('dashboard.objetivos.show', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug])}}">Cancelar</a>
     </form>
 </div>
+@endsection
+@section('scripts')
+    <script src="{{ asset('js/sub-objetivos/sub-objetivo-edit.js') }}" defer></script>
 @endsection

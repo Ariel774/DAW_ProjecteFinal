@@ -35,7 +35,7 @@
                 <div class="col-md-10">Sub Objectiu - {{$loop->index+1}}</div>
                 <div class="col-md-2"> 
                     <eliminar-sub-objetivo sub-objetivo-id={{ $subObjetivo->id }}></eliminar-sub-objetivo> {{-- Componente Vue --}}
-                    @if($objetivo->finalizado == true) 
+                    @if($objetivo->finalizado == true)
                     @else
                     <a href="{{ route('dashboard.sub-objetivos.edit', ['ambito' => $ambito->slug, 'objetivo' => $objetivo->slug, 'subObjetivo' => $subObjetivo->id])}}" type="button" class="btn btn-info">Editar</a>
                     @endif

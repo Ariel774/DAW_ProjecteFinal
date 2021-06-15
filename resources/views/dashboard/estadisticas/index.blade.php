@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col text-center">
-            <h1>Estadistiques</h1>
+            <h1>Estadístiques</h1>
         </div>
     </div>
     <div class="row text-center">
