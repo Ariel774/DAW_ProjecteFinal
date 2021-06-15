@@ -137,45 +137,47 @@ class ObjetivoController extends Controller
         $startDate=$request['fecha_inicio'];
         $endDate=$request['fecha_fin'];
         $tarea = Tarea::where('objetivo_id', $objetivo->id)->first(); // Devolver un Objecto
-        $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
-        $subObjetivo = SubObjetivo::where('objetivo_id', $objetivo->id)->first(); // Devolver un Sub Objecto
+        $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
+        $subObjetivos = SubObjetivo::where('objetivo_id', $objetivo->id)->get(); // Devolver un Sub Objecto
  
         // Función para guardar los días de la semana segun la fecha inicio y fin
-        if($subObjetivo != null) {
-            $diasArray = explode(',', $subObjetivo->dias); // Convertimos los días en Array
-            $period = CarbonPeriod::create($startDate, $endDate)->filter(
-                fn ($date) => in_array($date->dayOfWeek, $diasArray),
-            );
+        if($subObjetivos[0] != null) {
             foreach ($tareasArray as $tarea) {
                 $tarea->delete();
             }
-            foreach ($period as $date) {
-                auth()->user()->tareas()->create([
-                    'titulo' => $objetivo->nombre,
-                    'subtitulo' => $subObjetivo->nombre,
-                    'unidades_hechas' => 0,
-                    'unidades_realizar' => $subObjetivo->unidades_realizar,
-                    'fecha_inicio' => $objetivo->fecha_inicio,
-                    'fecha_fin' => $objetivo->fecha_fin,
-                    'fecha_tarea' => $date->format('Y-m-d'),
-                    'hora_inicio' => $tarea->hora_inicio ?? null,
-                    'hora_fin' => $tarea->hora_fin ?? null,
+            foreach ($subObjetivos as $subObjetivo) {
+                $diasArray = explode(',', $subObjetivo->dias); // Convertimos los días en Array
+                $period = CarbonPeriod::create($startDate, $endDate)->filter(
+                    fn ($date) => in_array($date->dayOfWeek, $diasArray),
+                );
+                foreach ($period as $date) {
+                    auth()->user()->tareas()->create([
+                        'titulo' => $objetivo->nombre,
+                        'subtitulo' => $subObjetivo->nombre,
+                        'unidades_hechas' => 0,
+                        'unidades_realizar' => $subObjetivo->unidades_realizar,
+                        'fecha_inicio' => $objetivo->fecha_inicio,
+                        'fecha_fin' => $objetivo->fecha_fin,
+                        'fecha_tarea' => $date->format('Y-m-d'),
+                        'hora_inicio' => $tarea->hora_inicio ?? null,
+                        'hora_fin' => $tarea->hora_fin ?? null,
+                        'sub_objetivo_id' => $subObjetivo->id,
+                        'objetivo_id' => $objetivo->id,
+                    ]);    
+                }
+                auth()->user()->calendario()->where('sub_objetivo_id', $subObjetivo->id)->update([
+                    'title' => $subObjetivo->nombre,
+                    'start' => $objetivo->fecha_inicio,
+                    'end' => $objetivo->fecha_fin,
+                    'daysOfWeek' => $subObjetivo->dias,
+                    'startTime' => $subObjetivo->hora_inicio,
+                    'endTime' => $subObjetivo->hora_inicio,
+                    'startRecur' => $objetivo->fecha_inicio,
+                    'endRecur' => $objetivo->fecha_fin,
                     'sub_objetivo_id' => $subObjetivo->id,
-                    'objetivo_id' => $objetivo->id,
-                ]);    
+                    'objetivo_id' => $objetivo->id
+                ]);  
             }
-            auth()->user()->calendario()->update([
-                'title' => $objetivo->nombre,
-                'start' => $objetivo->fecha_inicio,
-                'end' => $objetivo->fecha_fin,
-                'daysOfWeek' => $subObjetivo->dias,
-                'startTime' => $subObjetivo->hora_inicio,
-                'endTime' => $subObjetivo->hora_inicio,
-                'startRecur' => $objetivo->fecha_inicio,
-                'endRecur' => $objetivo->fecha_fin,
-                'sub_objetivo_id' => $subObjetivo->id,
-                'objetivo_id' => $objetivo->id
-            ]);  
         }
 
         return redirect('/dashboard/ambitos/'.$ambito->slug);

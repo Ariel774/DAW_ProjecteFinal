@@ -46,8 +46,8 @@
                     <h5 class="card-title">{{ $tarea->titulo }}</h5>
                     <p class="card-text"> {{ $tarea->subtitulo }}, unitats a fer {{ $tarea->unidades_realizar}} {{ $tarea->objetivo->unidad }}</p>
                     <div id="tareaInfo" hidden>
-                        <p>Hora a realizar: {{ $tarea->subobjetivo->hora_inicio}} - {{ $tarea->subobjetivo->hora_fin }}</p>
-                        <p>Objetiu final: Fer {{ $tarea->objetivo->unidades_fin }}{{ $tarea->objetivo->unidad }}</p>
+                        <p>Hora a realitzar: {{ $tarea->subobjetivo->hora_inicio}} - {{ $tarea->subobjetivo->hora_fin }}</p>
+                        <p>Objectiu final: Fer {{ $tarea->objetivo->unidades_fin }} {{ $tarea->objetivo->unidad }}</p>
                     </div>
                 </div>
             </div>
