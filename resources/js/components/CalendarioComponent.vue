@@ -55,7 +55,6 @@ export default {
     axios.get("/dashboard/calendario/show")
     .then(calendario => {
       this.calendarOptions.events = calendario.data;
-
     })
   }
 }

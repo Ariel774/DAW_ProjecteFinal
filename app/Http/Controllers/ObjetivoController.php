@@ -197,6 +197,15 @@ class ObjetivoController extends Controller
     {
         $objetivo->delete();
     }
+    public function checkObjetivo($id)
+    {
+        $objetivo = Objetivo::where('id', $id)->first();
+        if($objetivo->finalizado == true) {
+            return response()->json($objetivo); 
+        }
+        return;
+    }
+
     public function createSlug($title)
     {
         $slug = Str::slug($title);

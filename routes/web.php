@@ -45,6 +45,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.','middleware' => ['au
     Route::get('/objetivos', [ObjetivoController::class, 'index'])->name('objetivos.index');
     Route::get('/ambitos/{ambito}/objetivos/create', [ObjetivoController::class, 'create'])->name('objetivos.create');
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}', [ObjetivoController::class, 'show'])->name('objetivos.show');
+    Route::get('/objetivo/{id}', [ObjetivoController::class, 'checkObjetivo']); // Completar tarea
     Route::get('/ambitos/{ambito?}/objetivos/{objetivo}/edit', [ObjetivoController::class, 'edit'])->name('objetivos.edit'); // Editar
     Route::post('/ambitos/{ambito}/objetivos', [ObjetivoController::class, 'store'])->name('objetivos.store');
     Route::put('/ambitos/{ambito?}/objetivos/{objetivo}', [ObjetivoController::class, 'update'])->name('objetivos.update');

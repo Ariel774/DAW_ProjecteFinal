@@ -18712,10 +18712,31 @@ __webpack_require__.r(__webpack_exports__);
               // Mensaje de success conforme se ha eliminado
               title: 'Tasca completada',
               text: "S'ha completat la tasca",
-              icon: 'success'
-            });
+              icon: 'success',
+              confirmButtonText: 'Ok!'
+            }).then(function (respuesta) {
+              if (respuesta.isConfirmed) {
+                _this.$el.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
 
-            _this.$el.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
+                axios.get("/dashboard/objetivo/".concat(_this.data.objetivo_id)).then(function (response) {
+                  if (response.data != "") {
+                    _this.$swal({
+                      width: 600,
+                      title: 'Felicitats!! Objectiu aconseguit!',
+                      text: "S'ha completat l'objectiu " + response.data.nombre,
+                      confirmButtonText: 'Perfecte!!',
+                      padding: '3em',
+                      background: '#fff',
+                      backdrop: "\n                                                      rgba(0,0,123,0.4)\n                                                      url(\"/storage/img/congratulation.gif\")\n                                                      center top\n                                                      no-repeat\n                                                      "
+                    });
+                  } else {
+                    return;
+                  }
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+              }
+            });
           })["catch"](function (error) {
             console.log(error);
           });

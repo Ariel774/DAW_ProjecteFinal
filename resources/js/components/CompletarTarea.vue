@@ -32,9 +32,36 @@
                                     this.$swal({ // Mensaje de success conforme se ha eliminado
                                     title: 'Tasca completada',
                                     text: "S'ha completat la tasca",
-                                    icon: 'success'
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok!'
+                                    }).then((respuesta) => {
+                                        if(respuesta.isConfirmed) {
+                                            this.$el.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
+                                            axios.get(`/dashboard/objetivo/${this.data.objetivo_id}`)
+                                            .then(response => {
+                                                if(response.data != "") {
+                                                    this.$swal({
+                                                    width: 600,
+                                                    title: 'Felicitats!! Objectiu aconseguit!',
+                                                    text: "S'ha completat l'objectiu " + response.data.nombre,
+                                                    confirmButtonText: 'Perfecte!!',
+                                                    padding: '3em',
+                                                    background: '#fff',
+                                                    backdrop: `
+                                                        rgba(0,0,123,0.4)
+                                                        url("/storage/img/congratulation.gif")
+                                                        center top
+                                                        no-repeat
+                                                        `
+                                                    })
+                                                } else {
+                                                    return;         
+                                                }
+                                            }).catch(error => {
+                                                console.log(error)
+                                            })             
+                                        }
                                     });
-                                    this.$el.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
                                 })
                                 .catch(error => {
                                     console.log(error)
