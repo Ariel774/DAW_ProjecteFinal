@@ -139,7 +139,9 @@ class ObjetivoController extends Controller
         $tarea = Tarea::where('objetivo_id', $objetivo->id)->first(); // Devolver un Objecto
         $tareasArray = Tarea::where('objetivo_id', $objetivo->id)->get(); // Devolver un Array
         $subObjetivos = SubObjetivo::where('objetivo_id', $objetivo->id)->get(); // Devolver un Sub Objecto
- 
+        if($subObjetivos->isEmpty()) {
+            return redirect('/dashboard/ambitos/'.$ambito->slug);
+        }
         // Función para guardar los días de la semana segun la fecha inicio y fin
         if($subObjetivos[0] != null) {
             foreach ($tareasArray as $tarea) {
@@ -179,7 +181,6 @@ class ObjetivoController extends Controller
                 ]);  
             }
         }
-
         return redirect('/dashboard/ambitos/'.$ambito->slug);
     }
     public function getObjetivos(Request $request)
